@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f80517d8801bc14ab50edb82659f6a4, type: 3}
+  m_Name: OpenUI_Crafting_Action
+  m_EditorClassIdentifier: 
+  craftingController: {fileID: 11400000, guid: edaf6f666230ec54aa1d735d5cc043b4, type: 2}

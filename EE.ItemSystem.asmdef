@@ -1,0 +1,19 @@
+{
+    "name": "EE.ItemSystem",
+    "rootNamespace": "",
+    "references": [
+        "GUID:aad74b0923c387e4aaa384f99c72f2eb",
+        "GUID:e7a09062a8269e046bdc0565a721baf4",
+        "GUID:b352106f17b95434abb776c9abaa348d",
+        "GUID:34c41e7f85c5ccb40bf6f2d5c830f445"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
