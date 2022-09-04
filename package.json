@@ -1,0 +1,6 @@
+{
+	"name": "ee.itemsystem",
+	"version": "1.0.0",
+	"displayName": "EE Item System",
+	"description": "Ability System is just link of actions done that use can select. Ability System doesn't care what kind of action user performs (Dash or Shoot Projectile) it just select the currently active ability. Ability System Allows much simpler StateMachine since we do not need to specify each index for the Statemachine. AbilityComponent also manages the cooldown of the Abilities."
+}
