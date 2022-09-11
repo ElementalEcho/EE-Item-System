@@ -112,6 +112,9 @@ namespace EE.InventorySystem.Impl {
         public void RemoveAllItems(bool destroyItems = false) {
             ChangeItem(0);
             for (int i = Inventory.Content.Length - 1; i >= 0; i--) {
+                if (Inventory.Content[i] == null) {
+                    continue;
+                }
                 RemoveItem(Inventory.Content[i], destroyItems);
                 NextItem();
             }
