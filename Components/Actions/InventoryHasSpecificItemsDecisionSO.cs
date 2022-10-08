@@ -9,7 +9,9 @@ namespace EE.InventorySystem.Decisions {
 
         [SerializeField]
         private Item[] requiredItems = new Item[0];
-        public List<Item> RequiredItems => requiredItems.Select(item => new Item(item.ItemInfo, item.NumberOfItems)).ToList();
+        [SerializeField]
+        private InspectorItem[] requirements = new InspectorItem[0];
+        public List<Item> RequiredItems => requirements.Select(item => item.GetItem()).ToList();
 
         [SerializeField]
         private bool checkCurrentItem = false;

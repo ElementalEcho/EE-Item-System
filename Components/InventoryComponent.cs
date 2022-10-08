@@ -1,6 +1,5 @@
 ﻿using EE.Core;
 using EE.Core.PoolingSystem;
-using EE.Core.ScriptableObjects;
 using EE.SaveSystem;
 using Sirenix.OdinInspector;
 using System;

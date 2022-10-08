@@ -21,7 +21,9 @@ namespace EE.InventorySystem.Impl {
         public int MaxInventorySize => maxInventorySize;
         [SerializeField]
         private List<Item> baseItems = new List<Item>();
-        public List<Item> BaseItems => baseItems;
+        [SerializeField]
+        private List<InspectorItem> baseItem = new List<InspectorItem>();
+        public List<Item> BaseItems => baseItem.GetItems();
 
         [SerializeField]
         private ItemDropInfoContainer itemDropInfoContainer = new ItemDropInfoContainer();

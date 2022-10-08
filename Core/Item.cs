@@ -7,16 +7,11 @@ using Sirenix.OdinInspector;
 namespace EE.InventorySystem {
     [Serializable]
     public class Item : IItem {
-        [SerializeField, DisableInPlayMode]
-        private ItemTypeSO itemTypeSO = null;
+
         private IItemInfo itemType = null;
-        public IItemInfo ItemInfo { get {
-                if (itemTypeSO != null) {
-                    itemType = itemTypeSO.ItemType;
-                }
-                return itemType; 
-            } 
-        }
+        public IItemInfo ItemInfo => itemType;
+
+
         [SerializeField]
         private int numberOfItems = 0;
         public int NumberOfItems => numberOfItems;

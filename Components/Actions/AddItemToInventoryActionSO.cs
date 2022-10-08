@@ -9,7 +9,10 @@ namespace EE.InventorySystem.Actions {
 
         [SerializeField]
         private Item[] itemToAdd = new Item[0];
-        public Item[] ItemToAdd => itemToAdd;
+
+        [SerializeField]
+        private InspectorItem[] itemsToAdd = new InspectorItem[0];
+        public Item[] ItemsToAdd => itemsToAdd.GetItems();
 
         [SerializeField]
         private bool destroyItems = false;
@@ -24,19 +27,19 @@ namespace EE.InventorySystem.Actions {
         }
         public override void Enter() {
             if (OriginSO.Reverse) {
-                foreach (var item in OriginSO.ItemToAdd) {
+                foreach (var item in OriginSO.ItemsToAdd) {
                     inventory.RemoveItem(item, OriginSO.DestroyItems);
                 }
             }
             else {
-                foreach (var item in OriginSO.ItemToAdd) {
+                foreach (var item in OriginSO.ItemsToAdd) {
                     inventory.AddItem(item);
                 }
             }
 
         }
         protected override bool Decide() {
-            foreach (var item in OriginSO.ItemToAdd) {
+            foreach (var item in OriginSO.ItemsToAdd) {
                 if (!inventory.CanAddItem(item)) {
                     return false;
                 }

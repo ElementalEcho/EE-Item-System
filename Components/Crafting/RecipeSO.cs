@@ -14,7 +14,10 @@ namespace EE.InventorySystem.Crafting {
     public class Recipe : IRecipe {
         [SerializeField]
         private Item[] requirements = null;
-        public Item[] Requirements => requirements;
+        [SerializeField]
+        private InspectorItem[] itemRequirements = new InspectorItem[0];
+        public Item[] Requirements => itemRequirements.GetItems();
+
 
         [SerializeField]
         private Item result = null;

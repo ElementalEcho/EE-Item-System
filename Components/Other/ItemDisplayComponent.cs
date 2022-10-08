@@ -4,7 +4,7 @@ using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityEngine;
 namespace EE.InventorySystem.Impl {
-    internal class ItemDisplayComponent : SerializedMonoBehaviour {
+    internal class ItemDisplayComponent : MonoBehaviour {
         public IInventoryComponent inventoryComponent;
         public PoolableComponent displayPrefab;
         public Collider2D displayArea;

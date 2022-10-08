@@ -5,21 +5,6 @@ using EE.Core.PoolingSystem;
 using Sirenix.OdinInspector;
 
 namespace EE.InventorySystem {
-    public class ItemTypeSO : ScriptableObject, IItemType {
-        [SerializeField, PropertyOnly]
-        protected ItemInfo itemToDrop = null;
-        public IItemInfo ItemType => itemToDrop;
-
-#if UNITY_EDITOR
-        private void OnValidate() {
-            if (string.IsNullOrEmpty(itemToDrop.prefabGuid)) {
-                itemToDrop.prefabGuid = Guid.NewGuid().ToString();
-                UnityEditor.EditorUtility.SetDirty(this);
-            }
-
-        }
-#endif
-    }
     [Serializable]
     public class ItemInfo : IItemInfo {
         [SerializeField, Tooltip("Item created when this item is dropped.")]
@@ -48,23 +33,6 @@ namespace EE.InventorySystem {
         private GenericActionSO[] thrownItemEffects = new GenericActionSO[0];
         public GenericActionSO[] ThrownItemEffects => thrownItemEffects;
     }
-}
-namespace EE.InventorySystem {
-    public interface IItemInfo {
-        PoolableComponent ItemToDrop { get; }
-        int ManaToGive { get; }
-        int MaxItemStack { get; }
-        string PrefabGuid { get; }
-        GenericActionSO[] StartItemUseEffects { get; }
-        GenericActionSO[] AttackItemUseEffects { get; }
-        GenericActionSO[] ThrownItemEffects { get; }
-
-    }
-    public interface IItemType {
-        IItemInfo ItemType { get; }
-    }
-
-
 }
 
 

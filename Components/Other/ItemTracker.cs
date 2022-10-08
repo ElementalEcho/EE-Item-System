@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace EE.InventorySystem.Core {
 
-    internal class ItemTracker : EEMonobehavior, IHasComponents {
+    public class ItemTracker : EEMonobehavior, IHasComponents {
         [SerializeField]
         public List<ItemTrackerData> requiredItems = new List<ItemTrackerData>();
         public List<ItemTrackerData> RequiredItems => requiredItems;

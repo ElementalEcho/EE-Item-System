@@ -6,7 +6,7 @@ namespace EE.InventorySystem {
     public class ItemDataBaseSO : ScriptableObject {
         [SerializeField, InlineEditor]
         private List<ItemTypeSO> prefabGuidList = new List<ItemTypeSO>();
-        internal List<ItemTypeSO> ItemList => prefabGuidList;
+        public List<ItemTypeSO> ItemList => prefabGuidList;
 
         [ReadOnly, ShowInInspector]
         private Dictionary<string, ItemTypeSO> prefabDictonary = new Dictionary<string, ItemTypeSO>();

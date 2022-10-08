@@ -4,12 +4,12 @@
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "EE.ItemSystem",
         "EE.Core",
         "Test.Utils",
         "EE.PoolingSystem",
         "EE.Actions",
-        "EE.Actions.Components"
+        "EE.Actions.Components",
+        "EE.ItemSystem.Components"
     ],
     "includePlatforms": [
         "Editor"
