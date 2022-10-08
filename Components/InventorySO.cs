@@ -96,9 +96,9 @@ namespace EE.InventorySystem.Impl {
             return !inventory.IsFull || inventory.ItemHasFreeSlot(item);
         }
 
-        public void LoadData(InventorySaveData inventorySaveData, ItemDataBaseSO itemDataBaseSO) {
+        public void LoadData(InventorySaveData inventorySaveData, List<Item> items) {
             if (inventory != null) {
-                inventory.LoadData(inventorySaveData, itemDataBaseSO);
+                inventory.LoadData(inventorySaveData, items);
             }
         }
     }

@@ -199,8 +199,18 @@ namespace EE.InventorySystem.Impl {
         public void Load(List<SaveComponentData> saveComponentDatas) {
             foreach (var saveComponentData in saveComponentDatas) {
                 if (saveComponentData.componentName == typeof(InventoryComponent).FullName) {
-                    var intentorySaveData = JsonUtility.FromJson<InventorySaveData>(saveComponentData.jsonData); ;
-                    Inventory.LoadData(intentorySaveData, itemDataBaseSO);
+                    var intentorySaveData = JsonUtility.FromJson<InventorySaveData>(saveComponentData.jsonData);
+
+                    var itemList = new List<Item>();
+                    if (intentorySaveData.Items != null) {
+                        foreach (var inventoryItem in intentorySaveData.Items) {
+                            var itemtype = itemDataBaseSO.GetItemType(inventoryItem.itemGuid);
+                            var item = new Item(itemtype.ItemType, inventoryItem.numberOfItems);
+                            itemList.Add(item);
+                        }
+                    }
+
+                    Inventory.LoadData(intentorySaveData, itemList);
                 }
             }
         }

@@ -23,7 +23,7 @@ namespace EE.InventorySystem {
         void ChangeItem(int index);
         bool ItemHasFreeSlot(Item item);
         void InventoryOpened();
-        void LoadData(InventorySaveData inventorySaveData, ItemDataBaseSO itemDataBaseSO);
+        void LoadData(InventorySaveData inventorySaveData, List<Item> items);
     }
     [System.Serializable]
     public struct InventorySaveData {
@@ -38,7 +38,7 @@ namespace EE.InventorySystem {
 }
 namespace EE.InventorySystem.Impl {
     [Serializable]
-    internal class Inventory : IInventory {
+    public class Inventory : IInventory {
         readonly IInventoryData inventoryData;
         public Inventory(IInventoryData inventoryData) {
             this.inventoryData = inventoryData;
@@ -47,15 +47,11 @@ namespace EE.InventorySystem.Impl {
                 AddItem(inventoryItem);
             }
         }
-        public void LoadData(InventorySaveData inventorySaveData, ItemDataBaseSO itemDataBaseSO) {
+        public void LoadData(InventorySaveData inventorySaveData, List<Item> items) {
             _currentItemIndex = inventorySaveData.ItemIndex;
             content = new Item[inventoryData.MaxInventorySize];
-            if (inventorySaveData.Items != null) {
-                foreach (var inventoryItem in inventorySaveData.Items) {
-                    var itemtype = itemDataBaseSO.GetItemType(inventoryItem.itemGuid);
-                    var item = new Item(itemtype.ItemType, inventoryItem.numberOfItems);
-                    AddItem(item);
-                }
+            foreach (var inventoryItem in items) {
+                AddItem(inventoryItem);
             }
 
         }
