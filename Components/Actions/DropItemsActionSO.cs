@@ -1,5 +1,4 @@
 ﻿using EE.Core;
-using EE.InventorySystem.Core;
 using UnityEngine;
 
 namespace EE.InventorySystem.Actions {

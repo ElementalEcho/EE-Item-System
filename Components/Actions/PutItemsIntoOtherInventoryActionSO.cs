@@ -1,6 +1,4 @@
 ﻿using EE.Core;
-using EE.Core.Targeting;
-using EE.InventorySystem.Core;
 using UnityEngine;
 
 namespace EE.InventorySystem.Actions {

@@ -1,6 +1,4 @@
 ﻿using EE.Core;
-using EE.InventorySystem.Core;
-using EE.InventorySystem.Impl;
 using UnityEngine;
 
 
