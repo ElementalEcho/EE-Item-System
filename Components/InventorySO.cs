@@ -92,6 +92,10 @@ namespace EE.InventorySystem.Impl {
                 inventory.LoadData(inventorySaveData, items);
             }
         }
+
+        public void InventoryAltered() => inventory.InventoryAltered();
+        public void ItemAdded(IItemInfo itemInfo, int numberOfItems) => inventory.ItemAdded(itemInfo, numberOfItems);
+        public void ItemRemoved(IItemInfo itemInfo, int numberOfItems, bool destroye) => inventory.ItemRemoved(itemInfo, numberOfItems, destroye);
     }
 
 }

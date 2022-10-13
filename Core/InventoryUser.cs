@@ -32,7 +32,6 @@ namespace EE.InventorySystem {
         private int _currentItemIndex = 0;
 
         public int CurrentItemIndex => _currentItemIndex;
-        private event Action InventoryAlteredEvent;
 
         public bool IsFull {
             get {
@@ -55,7 +54,7 @@ namespace EE.InventorySystem {
             if (_currentItemIndex >= inventory.Content.Length) {
                 _currentItemIndex = 0;
             }
-            InventoryAlteredEvent?.Invoke();
+            inventory.InventoryAltered();
 
         }
         public void PreviousItem() {
@@ -63,20 +62,16 @@ namespace EE.InventorySystem {
             if (_currentItemIndex < 0) {
                 _currentItemIndex = inventory.Content.Length - 1;
             }
-            InventoryAlteredEvent?.Invoke();
+            inventory.InventoryAltered();
         }
 
         public void ChangeItem(int index) {
             _currentItemIndex = index;
-            InventoryAlteredEvent?.Invoke();
+            inventory.InventoryAltered();
         }
         public void AddInventoryAlteredEvent(Action func) {
-            InventoryAlteredEvent += func;
+            inventory.AddInventoryAlteredEvent(func);
         }
-        private event Action<IItemInfo, int> ItemAddedEvent;
-        private event Action<IItemInfo, int, bool> ItemRemovedEvent;
-
-
 
         public bool AddItem(Item itemToAdd) {
             bool retval = true;
@@ -102,8 +97,8 @@ namespace EE.InventorySystem {
                 retval = false;
             }
 
-            ItemAddedEvent?.Invoke(itemToAdd.ItemInfo, itemToAdd.NumberOfItems);
-            InventoryAlteredEvent?.Invoke();
+            inventory.ItemAdded(itemToAdd.ItemInfo, itemToAdd.NumberOfItems);
+            inventory.InventoryAltered();
             return retval;
 
         }
@@ -185,8 +180,8 @@ namespace EE.InventorySystem {
                     }
                 }
             }
-            ItemRemovedEvent?.Invoke(item, NumberOfItems, destroyItems);
-            InventoryAlteredEvent?.Invoke();
+            inventory.ItemRemoved(item, NumberOfItems, destroyItems);
+            inventory.InventoryAltered();
         }
 
 
@@ -194,10 +189,10 @@ namespace EE.InventorySystem {
 
 
         public void AddItemAddedEvent(Action<IItemInfo, int> func) {
-            ItemAddedEvent += func;
+            inventory.AddItemAddedEvent(func);
         }
         public void AddRemovedAddedEvent(Action<IItemInfo, int, bool> func) {
-            ItemRemovedEvent += func;
+            inventory.AddRemovedAddedEvent(func);
         }
         public void InventoryOpened() {
             //Debug.LogWarning("Normal inventory does not implement Open inventoryEvent");

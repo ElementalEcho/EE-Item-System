@@ -18,6 +18,9 @@ namespace EE.InventorySystem {
         bool ItemHasFreeSlot(Item item);
         void InventoryOpened();
         void LoadData(InventorySaveData inventorySaveData, List<Item> items);
+        public void InventoryAltered();
+        public void ItemAdded(IItemInfo itemInfo, int numberOfItems);
+        public void ItemRemoved(IItemInfo itemInfo, int numberOfItems, bool destroye);
     }
     [System.Serializable]
     public struct InventorySaveData {
@@ -76,6 +79,10 @@ namespace EE.InventorySystem.Impl {
         private event Action<IItemInfo, int> ItemAddedEvent;
         private event Action<IItemInfo, int, bool> ItemRemovedEvent;
         private event Action InventoryAlteredEvent;
+
+        public void InventoryAltered() => InventoryAlteredEvent?.Invoke();
+        public void ItemAdded(IItemInfo itemInfo, int numberOfItems) => ItemAddedEvent?.Invoke(itemInfo, numberOfItems);
+        public void ItemRemoved(IItemInfo itemInfo, int numberOfItems, bool destroye) => ItemRemovedEvent?.Invoke(itemInfo, numberOfItems, destroye);
 
         public void AddInventoryAlteredEvent(Action func) {
             InventoryAlteredEvent += func;
