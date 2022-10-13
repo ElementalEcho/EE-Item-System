@@ -86,14 +86,14 @@ namespace EE.UI {
                 gridElement.id = i;
                 gridElement.ResetScale();
 
-                if (inventoryItemContainment.CurrentItemIndex == i) {
-                    gridElement.Selected = true;
-                    gridElement.ButtonEnter();
-                }
-                else {
+                //if (inventoryItemContainment.CurrentItemIndex == i) {
+                //    gridElement.Selected = true;
+                //    gridElement.ButtonEnter();
+                //}
+                //else {
                     gridElement.Selected = false;
                     gridElement.ButtonExit();
-                }
+                //}
 
                 if (inventoryItemContainment.Content.Length > i && inventoryItemContainment.Content[i] != null) {
                     HasItemComponent hasItemComponent = PoolManager.SpawnObjectAsChild(itemContentPrefab.PoolableComponent, flexibleGridLayuout.transform).GetComponent<HasItemComponent>();

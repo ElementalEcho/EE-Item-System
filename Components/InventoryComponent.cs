@@ -38,19 +38,20 @@ namespace EE.InventorySystem.Impl {
         [SerializeField]
         private ItemDataBaseSO itemDataBaseSO = null;
         [ReadOnly]
-        private IInventory inventory = null;
-        private IInventory Inventory {
+        private IInventoryUser inventoryUser = null;
+        private IInventoryUser Inventory {
             get {
-                if (inventory == null) {
+                if (inventoryUser == null) {
                     if (inventorySO != null) {
-                        inventory = inventorySO;
+                        inventoryUser = new InventoryUser(inventorySO);
                     }
                     else {
-                        inventory = new Inventory(InventoryData);
+                        var inventory = new Inventory(InventoryData); 
+                        inventoryUser = new InventoryUser(inventory);
                     }
-                    inventory.AddRemovedAddedEvent(DropItem);
+                    inventoryUser.AddRemovedAddedEvent(DropItem);
                 }
-                return inventory;
+                return inventoryUser;
             }
         }
 
@@ -156,13 +157,13 @@ namespace EE.InventorySystem.Impl {
 
         [Button]
         public void PrintNumberOfItems() {
-            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
-            foreach (var item in Inventory.Content) {
-                if (!Item.IsNull(item)) {
-                    stringBuilder.AppendLine($"Item: { item.ItemInfo.ItemToDrop.name}. Amount: {item.NumberOfItems}.");
-                }
-            }          
-            print(stringBuilder.ToString());
+            //System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            //foreach (var item in Inventory.Content) {
+            //    if (!Item.IsNull(item)) {
+            //        stringBuilder.AppendLine($"Item: { item.ItemInfo.ItemToDrop.name}. Amount: {item.NumberOfItems}.");
+            //    }
+            //}          
+            //print(stringBuilder.ToString());
         }
 
         private class DefaultFacingDirectionProvider : IFacingDirection {

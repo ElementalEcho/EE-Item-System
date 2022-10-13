@@ -16,14 +16,13 @@ namespace EE.InventorySystem.Impl {
             } 
         }
 
-        public Item CurrentItem => Inventory.CurrentItem;
 
         public int NumberOfFilledSlots => Inventory.NumberOfFilledSlots;
 
         public bool IsFull => NumberOfFilledSlots >= Mathf.Max(inventoryDataSO.InventoryData.MaxInventorySize, 1); //Max inventory Size should be atleast one to prevent infinite loops.
         [ShowInInspector]
         public Item[] Content => Inventory.Content;
-        public int CurrentItemIndex => Inventory.CurrentItemIndex;
+        //public int CurrentItemIndex => Inventory.CurrentItemIndex;
 
         public bool IsFullAndStacksAreFull => inventory.IsFullAndStacksAreFull;
 
@@ -77,23 +76,15 @@ namespace EE.InventorySystem.Impl {
 
             oldInventory.Content[position] = oldItem;
         }
-        public void NextItem() {
-            Inventory.NextItem();
-        }
-        public void PreviousItem() {
-            Inventory.PreviousItem();
-        }
 
-        public void ChangeItem(int index) {
-            Inventory.ChangeItem(index);
-        }
+
         public event Action InventoryOpenedEvent;
         public void InventoryOpened() {
             InventoryOpenedEvent?.Invoke();
         }
 
         public bool ItemHasFreeSlot(Item item) {
-            return !inventory.IsFull || inventory.ItemHasFreeSlot(item);
+            return inventory.ItemHasFreeSlot(item);
         }
 
         public void LoadData(InventorySaveData inventorySaveData, List<Item> items) {
