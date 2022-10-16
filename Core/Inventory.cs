@@ -1,7 +1,5 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System;
-using System.Linq;
 
 namespace EE.InventorySystem {
     public interface IInventory {
@@ -168,7 +166,7 @@ namespace EE.InventorySystem.Impl {
             ItemRemovedEvent += func;
         }
         public void InventoryOpened() {
-            Debug.LogWarning("Normal inventory does not implement Open inventoryEvent");
+            //Debug.LogWarning("Normal inventory does not implement Open inventoryEvent");
         }
 
     }

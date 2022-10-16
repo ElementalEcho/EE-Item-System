@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
+﻿
 using System;
-using EE.Core;
-using UnityEngine;
-using Sirenix.OdinInspector;
 
 namespace EE.InventorySystem {
     [Serializable]
@@ -11,18 +8,13 @@ namespace EE.InventorySystem {
         private IItemInfo itemType = null;
         public IItemInfo ItemInfo => itemType;
 
-
-        [SerializeField]
         private int numberOfItems = 0;
         public int NumberOfItems => numberOfItems;
-        [SerializeField, ReadOnly]
-        private string itemName = "";
+
         public Item(IItemInfo itemType, int numberOfItems) {
             this.itemType = itemType;
             this.numberOfItems = numberOfItems;
-            if (itemType.ItemToDrop != null) {
-                itemName = itemType.ItemToDrop.name;
-            }
+
         }
         public Item(IItemInfo itemType) {
             this.itemType = itemType;

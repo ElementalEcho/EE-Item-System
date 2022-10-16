@@ -48,7 +48,7 @@ namespace EE.InventorySystem.Impl {
         public void PrintNumberOfItems() {
             System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
             foreach (var item in inventory.Content) {
-                stringBuilder.AppendLine($"Item: { item.ItemInfo.ItemToDrop.name}. Amount: {item.NumberOfItems}.");
+                //stringBuilder.AppendLine($"Item: { item.ItemInfo.ItemToDrop.name}. Amount: {item.NumberOfItems}.");
             }
             Debug.Log(stringBuilder.ToString());
         }

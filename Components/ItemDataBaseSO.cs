@@ -10,7 +10,7 @@ namespace EE.InventorySystem {
 
         [ReadOnly, ShowInInspector]
         private Dictionary<string, ItemTypeSO> prefabDictonary = new Dictionary<string, ItemTypeSO>();
-        public IItemType GetItemType(string guid) {
+        public ItemTypeSO GetItemType(string guid) {
             if (prefabDictonary.Count == 0) {
                 InitDictonary();
             }

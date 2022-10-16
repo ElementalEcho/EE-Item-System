@@ -24,6 +24,8 @@ namespace EE.InventorySystem.Impl {
         public InventorySO InventoryItemContainment => inventoryItemContainment;
         [SerializeField]
         private DragableUIElement dragableUIElement = null;
+        [SerializeField]
+        private ItemDataBaseSO itemDataBaseSO = null;
         private void Start() {
             ChangeItem(Item);
         }
@@ -35,8 +37,9 @@ namespace EE.InventorySystem.Impl {
         }
         public void ChangeItem(Item Item) {
             this.Item = Item;
-            if (Item != null && Item.NumberOfItems > 0 && Item.ItemInfo != null && Item.ItemInfo.ItemToDrop != null) {
-                SetIcon(Item.ItemInfo.ItemToDrop.GetComponent<SpriteRenderer>().sprite);
+            var itemType = itemDataBaseSO.GetItemType(Item.ItemInfo.PrefabGuid);
+            if (Item != null && Item.NumberOfItems > 0 && Item.ItemInfo != null && itemType.ItemToDrop != null) {
+                SetIcon(itemType.ItemToDrop.GetComponent<SpriteRenderer>().sprite);
                 SetText(Item.NumberOfItems.ToString());
             }
             else {

@@ -23,7 +23,8 @@ namespace EE.UI {
         private List<GridElement> uiButtons = new List<GridElement>();
         public ContentTypeSO itemContentType = null;
         public HasItemComponent itemContentPrefab = null;
-
+        [SerializeField]
+        private ItemDataBaseSO itemDataBaseSO = null;
         private void Start() {
             inventoryItemContainment.AddInventoryAlteredEvent(InventoryUpdated);
             InventoryUpdated();
@@ -54,7 +55,8 @@ namespace EE.UI {
 
                 HasItemComponent hasItemComponent = PoolManager.SpawnObjectAsChild(itemContentPrefab.PoolableComponent, flexibleGridLayuout.transform).GetComponent<HasItemComponent>();
                 hasItemComponent.ChangeItem(inventoryItem);
-                hasItemComponent.SetIcon(inventoryItem.ItemInfo.ItemToDrop.GetComponent<SpriteRenderer>().sprite);
+                var itemtype = itemDataBaseSO.GetItemType(inventoryItem.ItemInfo.PrefabGuid);
+                hasItemComponent.SetIcon(itemtype.ItemToDrop.GetComponent<SpriteRenderer>().sprite);
                 hasItemComponent.SetText(inventoryItem.NumberOfItems.ToString());
                 gridElement.ReplaceOrAddContent(itemContentType, hasItemComponent.gameObject);
 

@@ -127,8 +127,9 @@ namespace EE.InventorySystem.Impl {
             InventoryData inventoryData = inventoryDataSO != null ? (InventoryData)inventoryDataSO.InventoryData : null;
             ItemDropInfo itemDropInfo = inventoryData.ItemDropInfoContainer.GetDropPosition(itemDropOffPoint);
             var dropPosition = (Vector2)transform.position + itemDropInfo.dropPosition;
+            var itemType = itemDataBaseSO.GetItemType(item.PrefabGuid);
             for (int i = 0; i < numberOfItems; i++) {
-                IPoolable droppedItem = PoolManager.SpawnObject(item.ItemToDrop, transform.position, dropPosition, itemDropInfo.arcHight, itemDropInfo.dropDuration, itemDropInfo.dropRotationSpeed, itemDropInfo.rotationAngle);
+                IPoolable droppedItem = PoolManager.SpawnObject(itemType.ItemToDrop, transform.position, dropPosition, itemDropInfo.arcHight, itemDropInfo.dropDuration, itemDropInfo.dropRotationSpeed, itemDropInfo.rotationAngle);
             }
         }
 

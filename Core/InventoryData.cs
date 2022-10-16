@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 
 namespace EE.InventorySystem {
-    [Serializable]
     public class InventoryData : IInventoryData {
         private int maxInventorySize = 5;
         public int MaxInventorySize => maxInventorySize;
-        [SerializeField]
         private List<Item> baseItems = new List<Item>();
         public List<Item> BaseItems => baseItems;
 
@@ -16,7 +12,6 @@ namespace EE.InventorySystem {
             this.baseItems = baseItems;
         }
 
-        [SerializeField]
         private ItemDropInfoContainer itemDropInfoContainer = new ItemDropInfoContainer();
         public ItemDropInfoContainer ItemDropInfoContainer => itemDropInfoContainer;
     }

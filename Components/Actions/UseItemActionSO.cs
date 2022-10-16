@@ -32,13 +32,13 @@ namespace EE.InventorySystem.Actions {
                 GenericAction[] actions;
                 switch (OriginSO.itemActionType) {
                     case ItemActionTypeSet.Start:
-                        actions = item.ItemType.StartItemUseEffects.GetActions(controller);
+                        actions = item.StartItemUseEffects.GetActions(controller);
                         break;
                     case ItemActionTypeSet.Attack:
-                        actions = item.ItemType.AttackItemUseEffects.GetActions(controller);
+                        actions = item.AttackItemUseEffects.GetActions(controller);
                         break;
                     case ItemActionTypeSet.Throw:
-                        actions = item.ItemType.ThrownItemEffects.GetActions(controller);
+                        actions = item.ThrownItemEffects.GetActions(controller);
                         break;
                     default:
                         actions = new GenericAction[0];
