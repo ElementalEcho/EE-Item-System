@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace EE.InventorySystem {
     public class InventoryData : IInventoryData {
@@ -12,6 +14,7 @@ namespace EE.InventorySystem {
             this.baseItems = baseItems;
         }
 
+        [SerializeField]
         private ItemDropInfoContainer itemDropInfoContainer = new ItemDropInfoContainer();
         public ItemDropInfoContainer ItemDropInfoContainer => itemDropInfoContainer;
     }

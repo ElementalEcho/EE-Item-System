@@ -5,6 +5,7 @@ using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace EE.InventorySystem {
     public interface IInventoryComponent {
@@ -64,7 +65,9 @@ namespace EE.InventorySystem.Impl {
 
         public Item CurrentItem => Inventory.CurrentItem;
 
-        
+
+        [SerializeField]
+        private ItemDropInfoContainer itemDropInfoContainer = new ItemDropInfoContainer();
         private IInventoryData InventoryData => inventoryDataSO != null ? inventoryDataSO.InventoryData : new DefaultInventoryData();
 
         [SerializeField]
@@ -124,8 +127,7 @@ namespace EE.InventorySystem.Impl {
             if (destroyItems) {
                 return;
             }
-            InventoryData inventoryData = inventoryDataSO != null ? (InventoryData)inventoryDataSO.InventoryData : null;
-            ItemDropInfo itemDropInfo = inventoryData.ItemDropInfoContainer.GetDropPosition(itemDropOffPoint);
+            ItemDropInfo itemDropInfo = itemDropInfoContainer.GetDropPosition(itemDropOffPoint);
             var dropPosition = (Vector2)transform.position + itemDropInfo.dropPosition;
             var itemType = itemDataBaseSO.GetItemType(item.PrefabGuid);
             for (int i = 0; i < numberOfItems; i++) {
@@ -248,5 +250,35 @@ namespace EE.InventorySystem.Impl {
 #endif
 
     }
+    public class ItemDropInfoContainer {
+        public float dropForce = 10;
+        public float dropRange = 3;
+        public float dropRotationSpeed = 3;
+        public float dropRotationAngle = 90;
+        public float arcHight = 90;
 
+        public ItemDropInfo GetDropPosition(EE.Core.IFacingDirection facingDirection) {
+            ItemDropInfo itemDropInfo = new ItemDropInfo();
+            var direction = Mathf.Sign(facingDirection.FacingDirection.x);
+
+            float pointX = Random.Range(dropRange / 2, dropRange);
+            float pointY = Random.Range(0, dropRange / 2);
+            itemDropInfo.dropPosition = new Vector2(pointX * direction, pointY / 2);
+
+            itemDropInfo.rotationAngle = Random.Range(0, dropRotationAngle);
+
+            itemDropInfo.dropDuration = dropRange / dropForce;
+            itemDropInfo.arcHight = arcHight;
+            itemDropInfo.dropRotationSpeed = dropRotationSpeed * direction;
+
+            return itemDropInfo;
+        }
+    }
+    public struct ItemDropInfo {
+        public Vector2 dropPosition;
+        public float arcHight;
+        public float dropDuration;
+        public float dropRotationSpeed;
+        public float rotationAngle;
+    }
 }
