@@ -1,6 +1,6 @@
 ﻿using EE.Core;
 
-namespace EE.InventorySystem.EventListeners {
+namespace EE.ItemSystem.EventListeners {
     public class InventoryUpdatedEventListenerSO : EventListenerSO<InventoryUpdatedEventListener> {
         private GenericActionSO[] genericActions;
         public GenericActionSO[] GenericActions => genericActions;

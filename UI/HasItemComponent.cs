@@ -8,7 +8,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace EE.InventorySystem.Impl {
+namespace EE.ItemSystem.Impl {
 
     public class HasItemComponent : EEMonobehavior, IPoolable {
         public Item Item;

@@ -1,10 +1,10 @@
 ﻿using EE.Core;
 using EE.Core.PoolingSystem;
 using EE.Core.ScriptableObjects;
-using EE.InventorySystem;
-using EE.InventorySystem.Crafting;
-using EE.InventorySystem.Crafting.Impl;
-using EE.InventorySystem.Impl;
+using EE.ItemSystem;
+using EE.ItemSystem.Crafting;
+using EE.ItemSystem.Crafting.Impl;
+using EE.ItemSystem.Impl;
 using EE.UI.Extensions;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;

@@ -3,10 +3,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using Sirenix.OdinInspector;
 using System;
-using EE.InventorySystem.Impl;
+using EE.ItemSystem.Impl;
 using System.Linq;
 
-namespace EE.InventorySystem.Crafting.Impl {
+namespace EE.ItemSystem.Crafting.Impl {
     public class CrafterSO : ScriptableObject, ICrafterComponent {
 
         [SerializeField]

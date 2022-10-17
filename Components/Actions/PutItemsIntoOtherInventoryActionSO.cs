@@ -1,7 +1,7 @@
 ﻿using EE.Core;
 using UnityEngine;
 
-namespace EE.InventorySystem.Actions {
+namespace EE.ItemSystem.Actions {
     public class PutItemsIntoOtherInventoryActionSO : GenericActionSO<PutItemsIntoOtherInventoryAction> {
         [SerializeField]
         private bool allItems = false;

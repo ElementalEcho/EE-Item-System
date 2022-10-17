@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace EE.InventorySystem.Impl {
+namespace EE.ItemSystem.Impl {
     [InlineEditor]
     [Serializable]
     [HideLabel]
@@ -24,7 +24,7 @@ namespace EE.InventorySystem.Impl {
     }
 }
 
-namespace EE.InventorySystem {
+namespace EE.ItemSystem {
     public interface IHasInventoryData {
         IInventoryData InventoryData { get; }
     }

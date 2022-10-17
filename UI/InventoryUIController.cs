@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using EE.Core;
-using EE.InventorySystem;
+using EE.ItemSystem;
 using System.Collections.Generic;
-using EE.InventorySystem.Impl;
+using EE.ItemSystem.Impl;
 using EE.Core.PoolingSystem;
 
 namespace EE.UI {

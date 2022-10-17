@@ -2,7 +2,7 @@
 using UnityEngine;
 
 
-namespace EE.InventorySystem.Actions {
+namespace EE.ItemSystem.Actions {
     public class AddItemToInventoryActionSO : GenericActionSO<AddItemToInventoryAction> {
 
         [SerializeField]

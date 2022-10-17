@@ -3,7 +3,7 @@ using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace EE.InventorySystem.Actions {
+namespace EE.ItemSystem.Actions {
     internal enum ItemActionTypeSet {
         Start,
         Attack,

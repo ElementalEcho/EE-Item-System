@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace EE.InventorySystem.Crafting {
+namespace EE.ItemSystem.Crafting {
     public class RecipeSO : ScriptableObject , IHasRecipe {
         [SerializeField]
         private Recipe craftingRecipe;

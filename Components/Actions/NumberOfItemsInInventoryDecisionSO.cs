@@ -1,7 +1,7 @@
 ﻿using EE.Core;
 using UnityEngine;
 
-namespace EE.InventorySystem.Decisions {
+namespace EE.ItemSystem.Decisions {
     public class NumberOfItemsInInventoryDecisionSO : GenericActionSO<NumberOfItemsInInventoryDecision> {
         [SerializeField]
         private bool isFullAndStacksAreFull = false;

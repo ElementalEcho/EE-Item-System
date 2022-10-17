@@ -1,7 +1,7 @@
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityEngine;
-namespace EE.InventorySystem {
+namespace EE.ItemSystem {
 
     public class ItemDataBaseSO : ScriptableObject {
         [SerializeField, InlineEditor]

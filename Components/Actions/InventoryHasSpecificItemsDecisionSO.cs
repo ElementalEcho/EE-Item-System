@@ -1,10 +1,10 @@
 ﻿using EE.Core;
-using EE.InventorySystem.Impl;
+using EE.ItemSystem.Impl;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace EE.InventorySystem.Decisions {
+namespace EE.ItemSystem.Decisions {
     public class InventoryHasSpecificItemsDecisionSO : GenericActionSO<InventoryHasSpecificItemsDecision> {
 
         [SerializeField]

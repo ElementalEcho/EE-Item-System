@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace EE.InventorySystem.Crafting {
+namespace EE.ItemSystem.Crafting {
     public interface ICrafter {
         bool Craft(List<Item> items, int recipeIndex, out Item item);
     }
 }
-namespace EE.InventorySystem.Crafting.Impl {
+namespace EE.ItemSystem.Crafting.Impl {
     public class Crafter : ICrafter {
         private ICraftingData craftingData;
 

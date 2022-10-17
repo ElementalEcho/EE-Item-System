@@ -1,5 +1,5 @@
 using EE.Core;
-using EE.InventorySystem.Impl;
+using EE.ItemSystem.Impl;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

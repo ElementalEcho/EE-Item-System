@@ -29,6 +29,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4244897013181633631}
   m_RootOrder: 0
@@ -61,6 +62,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -126,6 +129,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1872766422202496365}
   m_Father: {fileID: 0}
@@ -148,12 +152,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b2e20de0ea64664196288600cc395e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  potionCount: {fileID: 0}
-  foodUI: {fileID: 0}
   inventoryItemContainment: {fileID: 11400000, guid: fbda7a4a8c6debd4ab326903d9eef67a,
     type: 2}
-  playerInventory: {fileID: 0}
-  craftingRecipeUIPrefab: {fileID: 5619107340743780091, guid: ff3eefb444f07e24f9dc0429089b289c,
-    type: 3}
-  craftuingUI: {fileID: 1872766422202496366}
-  uiButtons: []
+  flexibleGridLayuout: {fileID: 0}
+  buttonPrefab: {fileID: 0}
+  itemContentType: {fileID: 0}
+  itemContentPrefab: {fileID: 0}
+  itemDataBaseSO: {fileID: 11400000, guid: 89215abe9da978d4eb1684217b2366d8, type: 2}

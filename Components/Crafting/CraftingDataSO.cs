@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-namespace EE.InventorySystem.Crafting.Impl {
+namespace EE.ItemSystem.Crafting.Impl {
 
     public class CraftingDataSO : ScriptableObject,IHasCraftingData {
         [SerializeField]
@@ -25,7 +25,7 @@ namespace EE.InventorySystem.Crafting.Impl {
     }
 }
 
-namespace EE.InventorySystem.Crafting {
+namespace EE.ItemSystem.Crafting {
     public interface ICraftingData {
         List<IRecipe> Recipes { get; }
     }

@@ -1,5 +1,5 @@
 ﻿using EE.Core;
-namespace EE.InventorySystem.Actions {
+namespace EE.ItemSystem.Actions {
     public class ThrowItemActionSO : GenericActionSO<ThrowItemAction> {
 
     }

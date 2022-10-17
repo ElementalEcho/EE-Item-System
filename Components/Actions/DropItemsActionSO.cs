@@ -1,7 +1,7 @@
 ﻿using EE.Core;
 using UnityEngine;
 
-namespace EE.InventorySystem.Actions {
+namespace EE.ItemSystem.Actions {
     [CreateAssetMenu(menuName = "StateMachine/Action/DropItemAction", fileName = "DropItemAction")]
     public class DropItemsActionSO : GenericActionSO<DropItemAction> {
         [SerializeField]

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace EE.InventorySystem {
+namespace EE.ItemSystem {
     public interface IInventoryComponent {
         Item CurrentItem { get; }
         int ItemCount { get; }
@@ -19,9 +19,9 @@ namespace EE.InventorySystem {
         void AddItem(Item inventoryItem);
         void RemoveAllItems(bool destroyItems = false);
         void RemoveItem(Item inventoryItem = null, bool destroyItems = false);
-        void AddInventoryAlteredEvent(Action func);
-        void AddItemAddedEvent(Action<IItemInfo, int> func);
-        void AddRemovedAddedEvent(Action<IItemInfo, int,bool> func);
+        void AddInventoryAlteredEvent(ItemDelegate.EEDelegate func);
+        void AddItemAddedEvent(AddItemDelegate.EEDelegate func);
+        void AddRemovedAddedEvent(RemoveItemDelegate.EEDelegate func);
         void NextItem();
         void PreviousItem();
         void ChangeItem(int index);
@@ -30,7 +30,7 @@ namespace EE.InventorySystem {
     }
 }
 
-namespace EE.InventorySystem.Impl {
+namespace EE.ItemSystem.Impl {
     internal class InventoryComponent : EEMonobehavior, IInventoryComponent, ISaveble, IHasComponents {
         [Header("Inventory Component")]
         [SerializeField]
@@ -85,14 +85,14 @@ namespace EE.InventorySystem.Impl {
         private void ItemAddedAction(IItemInfo itemInfo, int itemCount) { 
         
         }
-        public void AddInventoryAlteredEvent(Action func) {
+        public void AddInventoryAlteredEvent(ItemDelegate.EEDelegate func) {
             Inventory.AddInventoryAlteredEvent(func);
         }
-        public void AddItemAddedEvent(Action<IItemInfo,int> func) {
+        public void AddItemAddedEvent(AddItemDelegate.EEDelegate func) {
             Inventory.AddItemAddedEvent(func);
 
         }
-        public void AddRemovedAddedEvent(Action<IItemInfo, int, bool> func) {
+        public void AddRemovedAddedEvent(RemoveItemDelegate.EEDelegate func) {
             Inventory.AddRemovedAddedEvent(func);
         }
         public void AddItem(Item item) {

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace EE.InventorySystem.Impl {
+namespace EE.ItemSystem.Impl {
     public class InventorySO : ScriptableObject, IInventory {
         [SerializeField]
         private InventoryDataSO inventoryDataSO = null;
@@ -52,14 +52,14 @@ namespace EE.InventorySystem.Impl {
             }
             Debug.Log(stringBuilder.ToString());
         }
-        public void AddInventoryAlteredEvent(Action func) {
+        public void AddInventoryAlteredEvent(ItemDelegate.EEDelegate func) {
             Inventory.AddInventoryAlteredEvent(func);
         }
-        public void AddItemAddedEvent(Action<IItemInfo, int> func) {
+        public void AddItemAddedEvent(AddItemDelegate.EEDelegate func) {
             Inventory.AddItemAddedEvent(func);
 
         }
-        public void AddRemovedAddedEvent(Action<IItemInfo, int, bool> func) {
+        public void AddRemovedAddedEvent(RemoveItemDelegate.EEDelegate func) {
             Inventory.AddRemovedAddedEvent(func);
         }
 

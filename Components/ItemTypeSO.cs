@@ -5,10 +5,10 @@ using EE.Core;
 using EE.Core.PoolingSystem;
 using Sirenix.OdinInspector;
 
-namespace EE.InventorySystem {
+namespace EE.ItemSystem {
     public class ItemTypeSO : ScriptableObject, IItemType {
         [SerializeField]
-        protected ItemInfo itemToDrop = null;
+        protected ItemInfo itemToDrop = new ItemInfo();
         public IItemInfo ItemType => itemToDrop;
 
         [SerializeField, Tooltip("Item created when this item is dropped.")]
@@ -43,6 +43,9 @@ namespace EE.InventorySystem {
 
         }
         private void OnValidate() {
+            if (itemToDrop == null) {
+                itemToDrop = new ItemInfo();
+            }
             if (string.IsNullOrEmpty(itemToDrop.prefabGuid)) {
                 itemToDrop.prefabGuid = Guid.NewGuid().ToString();
                 UnityEditor.EditorUtility.SetDirty(this);
