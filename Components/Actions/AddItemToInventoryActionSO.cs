@@ -37,11 +37,12 @@ namespace EE.ItemSystem.Actions {
 
         }
         protected override bool Decide() {
-            foreach (var item in OriginSO.ItemsToAdd) {
-                if (!inventory.CanAddItem(item)) {
-                    return false;
-                }
-            }
+            //foreach (var item in OriginSO.ItemsToAdd) {
+            //    if (!inventory.CanAddItem(item)) {
+            //        return false;
+            //    }
+            //}
+            Debug.LogError("Not implemented");
             return true;
         }
     }

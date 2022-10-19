@@ -43,7 +43,7 @@ namespace EE.UI {
         [SerializeField]
         private bool canBeDisabled = true;
         private void Start() {
-            inventoryItemContainment.AddInventoryAlteredEvent(InventoryUpdated);
+            inventoryItemContainment.InventoryAlteredEvent.Add(InventoryUpdated);
             InventoryUpdated();
 
             if (canBeDisabled) {
@@ -79,7 +79,7 @@ namespace EE.UI {
             ClearButtons();
             for (int i = 0; i < numberOfSlots; i++) {
                 //Dont create more than max inventory size
-                if (i >= inventoryItemContainment.Content.Length) {
+                if (i >= inventoryItemContainment.Size) {
                     break;
                 }
                 GridElement gridElement = PoolManager.SpawnObjectAsChild(buttonPrefab.PoolableComponent, flexibleGridLayuout.transform).GetComponent<GridElement>();
@@ -94,10 +94,10 @@ namespace EE.UI {
                     gridElement.Selected = false;
                     gridElement.ButtonExit();
                 //}
-
-                if (inventoryItemContainment.Content.Length > i && inventoryItemContainment.Content[i] != null) {
+                var item = inventoryItemContainment.Get(i);
+                if (item != null) {
                     HasItemComponent hasItemComponent = PoolManager.SpawnObjectAsChild(itemContentPrefab.PoolableComponent, flexibleGridLayuout.transform).GetComponent<HasItemComponent>();
-                    hasItemComponent.ChangeItem(inventoryItemContainment.Content[i]);
+                    hasItemComponent.ChangeItem(item);
                     hasItemComponent.SetInventorySO(inventoryItemContainment);
                     hasItemComponent.SetParent(gridElement);
                     gridElement.ReplaceOrAddContent(itemContentType, hasItemComponent.gameObject);

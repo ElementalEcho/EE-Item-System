@@ -32,8 +32,8 @@ namespace EE.ItemSystem.Crafting.Impl {
         }
         [Button]
         public void Craft() {
-            if (Crafter.Craft(inventoryDataSO.Content.ToList(), index, out Item item)) {
-                inventoryDataSO.AddItem(item);
+            if (Crafter.Craft(inventoryDataSO.GetItems(), index, out Item item)) {
+                inventoryDataSO.Add(item);
                 Debug.Log("Item crafted");
             }
             else {
@@ -42,8 +42,8 @@ namespace EE.ItemSystem.Crafting.Impl {
         }
         [Button]
         public void Craft(int recipeIndex) {
-            if (crafter.Craft(inventoryDataSO.Content.ToList(), recipeIndex, out Item item)) {
-                inventoryDataSO.AddItem(item);
+            if (crafter.Craft(inventoryDataSO.GetItems(), recipeIndex, out Item item)) {
+                inventoryDataSO.Add(item);
                 Debug.Log("Item crafted");
             }
             else {
@@ -56,9 +56,9 @@ namespace EE.ItemSystem.Crafting.Impl {
             foreach (var recipe in craftingDataSO.CraftingData.Recipes) {
                 if (recipe.Craft(items, out Item craftedItem)) {                    
                     foreach (var item in recipe.Requirements) {
-                        inventoryDataSO.RemoveItem(true, item.ItemInfo,item.NumberOfItems);
+                        inventoryDataSO.Remove(true, item.ItemInfo,item.NumberOfItems);
                     }
-                    inventoryDataSO.AddItem(craftedItem);
+                    inventoryDataSO.Add(craftedItem);
                     return craftedItem;
                 }
             }

@@ -26,7 +26,7 @@ namespace EE.UI {
         [SerializeField]
         private ItemDataBaseSO itemDataBaseSO = null;
         private void Start() {
-            inventoryItemContainment.AddInventoryAlteredEvent(InventoryUpdated);
+            inventoryItemContainment.InventoryAlteredEvent.Add(InventoryUpdated);
             InventoryUpdated();
         }
 
@@ -46,7 +46,7 @@ namespace EE.UI {
             }
             flexibleGridLayuout.gameObject.SetActive(true);
 
-            foreach (Item inventoryItem in inventoryItemContainment.Content) {
+            foreach (Item inventoryItem in inventoryItemContainment.GetItems()) {
                 if (Item.IsNull(inventoryItem)) {
                     continue;
                 }

@@ -103,7 +103,7 @@ namespace EE.UI {
                 if (hasItemComponent == null) {
                     continue;
                 }
-                if (hasItemComponent.Item != null && inventorySO.ContainsItem(hasItemComponent.Item.ItemInfo)) {
+                if (hasItemComponent.Item != null && inventorySO.Contains(hasItemComponent.Item.ItemInfo)) {
                     hasItemComponent.ChangeItem(hasItemComponent.Item);
                     availableItems.Add(hasItemComponent.Item);
                     if (disabledItems.TryGetValue(hasItemComponent.Item.ItemInfo, out var gridElement)) {

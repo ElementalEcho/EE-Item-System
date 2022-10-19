@@ -21,46 +21,32 @@ namespace EE.ItemSystem.Impl {
 
         public bool IsFull => NumberOfFilledSlots >= Mathf.Max(inventoryDataSO.InventoryData.MaxInventorySize, 1); //Max inventory Size should be atleast one to prevent infinite loops.
         [ShowInInspector]
-        public Item[] Content => Inventory.Content;
+        public int Size => Inventory.Size;
+
+        public AddItemDelegate ItemAddedEvent => Inventory.ItemAddedEvent;
+
+        public RemoveItemDelegate ItemRemovedEvent => Inventory.ItemRemovedEvent;
+
+        public ItemDelegate InventoryAlteredEvent => Inventory.InventoryAlteredEvent;
+
         //public int CurrentItemIndex => Inventory.CurrentItemIndex;
 
-        public bool IsFullAndStacksAreFull => inventory.IsFullAndStacksAreFull;
-
-        public bool AddItem(Item item) {
+        public bool Add(Item item) {
             //If inventory is full replace current item
-            if (!ItemHasFreeSlot(item)) {
-                RemoveItem();
-            }
-            return Inventory.AddItem(item);
+            //if (!ItemHasFreeSlot(item)) {
+            //    RemoveItem();
+            //}
+            return Inventory.Add(item);
         }
 
-        public bool ContainsItem(IItemInfo item = null, int numberOfItems = 1) => Inventory.ContainsItem(item, numberOfItems);
+        public bool Contains(IItemInfo item = null, int numberOfItems = 1) => Inventory.Contains(item, numberOfItems);
 
-        public void RemoveAllItems() {
-            Inventory.RemoveAllItems();
-        }
-
-        public void RemoveItem(bool destroyItems = false, IItemInfo item = null, int numberOfItems = 1) {
-            Inventory.RemoveItem(destroyItems, item, numberOfItems);
+        public void RemoveAll() {
+            Inventory.RemoveAll();
         }
 
-        [Button]
-        public void PrintNumberOfItems() {
-            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
-            foreach (var item in inventory.Content) {
-                //stringBuilder.AppendLine($"Item: { item.ItemInfo.ItemToDrop.name}. Amount: {item.NumberOfItems}.");
-            }
-            Debug.Log(stringBuilder.ToString());
-        }
-        public void AddInventoryAlteredEvent(ItemDelegate.EEDelegate func) {
-            Inventory.AddInventoryAlteredEvent(func);
-        }
-        public void AddItemAddedEvent(AddItemDelegate.EEDelegate func) {
-            Inventory.AddItemAddedEvent(func);
-
-        }
-        public void AddRemovedAddedEvent(RemoveItemDelegate.EEDelegate func) {
-            Inventory.AddRemovedAddedEvent(func);
+        public void Remove(bool destroyItems = false, IItemInfo item = null, int numberOfItems = 1) {
+            Inventory.Remove(destroyItems, item, numberOfItems);
         }
 
         public static void SwitchItemPosition(int position, int newPosition, IInventory oldInventory, IInventory newInventory = null) {
@@ -68,13 +54,13 @@ namespace EE.ItemSystem.Impl {
                 newInventory = oldInventory;
             }
             Item oldItem = null;
-            if (!Item.IsNull(newInventory.Content[newPosition])) {
-                oldItem = new Item(newInventory.Content[newPosition].ItemInfo, newInventory.Content[newPosition].NumberOfItems);
+            Item currentItem = newInventory.Get(newPosition);
+            if (!Item.IsNull(currentItem)) {
+                oldItem = new Item(currentItem.ItemInfo, currentItem.NumberOfItems);
             }
-
-            newInventory.Content[newPosition] = !Item.IsNull(oldInventory.Content[position]) ? new Item(oldInventory.Content[position].ItemInfo, oldInventory.Content[position].NumberOfItems): null;
-
-            oldInventory.Content[position] = oldItem;
+            Item oldInventoryItem = oldInventory.Get(position);
+            newInventory.Replace(newPosition, oldInventoryItem);
+            oldInventory.Replace(position,oldItem);
         }
 
 
@@ -83,19 +69,27 @@ namespace EE.ItemSystem.Impl {
             InventoryOpenedEvent?.Invoke();
         }
 
-        public bool ItemHasFreeSlot(Item item) {
-            return inventory.ItemHasFreeSlot(item);
-        }
-
         public void LoadData(InventorySaveData inventorySaveData, List<Item> items) {
             if (inventory != null) {
                 inventory.LoadData(inventorySaveData, items);
             }
         }
 
-        public void InventoryAltered() => inventory.InventoryAltered();
-        public void ItemAdded(IItemInfo itemInfo, int numberOfItems) => inventory.ItemAdded(itemInfo, numberOfItems);
-        public void ItemRemoved(IItemInfo itemInfo, int numberOfItems, bool destroye) => inventory.ItemRemoved(itemInfo, numberOfItems, destroye);
+        public Item Get(int index) => inventory.Get(index);
+
+        public void Replace(int index, Item item) => inventory.Replace(index, item);
+
+        public List<Item> GetItems() {
+            var items = new List<Item>();
+
+            for (int i = 0; i < inventory.Size; i++) {
+                var item = inventory.Get(i);
+                if (!Item.IsNull(item)) { 
+                    items.Add(item);
+                }
+            }
+            return items;
+        }
     }
 
 }

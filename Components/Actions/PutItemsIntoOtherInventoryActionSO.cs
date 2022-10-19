@@ -22,7 +22,7 @@ namespace EE.ItemSystem.Actions {
             if (_originSO.Reverse) {
                 if (hasComponents.TryGetComponent(out IInventoryComponent inventoryComponent) && inventoryComponent.CurrentItem != null) {
                     if (OriginSO.AllÍtems) {
-                        foreach (var item in inventoryComponent.Items) {
+                        foreach (var item in inventoryComponent.GetItems()) {
                             inventory.AddItem(item);
                         }
                         inventoryComponent.RemoveAllItems(true);
@@ -37,7 +37,7 @@ namespace EE.ItemSystem.Actions {
             else {
                 if (hasComponents.TryGetComponent(out IInventoryComponent inventoryComponent) && inventory.CurrentItem != null) {
                     if (OriginSO.AllÍtems) {
-                        foreach (var item in inventory.Items) {
+                        foreach (var item in inventory.GetItems()) {
                             inventoryComponent.AddItem(item);
                         }
                         inventory.RemoveAllItems(true);

@@ -12,9 +12,6 @@ namespace EE.ItemSystem {
         Item CurrentItem { get; }
         int ItemCount { get; }
         bool InventoryFull { get; }
-        bool IsFullAndStacksAreFull { get; }
-        Item[] Items { get; }
-        bool CanAddItem(Item inventoryItem);
         bool ContainsItem(Item inventoryItem = null);
         void AddItem(Item inventoryItem);
         void RemoveAllItems(bool destroyItems = false);
@@ -26,6 +23,7 @@ namespace EE.ItemSystem {
         void PreviousItem();
         void ChangeItem(int index);
         void InventoryOpened();
+        List<Item> GetItems();
 
     }
 }
@@ -59,9 +57,8 @@ namespace EE.ItemSystem.Impl {
         [SerializeField]
         private InventorySO inventorySO;      
         public int ItemCount => Inventory.NumberOfFilledSlots;
-        public Item[] Items => Inventory.Content;
+        public List<Item> Items => Inventory.GetItems();
         public bool InventoryFull => Inventory.IsFull;
-        public bool IsFullAndStacksAreFull => Inventory.IsFullAndStacksAreFull;
 
         public Item CurrentItem => Inventory.CurrentItem;
 
@@ -97,7 +94,7 @@ namespace EE.ItemSystem.Impl {
         }
         public void AddItem(Item item) {
             //If inventory is full replace current item
-            if (!CanAddItem(item)) {
+            if (!Inventory.AddItem(item)) {
                 RemoveItem();               
             }
             Inventory.AddItem(item);
@@ -113,14 +110,7 @@ namespace EE.ItemSystem.Impl {
             }
         }
         public void RemoveAllItems(bool destroyItems = false) {
-            ChangeItem(0);
-            for (int i = Inventory.Content.Length - 1; i >= 0; i--) {
-                if (Inventory.Content[i] == null) {
-                    continue;
-                }
-                RemoveItem(Inventory.Content[i], destroyItems);
-                NextItem();
-            }
+            Inventory.RemoveAllItems();
         }
 
         private void DropItem(IItemInfo item, int numberOfItems, bool destroyItems = false) {
@@ -154,9 +144,6 @@ namespace EE.ItemSystem.Impl {
         public void InventoryOpened() {
             Inventory.InventoryOpened();
         }
-        public bool CanAddItem(Item inventoryItem) {
-            return !InventoryFull || Inventory.ItemHasFreeSlot(inventoryItem);
-        }
 
         [Button]
         public void PrintNumberOfItems() {
@@ -176,11 +163,14 @@ namespace EE.ItemSystem.Impl {
                 throw new NotImplementedException();
             }
         }
+        public List<Item> GetItems() {
+            return Inventory.GetItems();
+        }
         public SaveComponentData GetSaveData() {
             var saveComponentData = new SaveComponentData();
 
             var itemSaveDatas = new List<ItemSaveData>();
-            foreach (var item in Inventory.Content) {
+            foreach (var item in Inventory.GetItems()) {
                 if (item == null ||item.ItemInfo == null) {
                     continue;
                 }
