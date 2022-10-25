@@ -29,21 +29,21 @@ namespace EE.ItemSystem.Actions {
     public class DropItemAction : GenericAction {
         private DropItemsActionSO OriginSO => (DropItemsActionSO)_originSO;
 
-        IInventoryComponent inventory;
+        IInventoryUser inventory;
         private int GetRandomNumberToDropItems => Random.Range(OriginSO.MinNumberOfItemsToDrop, OriginSO.MaxNumberOfItemsToDrop);
 
         public override void Init(IHasComponents controller) {
-            inventory = controller.GetComponent<IInventoryComponent>();
+            inventory = controller.GetComponent<IInventoryUser>();
         }
         public override void Enter() {
             if (OriginSO.RemoveOnExit) {
                 return;
             }
-            if (inventory.ItemCount <= 0) {
+            if (inventory.NumberOfFilledSlots <= 0) {
                 return;
             }
             if (OriginSO.DropAllItems) {
-                inventory.RemoveAllItems(OriginSO.DestroyItems);
+                inventory.RemoveAllItems();
             }
             else {
                 var numbeOfItemsToDrop = GetRandomNumberToDropItems;
@@ -51,11 +51,8 @@ namespace EE.ItemSystem.Actions {
                     if (inventory.CurrentItem != null) {
                         continue;
                     }
-                    if (OriginSO.ReduceNumberOfItems && inventory.CurrentItem != null) {
-                        inventory.RemoveItem(new Item(inventory.CurrentItem.ItemInfo), OriginSO.DestroyItems);
-                    }
-                    else {
-                        inventory.RemoveItem(inventory.CurrentItem, OriginSO.DestroyItems);
+                    if (OriginSO.ReduceNumberOfItems) {
+                        inventory.RemoveItem(OriginSO.DestroyItems, inventory.CurrentItem.ItemInfo, inventory.CurrentItem.NumberOfItems);
                     }
                 }
             }
@@ -65,22 +62,22 @@ namespace EE.ItemSystem.Actions {
             if (!OriginSO.RemoveOnExit) {
                 return;
             }
-            if (inventory.ItemCount <= 0) {
+            if (inventory.NumberOfFilledSlots <= 0) {
                 return;
             }
             if (OriginSO.DropAllItems) {
-                inventory.RemoveAllItems(OriginSO.DestroyItems);
+                inventory.RemoveAllItems();
             }
             else {
                 var numbeOfItemsToDrop = GetRandomNumberToDropItems;
                 for (int i = 0; i < numbeOfItemsToDrop; i++) {
                     if (OriginSO.ReduceNumberOfItems) {
                         if (inventory.CurrentItem != null) {
-                            inventory.RemoveItem(new Item(inventory.CurrentItem.ItemInfo), OriginSO.DestroyItems);
+                            inventory.RemoveItem(OriginSO.DestroyItems, inventory.CurrentItem.ItemInfo, inventory.CurrentItem.NumberOfItems);
                         }
                     }
                     else {
-                        inventory.RemoveItem(inventory.CurrentItem, OriginSO.DestroyItems);
+                        inventory.RemoveItem(OriginSO.DestroyItems, inventory.CurrentItem.ItemInfo, inventory.CurrentItem.NumberOfItems);
                     }
                 }
             }

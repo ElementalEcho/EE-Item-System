@@ -17,16 +17,16 @@ namespace EE.ItemSystem.Actions {
         public bool DestroyItems => destroyItems;
     }
     public class AddItemToInventoryAction : GenericAction {
-        IInventoryComponent inventory;
+        IInventoryUser inventory;
         private AddItemToInventoryActionSO OriginSO => (AddItemToInventoryActionSO)_originSO;
 
         public override void Init(IHasComponents controller) {
-            inventory = controller.GetComponent<IInventoryComponent>();
+            inventory = controller.GetComponent<IInventoryUser>();
         }
         public override void Enter() {
             if (OriginSO.Reverse) {
                 foreach (var item in OriginSO.ItemsToAdd) {
-                    inventory.RemoveItem(item, OriginSO.DestroyItems);
+                    inventory.RemoveItem(OriginSO.DestroyItems, item.ItemInfo, item.NumberOfItems);
                 }
             }
             else {

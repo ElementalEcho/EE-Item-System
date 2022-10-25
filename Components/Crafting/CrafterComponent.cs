@@ -16,13 +16,13 @@ namespace EE.ItemSystem.Crafting.Impl {
 
         private ICrafter crafter;
 
-        private IInventoryComponent inventory;
+        private IInventoryUser inventory;
 
         [SerializeField]
         private int index = 0;
 
         private void Awake() {
-            inventory = GetComponent<IInventoryComponent>();
+            inventory = GetComponent<IInventoryUser>();
 
             ICraftingData craftingData = craftingDataSO != null ? craftingDataSO.CraftingData : null;
             crafter = new Crafter(craftingData);

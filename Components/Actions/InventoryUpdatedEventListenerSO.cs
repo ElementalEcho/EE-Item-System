@@ -9,7 +9,7 @@ namespace EE.ItemSystem.EventListeners {
     public class InventoryUpdatedEventListener : EventListener {
         private InventoryUpdatedEventListenerSO OriginSO => (InventoryUpdatedEventListenerSO)_originSO;
 
-        IInventoryComponent inventory;
+        IInventoryUser inventory;
         GenericAction[] actions;
         public void GetActions(IHasComponents controller) {
             actions = new GenericAction[OriginSO.GenericActions.Length];
@@ -19,7 +19,7 @@ namespace EE.ItemSystem.EventListeners {
         }
 
         public override void Init(IHasComponents controller) {
-            inventory = controller.GetComponent<IInventoryComponent>();
+            inventory = controller.GetComponent<IInventoryUser>();
             GetActions(controller);
             inventory.AddInventoryAlteredEvent(DoActions);
         }

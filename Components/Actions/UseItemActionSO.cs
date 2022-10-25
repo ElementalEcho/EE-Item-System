@@ -18,14 +18,14 @@ namespace EE.ItemSystem.Actions {
         internal ItemActionTypeSet itemActionType = ItemActionTypeSet.Start;
     }
     public class UseItemAction : GenericAction {
-        IInventoryComponent inventory;
+        IInventoryUser inventory;
         private UseItemActionSO OriginSO => (UseItemActionSO)base._originSO;
 
         GenericAction[] defaultActions = new GenericAction[0];
         public Dictionary<IItemInfo, GenericAction[]> actionsDictonary = new Dictionary<IItemInfo, GenericAction[]>();
 
         public override void Init(IHasComponents controller) {
-            inventory = controller.GetComponent<IInventoryComponent>();
+            inventory = controller.GetComponent<IInventoryUser>();
             defaultActions = OriginSO.defaultActions.GetActions(controller);
 
             foreach (var item in OriginSO.itemDataBaseSO.ItemList) {

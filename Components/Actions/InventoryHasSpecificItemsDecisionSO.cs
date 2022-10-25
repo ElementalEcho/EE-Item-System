@@ -22,9 +22,9 @@ namespace EE.ItemSystem.Decisions {
     public class InventoryHasSpecificItemsDecision : GenericAction {
         private InventoryHasSpecificItemsDecisionSO OriginSO => (InventoryHasSpecificItemsDecisionSO)_originSO;
 
-        IInventoryComponent inventory;
+        IInventoryUser inventory;
         public override void Init(IHasComponents controller) {
-            inventory = controller.GetComponent<IInventoryComponent>();
+            inventory = controller.GetComponent<IInventoryUser>();
         }
 
         protected override bool Decide() {
@@ -34,7 +34,7 @@ namespace EE.ItemSystem.Decisions {
             }
             else {
                 foreach (var inventoryItem in OriginSO.RequiredItems) {
-                    if (!inventory.ContainsItem(inventoryItem)) {
+                    if (!inventory.ContainsItem(inventoryItem.ItemInfo,inventoryItem.NumberOfItems)) {
                         return false;
                     }
                 }

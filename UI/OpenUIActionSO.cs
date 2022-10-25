@@ -15,9 +15,9 @@ namespace EE.UI.Actions {
 
     public class OpenUIAction : GenericAction {
         private OpenUIActionSO OriginSO => (OpenUIActionSO)base._originSO;
-        IInventoryComponent inventoryComponent;
+        IInventoryUser inventoryComponent;
         public override void Init(IHasComponents hasComponents) {
-            inventoryComponent = hasComponents.GetComponent<IInventoryComponent>();
+            inventoryComponent = hasComponents.GetComponent<IInventoryUser>();
 
         }
         public override void Enter() {

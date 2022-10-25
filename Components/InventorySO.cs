@@ -23,11 +23,11 @@ namespace EE.ItemSystem.Impl {
         [ShowInInspector]
         public int Size => Inventory.Size;
 
-        public AddItemDelegate ItemAddedEvent => Inventory.ItemAddedEvent;
+        //public ItemDelegate ItemAddedEvent => Inventory.ItemAddedEvent;
 
-        public RemoveItemDelegate ItemRemovedEvent => Inventory.ItemRemovedEvent;
+        //public ItemDelegate ItemRemovedEvent => Inventory.ItemRemovedEvent;
 
-        public ItemDelegate InventoryAlteredEvent => Inventory.InventoryAlteredEvent;
+        public ItemDelegate InventoryAlteredEvent => new ItemDelegate();
 
         //public int CurrentItemIndex => Inventory.CurrentItemIndex;
 

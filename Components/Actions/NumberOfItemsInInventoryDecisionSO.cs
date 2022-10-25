@@ -19,9 +19,9 @@ namespace EE.ItemSystem.Decisions {
     public class NumberOfItemsInInventoryDecision : GenericAction {
         private NumberOfItemsInInventoryDecisionSO OriginSO => (NumberOfItemsInInventoryDecisionSO)_originSO;
 
-        IInventoryComponent inventory;
+        IInventoryUser inventory;
         public override void Init(IHasComponents controller) {
-            inventory = controller.GetComponent<IInventoryComponent>();
+            inventory = controller.GetComponent<IInventoryUser>();
         }
 
         protected override bool Decide() {           
@@ -32,10 +32,10 @@ namespace EE.ItemSystem.Decisions {
 
             }
             if (OriginSO.InventoryFull) {
-                return inventory.InventoryFull;
+                return inventory.IsFull;
             }
             if (OriginSO.InventoryEmpty) {
-                return inventory.ItemCount <= 0;
+                return inventory.NumberOfFilledSlots <= 0;
             }
             return false;
         }

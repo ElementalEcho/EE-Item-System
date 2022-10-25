@@ -7,29 +7,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace EE.ItemSystem {
-    public interface IInventoryComponent {
-        Item CurrentItem { get; }
-        int ItemCount { get; }
-        bool InventoryFull { get; }
-        bool ContainsItem(Item inventoryItem = null);
-        void AddItem(Item inventoryItem);
-        void RemoveAllItems(bool destroyItems = false);
-        void RemoveItem(Item inventoryItem = null, bool destroyItems = false);
-        void AddInventoryAlteredEvent(ItemDelegate.EEDelegate func);
-        void AddItemAddedEvent(AddItemDelegate.EEDelegate func);
-        void AddRemovedAddedEvent(RemoveItemDelegate.EEDelegate func);
-        void NextItem();
-        void PreviousItem();
-        void ChangeItem(int index);
-        void InventoryOpened();
-        List<Item> GetItems();
-
-    }
-}
-
 namespace EE.ItemSystem.Impl {
-    internal class InventoryComponent : EEMonobehavior, IInventoryComponent, ISaveble, IHasComponents {
+    internal class InventoryComponent : EEMonobehavior, ISaveble, IHasComponents, IInventoryUser {
         [Header("Inventory Component")]
         [SerializeField]
         private InventoryDataSO inventoryDataSO = null;
@@ -67,6 +46,12 @@ namespace EE.ItemSystem.Impl {
         private ItemDropInfoContainer itemDropInfoContainer = new ItemDropInfoContainer();
         private IInventoryData InventoryData => inventoryDataSO != null ? inventoryDataSO.InventoryData : new DefaultInventoryData();
 
+        public int CurrentItemIndex => throw new NotImplementedException();
+
+        public bool IsFull => throw new NotImplementedException();
+
+        public int NumberOfFilledSlots => throw new NotImplementedException();
+
         [SerializeField]
         private GenericActionSO[] itemAddedActions = new GenericActionSO[0];
 
@@ -75,21 +60,19 @@ namespace EE.ItemSystem.Impl {
             var genericActions = itemAddedActions.GetActions(this);
             foreach (var genericAction in genericActions) {
 
-                void action(IItemInfo info, int count) { genericAction.Enter(); }
+                void action() { genericAction.Enter(); }
                 AddItemAddedEvent(action);
             }
         }
-        private void ItemAddedAction(IItemInfo itemInfo, int itemCount) { 
-        
-        }
+
         public void AddInventoryAlteredEvent(ItemDelegate.EEDelegate func) {
             Inventory.AddInventoryAlteredEvent(func);
         }
-        public void AddItemAddedEvent(AddItemDelegate.EEDelegate func) {
+        public void AddItemAddedEvent(ItemDelegate.EEDelegate func) {
             Inventory.AddItemAddedEvent(func);
 
         }
-        public void AddRemovedAddedEvent(RemoveItemDelegate.EEDelegate func) {
+        public void AddRemovedAddedEvent(ItemDelegate.EEDelegate func) {
             Inventory.AddRemovedAddedEvent(func);
         }
         public void AddItem(Item item) {
@@ -100,29 +83,24 @@ namespace EE.ItemSystem.Impl {
             Inventory.AddItem(item);
 
         }
-
-        public void RemoveItem(Item inventoryItem = null, bool destroyItems = false) {
-            if (inventoryItem == null) {
-                Inventory.RemoveItem(destroyItems);
-            }
-            else {
-                Inventory.RemoveItem(destroyItems,inventoryItem.ItemInfo, inventoryItem.NumberOfItems);
-            }
+        public void RemoveItem(bool destroyItems = false, IItemInfo item = null, int NumberOfItems = 1) {
+            Inventory.RemoveItem(destroyItems, item, NumberOfItems);
         }
+
         public void RemoveAllItems(bool destroyItems = false) {
             Inventory.RemoveAllItems();
         }
 
-        private void DropItem(IItemInfo item, int numberOfItems, bool destroyItems = false) {
-            if (destroyItems) {
-                return;
-            }
-            ItemDropInfo itemDropInfo = itemDropInfoContainer.GetDropPosition(itemDropOffPoint);
-            var dropPosition = (Vector2)transform.position + itemDropInfo.dropPosition;
-            var itemType = itemDataBaseSO.GetItemType(item.PrefabGuid);
-            for (int i = 0; i < numberOfItems; i++) {
-                IPoolable droppedItem = PoolManager.SpawnObject(itemType.ItemToDrop, transform.position, dropPosition, itemDropInfo.arcHight, itemDropInfo.dropDuration, itemDropInfo.dropRotationSpeed, itemDropInfo.rotationAngle);
-            }
+        private void DropItem() {
+            //if (destroyItems) {
+            //    return;
+            //}
+            //ItemDropInfo itemDropInfo = itemDropInfoContainer.GetDropPosition(itemDropOffPoint);
+            //var dropPosition = (Vector2)transform.position + itemDropInfo.dropPosition;
+            //var itemType = itemDataBaseSO.GetItemType(item.PrefabGuid);
+            //for (int i = 0; i < numberOfItems; i++) {
+            //    IPoolable droppedItem = PoolManager.SpawnObject(itemType.ItemToDrop, transform.position, dropPosition, itemDropInfo.arcHight, itemDropInfo.dropDuration, itemDropInfo.dropRotationSpeed, itemDropInfo.rotationAngle);
+            //}
         }
 
         public bool ContainsItem(Item inventoryItem = null) {
@@ -143,6 +121,25 @@ namespace EE.ItemSystem.Impl {
         }
         public void InventoryOpened() {
             Inventory.InventoryOpened();
+        }
+
+
+        public bool ContainsItem(IItemInfo item = null, int NumberOfItems = 1) {
+            throw new NotImplementedException();
+        }
+
+        bool IInventoryUser.AddItem(Item item) {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveAllItems() {
+            throw new NotImplementedException();
+        }
+
+
+
+        public void LoadData(InventorySaveData inventorySaveData, List<Item> items) {
+            throw new NotImplementedException();
         }
 
         [Button]

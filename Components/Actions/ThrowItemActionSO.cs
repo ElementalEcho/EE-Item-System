@@ -4,11 +4,11 @@ namespace EE.ItemSystem.Actions {
 
     }
     public class ThrowItemAction : GenericAction {
-        IInventoryComponent inventory;
+        IInventoryUser inventory;
         private ThrowItemActionSO OriginSO => (ThrowItemActionSO)_originSO;
 
         public override void Init(IHasComponents controller) {
-            inventory = controller.GetComponent<IInventoryComponent>();
+            inventory = controller.GetComponent<IInventoryUser>();
         }
         public override void Enter() {
 
