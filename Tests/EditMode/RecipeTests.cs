@@ -1,13 +1,11 @@
 using EE.Core;
 using EE.Core.PoolingSystem;
-using EE.InventorySystem;
-using EE.InventorySystem.Crafting;
-using EE.InventorySystem.Crafting.Impl;
+using EE.ItemSystem;
+using EE.ItemSystem.Crafting;
+using EE.ItemSystem.Crafting.Impl;
 using NUnit.Framework;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 namespace Tests {
 
     public class RecipeTests {        

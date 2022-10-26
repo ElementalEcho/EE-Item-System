@@ -8,7 +8,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace EE.ItemSystem.Impl {
-    internal class InventoryComponent : EEMonobehavior, ISaveble, IHasComponents, IInventoryUser {
+    public class InventoryComponent : EEMonobehavior, ISaveble, IHasComponents, IInventoryUser {
         [Header("Inventory Component")]
         [SerializeField]
         private InventoryDataSO inventoryDataSO = null;
@@ -46,11 +46,11 @@ namespace EE.ItemSystem.Impl {
         private ItemDropInfoContainer itemDropInfoContainer = new ItemDropInfoContainer();
         private IInventoryData InventoryData => inventoryDataSO != null ? inventoryDataSO.InventoryData : new DefaultInventoryData();
 
-        public int CurrentItemIndex => throw new NotImplementedException();
+        public int CurrentItemIndex => inventoryUser.CurrentItemIndex;
 
-        public bool IsFull => throw new NotImplementedException();
+        public bool IsFull => Inventory.IsFull;
 
-        public int NumberOfFilledSlots => throw new NotImplementedException();
+        public int NumberOfFilledSlots => Inventory.NumberOfFilledSlots;
 
         [SerializeField]
         private GenericActionSO[] itemAddedActions = new GenericActionSO[0];
@@ -75,12 +75,12 @@ namespace EE.ItemSystem.Impl {
         public void AddRemovedAddedEvent(ItemDelegate.EEDelegate func) {
             Inventory.AddRemovedAddedEvent(func);
         }
-        public void AddItem(Item item) {
+        public bool AddItem(Item item) {
             //If inventory is full replace current item
             if (!Inventory.AddItem(item)) {
                 RemoveItem();               
             }
-            Inventory.AddItem(item);
+            return Inventory.AddItem(item);
 
         }
         public void RemoveItem(bool destroyItems = false, IItemInfo item = null, int NumberOfItems = 1) {
@@ -125,21 +125,17 @@ namespace EE.ItemSystem.Impl {
 
 
         public bool ContainsItem(IItemInfo item = null, int NumberOfItems = 1) {
-            throw new NotImplementedException();
-        }
-
-        bool IInventoryUser.AddItem(Item item) {
-            throw new NotImplementedException();
+            return Inventory.ContainsItem(item, NumberOfItems);
         }
 
         public void RemoveAllItems() {
-            throw new NotImplementedException();
+            Inventory.RemoveAllItems();
         }
 
 
 
         public void LoadData(InventorySaveData inventorySaveData, List<Item> items) {
-            throw new NotImplementedException();
+            Inventory.LoadData(inventorySaveData, items);
         }
 
         [Button]

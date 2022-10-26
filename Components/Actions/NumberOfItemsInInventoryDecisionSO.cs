@@ -26,9 +26,9 @@ namespace EE.ItemSystem.Decisions {
 
         protected override bool Decide() {           
             if (OriginSO.IsFullAndStacksAreFull) {
-                Debug.LogError("Not Implemented");
+                //Debug.LogError("Not Implemented");
                 //return inventory.IsFullAndStacksAreFull;
-                return false;
+                return inventory.IsFull;
 
             }
             if (OriginSO.InventoryFull) {

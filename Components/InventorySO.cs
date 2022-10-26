@@ -6,9 +6,9 @@ using UnityEngine;
 namespace EE.ItemSystem.Impl {
     public class InventorySO : ScriptableObject, IInventory {
         [SerializeField]
-        private InventoryDataSO inventoryDataSO = null;
+        protected InventoryDataSO inventoryDataSO = null;
         private IInventory inventory;
-        public IInventory Inventory { get {
+        private IInventory Inventory { get {
                 if (inventory == null) {
                     inventory = new Inventory(inventoryDataSO.InventoryData);
                 }
@@ -23,11 +23,12 @@ namespace EE.ItemSystem.Impl {
         [ShowInInspector]
         public int Size => Inventory.Size;
 
-        //public ItemDelegate ItemAddedEvent => Inventory.ItemAddedEvent;
+        public AddItemDelegate ItemAddedEvent => Inventory.ItemAddedEvent;
 
-        //public ItemDelegate ItemRemovedEvent => Inventory.ItemRemovedEvent;
+        public RemoveItemDelegate ItemRemovedEvent => Inventory.ItemRemovedEvent;
 
-        public ItemDelegate InventoryAlteredEvent => new ItemDelegate();
+        public ItemDelegate InventoryAlteredEvent => Inventory.InventoryAlteredEvent;
+        public event Action InventoryOpenedEvent;
 
         //public int CurrentItemIndex => Inventory.CurrentItemIndex;
 
@@ -64,7 +65,6 @@ namespace EE.ItemSystem.Impl {
         }
 
 
-        public event Action InventoryOpenedEvent;
         public void InventoryOpened() {
             InventoryOpenedEvent?.Invoke();
         }

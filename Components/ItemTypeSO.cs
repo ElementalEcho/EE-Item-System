@@ -62,6 +62,11 @@ namespace EE.ItemSystem {
         [SerializeField]
         private int numberOfItems = 0;
 
+        public InspectorItem(ItemTypeSO itemType, int numberOfItems) {
+            this.itemType = itemType;
+            this.numberOfItems = numberOfItems;
+        }
+
         public Item GetItem() => new(itemType.ItemType, numberOfItems);
     }
 
