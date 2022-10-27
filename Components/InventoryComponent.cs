@@ -11,10 +11,19 @@ namespace EE.ItemSystem.Impl {
     public class InventoryComponent : EEMonobehavior, ISaveble, IHasComponents, IInventoryUser {
         [Header("Inventory Component")]
         [SerializeField]
-        private InventoryDataSO inventoryDataSO = null;
-        private IFacingDirection itemDropOffPoint = null;
+        protected InventoryDataSO inventoryDataSO = null;
+
         [SerializeField]
-        private ItemDataBaseSO itemDataBaseSO = null;
+        protected InventorySO inventorySO = null;
+
+        [SerializeField]
+        protected ItemDataBaseSO itemDataBaseSO = null;
+
+        [SerializeField]
+        protected ItemDropInfoContainer itemDropInfoContainer = new ItemDropInfoContainer();
+        [SerializeField]
+        protected GenericActionSO[] itemAddedActions = new GenericActionSO[0];
+
         [ReadOnly]
         private IInventoryUser inventoryUser = null;
         private IInventoryUser Inventory {
@@ -24,7 +33,8 @@ namespace EE.ItemSystem.Impl {
                         inventoryUser = new InventoryUser(inventorySO);
                     }
                     else {
-                        var inventory = new Inventory(InventoryData); 
+                        var inventoryData = inventoryDataSO != null ? inventoryDataSO.InventoryData : new DefaultInventoryData();
+                        var inventory = new Inventory(inventoryData); 
                         inventoryUser = new InventoryUser(inventory);
                     }
                     inventoryUser.AddRemovedAddedEvent(DropItem);
@@ -33,27 +43,17 @@ namespace EE.ItemSystem.Impl {
             }
         }
 
-        [SerializeField]
-        private InventorySO inventorySO;      
-        public int ItemCount => Inventory.NumberOfFilledSlots;
-        public List<Item> Items => Inventory.GetItems();
-        public bool InventoryFull => Inventory.IsFull;
+
+
+        protected IFacingDirection itemDropOffPoint = null;
+
 
         public Item CurrentItem => Inventory.CurrentItem;
-
-
-        [SerializeField]
-        private ItemDropInfoContainer itemDropInfoContainer = new ItemDropInfoContainer();
-        private IInventoryData InventoryData => inventoryDataSO != null ? inventoryDataSO.InventoryData : new DefaultInventoryData();
-
         public int CurrentItemIndex => inventoryUser.CurrentItemIndex;
-
         public bool IsFull => Inventory.IsFull;
-
         public int NumberOfFilledSlots => Inventory.NumberOfFilledSlots;
 
-        [SerializeField]
-        private GenericActionSO[] itemAddedActions = new GenericActionSO[0];
+
 
         public void Awake() {
             itemDropOffPoint = GetComponent<IFacingDirection>() ?? new DefaultFacingDirectionProvider();
