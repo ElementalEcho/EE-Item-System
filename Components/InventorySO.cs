@@ -15,22 +15,30 @@ namespace EE.ItemSystem.Impl {
                 return inventory;
             } 
         }
-
-
-        public int NumberOfFilledSlots => Inventory.NumberOfFilledSlots;
-
-        public bool IsFull => NumberOfFilledSlots >= Mathf.Max(inventoryDataSO.InventoryData.MaxInventorySize, 1); //Max inventory Size should be atleast one to prevent infinite loops.
-        [ShowInInspector]
-        public int Size => Inventory.Size;
-
         public AddItemDelegate ItemAddedEvent => Inventory.ItemAddedEvent;
-
         public RemoveItemDelegate ItemRemovedEvent => Inventory.ItemRemovedEvent;
-
         public ItemDelegate InventoryAlteredEvent => Inventory.InventoryAlteredEvent;
         public event Action InventoryOpenedEvent;
 
-        //public int CurrentItemIndex => Inventory.CurrentItemIndex;
+        public void InventoryOpened() {
+            InventoryOpenedEvent?.Invoke();
+        }
+
+        public void LoadData(InventorySaveData inventorySaveData, List<Item> items) {
+            if (Inventory != null) {
+                Inventory.LoadData(inventorySaveData, items);
+            }
+        }
+
+        [ShowInInspector]
+        public int Size => Inventory.Size;
+        public bool IsFull => NumberOfFilledSlots >= Mathf.Max(inventoryDataSO.InventoryData.MaxInventorySize, 1); //Max inventory Size should be atleast one to prevent infinite loops.
+
+        public int NumberOfFilledSlots => Inventory.NumberOfFilledSlots;
+
+        public Item Get(int index) => Inventory.Get(index);
+
+        public void Replace(int index, Item item) => Inventory.Replace(index, item);
 
         public bool Add(Item item) {
             //If inventory is full replace current item
@@ -39,15 +47,26 @@ namespace EE.ItemSystem.Impl {
             //}
             return Inventory.Add(item);
         }
-
-        public bool Contains(IItemInfo item = null, int numberOfItems = 1) => Inventory.Contains(item, numberOfItems);
+        public void Remove(bool destroyItems = false, IItemInfo item = null, int numberOfItems = 1) {
+            Inventory.Remove(destroyItems, item, numberOfItems);
+        }
 
         public void RemoveAll() {
             Inventory.RemoveAll();
         }
 
-        public void Remove(bool destroyItems = false, IItemInfo item = null, int numberOfItems = 1) {
-            Inventory.Remove(destroyItems, item, numberOfItems);
+        public bool Contains(IItemInfo item = null, int numberOfItems = 1) => Inventory.Contains(item, numberOfItems);
+
+        public List<Item> GetItems() {
+            var items = new List<Item>();
+
+            for (int i = 0; i < Inventory.Size; i++) {
+                var item = Inventory.Get(i);
+                if (!Item.IsNull(item)) {
+                    items.Add(item);
+                }
+            }
+            return items;
         }
 
         public static void SwitchItemPosition(int position, int newPosition, IInventory oldInventory, IInventory newInventory = null) {
@@ -62,33 +81,6 @@ namespace EE.ItemSystem.Impl {
             Item oldInventoryItem = oldInventory.Get(position);
             newInventory.Replace(newPosition, oldInventoryItem);
             oldInventory.Replace(position,oldItem);
-        }
-
-
-        public void InventoryOpened() {
-            InventoryOpenedEvent?.Invoke();
-        }
-
-        public void LoadData(InventorySaveData inventorySaveData, List<Item> items) {
-            if (inventory != null) {
-                inventory.LoadData(inventorySaveData, items);
-            }
-        }
-
-        public Item Get(int index) => inventory.Get(index);
-
-        public void Replace(int index, Item item) => inventory.Replace(index, item);
-
-        public List<Item> GetItems() {
-            var items = new List<Item>();
-
-            for (int i = 0; i < inventory.Size; i++) {
-                var item = inventory.Get(i);
-                if (!Item.IsNull(item)) { 
-                    items.Add(item);
-                }
-            }
-            return items;
         }
     }
 

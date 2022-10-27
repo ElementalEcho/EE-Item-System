@@ -102,6 +102,26 @@ namespace EE.ItemSystem.PlayMode {
             inventory.NumberOfFilledSlots.Should().Be(2);
             yield return null;
         }
+        [UnityTest]
+        public IEnumerator GetItems_Should_Return_AllItems() {
+            var itemType1 = ScriptableObject.CreateInstance<ItemTypeSO>();
+            var itemType2 = ScriptableObject.CreateInstance<ItemTypeSO>();
+
+            var baseItems = new List<InspectorItem>() {
+                new InspectorItem(itemType1, 3),
+                new InspectorItem(itemType2, 3)
+            };
+            var inventory = TestInventorySO.CreateInventoryWithData(3, baseItems);
+
+            var items = inventory.GetItems();
+
+            items.Count.Should().Be(2);
+            items[0].ItemInfo.Should().Be(itemType1.ItemType);
+            items[1].ItemInfo.Should().Be(itemType2.ItemType);
+
+            yield return null;
+        }
+
         #endregion
 
         #region Remove
@@ -342,16 +362,22 @@ namespace EE.ItemSystem.PlayMode {
         }
         [UnityTest]
         public IEnumerator AddItem_Should_Fail_If_Inventory_Is_Full() {
-            var itemType1 = TestItemTypeSO.CreateItemTypeSO(10);
+            var itemType1 = TestItemTypeSO.CreateItemTypeSO(5);
+            var itemType2 = TestItemTypeSO.CreateItemTypeSO(5);
+            var itemType3 = TestItemTypeSO.CreateItemTypeSO(6);
+            var itemType4 = TestItemTypeSO.CreateItemTypeSO(7);
+            var itemType5 = TestItemTypeSO.CreateItemTypeSO(4);
+
             var baseItems = new List<InspectorItem>() {
                 new InspectorItem(itemType1, 3),
-                new InspectorItem(itemType1, 3),
-                new InspectorItem(itemType1, 3),
-                new InspectorItem(itemType1, 3),
-                new InspectorItem(itemType1, 3),
+                new InspectorItem(itemType2, 3),
+                new InspectorItem(itemType3, 3),
+                new InspectorItem(itemType4, 3),
+                new InspectorItem(itemType5, 3),
             };
 
             var inventory = TestInventorySO.CreateInventoryWithData(5, baseItems);
+
 
             var retval = inventory.Add(new Item(new ItemInfo(), 15));
 
@@ -397,6 +423,117 @@ namespace EE.ItemSystem.PlayMode {
             retval.Should().BeFalse();
 
             inventory.Get(4).NumberOfItems.Should().Be(5);
+            yield return null;
+        }
+
+        #endregion
+
+        #region Replace
+
+        [UnityTest]
+        public IEnumerator Replace_Should_Replace_Item_InSlot() {
+            var itemInfo1 = TestItemTypeSO.CreateItemTypeSO(5);
+            var baseItems = new List<InspectorItem>() {
+                new InspectorItem(itemInfo1, 5),
+            };
+
+            var inventory = TestInventorySO.CreateInventoryWithData(5, baseItems);
+
+            var item = inventory.Get(0);
+            item.ItemInfo.Should().Be(itemInfo1.ItemType);
+            item.NumberOfItems.Should().Be(5);
+
+            var itemInfo2 = new ItemInfo();
+            inventory.Replace(0, new Item(itemInfo2, 3));
+
+            item = inventory.Get(0);
+            item.ItemInfo.Should().Be(itemInfo2);
+            item.NumberOfItems.Should().Be(3);
+            yield return null;
+        }
+
+        [UnityTest]
+        public IEnumerator SwitchItemPosition_Should_Change_Item_Positions() {
+            var itemType1 = TestItemTypeSO.CreateItemTypeSO(5);
+            var itemType2 = TestItemTypeSO.CreateItemTypeSO(5);
+            var itemType3 = TestItemTypeSO.CreateItemTypeSO(5);
+
+            var baseItems = new List<InspectorItem>() {
+                new InspectorItem(itemType1, 5),
+                new InspectorItem(itemType2, 5),
+                new InspectorItem(itemType3, 5),
+            };
+
+            var inventory = TestInventorySO.CreateInventoryWithData(5, baseItems);
+
+            inventory.Get(0).ItemInfo.Should().Be(itemType1.ItemType);
+            inventory.Get(1).ItemInfo.Should().Be(itemType2.ItemType);
+            inventory.Get(2).ItemInfo.Should().Be(itemType3.ItemType);
+
+            TestInventorySO.SwitchItemPosition(0,2, inventory);
+
+            inventory.Get(0).ItemInfo.Should().Be(itemType3.ItemType);
+            inventory.Get(1).ItemInfo.Should().Be(itemType2.ItemType);
+            inventory.Get(2).ItemInfo.Should().Be(itemType1.ItemType);
+
+            yield return null;
+        }
+        [UnityTest]
+        public IEnumerator SwitchItemPosition_Should_Set_Other_Slot_To_Null_If_No_Item_In_That_Slot() {
+            var itemType1 = TestItemTypeSO.CreateItemTypeSO(5);
+            var itemType2 = TestItemTypeSO.CreateItemTypeSO(5);
+            var itemType3 = TestItemTypeSO.CreateItemTypeSO(5);
+
+            var baseItems = new List<InspectorItem>() {
+                new InspectorItem(itemType1, 5),
+                new InspectorItem(itemType2, 5),
+                new InspectorItem(itemType3, 5),
+            };
+
+            var inventory = TestInventorySO.CreateInventoryWithData(5, baseItems);
+
+            inventory.Get(0).ItemInfo.Should().Be(itemType1.ItemType);
+            inventory.Get(1).ItemInfo.Should().Be(itemType2.ItemType);
+            inventory.Get(2).ItemInfo.Should().Be(itemType3.ItemType);
+            inventory.Get(3).Should().BeNull();
+            inventory.Get(4).Should().BeNull();
+
+            TestInventorySO.SwitchItemPosition(1, 4, inventory);
+
+            inventory.Get(0).ItemInfo.Should().Be(itemType1.ItemType);
+            inventory.Get(1).Should().BeNull();
+            inventory.Get(2).ItemInfo.Should().Be(itemType3.ItemType);
+            inventory.Get(3).Should().BeNull();
+            inventory.Get(4).ItemInfo.Should().Be(itemType2.ItemType);
+            yield return null;
+        }
+        [UnityTest]
+        public IEnumerator SwitchItemPosition_Should_Set_First_Slot_To_Null_If_No_Item_In_That_Slot() {
+            var itemType1 = TestItemTypeSO.CreateItemTypeSO(5);
+            var itemType2 = TestItemTypeSO.CreateItemTypeSO(5);
+            var itemType3 = TestItemTypeSO.CreateItemTypeSO(5);
+
+            var baseItems = new List<InspectorItem>() {
+                new InspectorItem(itemType1, 5),
+                new InspectorItem(itemType2, 5),
+                new InspectorItem(itemType3, 5),
+            };
+
+            var inventory = TestInventorySO.CreateInventoryWithData(5, baseItems);
+
+            inventory.Get(0).ItemInfo.Should().Be(itemType1.ItemType);
+            inventory.Get(1).ItemInfo.Should().Be(itemType2.ItemType);
+            inventory.Get(2).ItemInfo.Should().Be(itemType3.ItemType);
+            inventory.Get(3).Should().BeNull();
+            inventory.Get(4).Should().BeNull();
+
+            TestInventorySO.SwitchItemPosition(4, 2, inventory);
+
+            inventory.Get(0).ItemInfo.Should().Be(itemType1.ItemType);
+            inventory.Get(1).ItemInfo.Should().Be(itemType2.ItemType);
+            inventory.Get(2).Should().BeNull();
+            inventory.Get(3).Should().BeNull();
+            inventory.Get(4).ItemInfo.Should().Be(itemType3.ItemType);
             yield return null;
         }
 
