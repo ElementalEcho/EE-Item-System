@@ -122,5 +122,127 @@ namespace EE.ItemSystem.PlayMode {
             itemDropOffData.arcHight.Should().Be(90);
             yield return null;
         }
+
+        [UnityTest]
+        public IEnumerator NextItem_Should_Increase_CurrentIndex() {
+            var itemType1 = ScriptableObject.CreateInstance<ItemTypeSO>();
+            var itemType2 = ScriptableObject.CreateInstance<ItemTypeSO>();
+            var itemType3 = ScriptableObject.CreateInstance<ItemTypeSO>();
+
+            var baseItems = new List<InspectorItem>() {
+                new InspectorItem(itemType1, 4),
+                new InspectorItem(itemType2, 3),
+                new InspectorItem(itemType3, 2)
+
+            };
+            var itemDataBaseSO = ScriptableObject.CreateInstance<ItemDataBaseSO>();
+
+            var inventoryDataSO = ScriptableObject.CreateInstance<TestInventoryDataSO>();
+            inventoryDataSO.SetValues(3, baseItems);
+            var inventorySO = ScriptableObject.CreateInstance<TestInventorySO>();
+            inventorySO.SetValues(inventoryDataSO);
+            var inventoryComponent = CreateTestInventoryComponent(inventorySO, itemDataBaseSO, inventoryDataSO, null);
+
+            inventoryComponent.CurrentItemIndex.Should().Be(0);
+            inventoryComponent.CurrentItem.ItemInfo.Should().Be(itemType1.ItemType);
+            inventoryComponent.CurrentItem.NumberOfItems.Should().Be(4);
+
+            inventoryComponent.NextItem();
+            inventoryComponent.CurrentItemIndex.Should().Be(1);
+            inventoryComponent.CurrentItem.ItemInfo.Should().Be(itemType2.ItemType);
+            inventoryComponent.CurrentItem.NumberOfItems.Should().Be(3);
+
+            inventoryComponent.NextItem();
+            inventoryComponent.CurrentItemIndex.Should().Be(2);
+            inventoryComponent.CurrentItem.ItemInfo.Should().Be(itemType3.ItemType);
+            inventoryComponent.CurrentItem.NumberOfItems.Should().Be(2);
+
+            inventoryComponent.NextItem();
+            inventoryComponent.CurrentItemIndex.Should().Be(0);
+            inventoryComponent.CurrentItem.ItemInfo.Should().Be(itemType1.ItemType);
+            inventoryComponent.CurrentItem.NumberOfItems.Should().Be(4);
+            yield return null;
+
+        }
+
+        [UnityTest]
+        public IEnumerator PreviousItem_Should_Decrease_CurrentIndex() {
+            var itemType1 = ScriptableObject.CreateInstance<ItemTypeSO>();
+            var itemType2 = ScriptableObject.CreateInstance<ItemTypeSO>();
+            var itemType3 = ScriptableObject.CreateInstance<ItemTypeSO>();
+
+            var baseItems = new List<InspectorItem>() {
+                new InspectorItem(itemType1, 4),
+                new InspectorItem(itemType2, 3),
+                new InspectorItem(itemType3, 2)
+
+            };
+            var itemDataBaseSO = ScriptableObject.CreateInstance<ItemDataBaseSO>();
+
+            var inventoryDataSO = ScriptableObject.CreateInstance<TestInventoryDataSO>();
+            inventoryDataSO.SetValues(3, baseItems);
+            var inventorySO = ScriptableObject.CreateInstance<TestInventorySO>();
+            inventorySO.SetValues(inventoryDataSO);
+            var inventoryComponent = CreateTestInventoryComponent(inventorySO, itemDataBaseSO, inventoryDataSO, null);
+
+            inventoryComponent.CurrentItemIndex.Should().Be(0);
+            inventoryComponent.CurrentItem.ItemInfo.Should().Be(itemType1.ItemType);
+            inventoryComponent.CurrentItem.NumberOfItems.Should().Be(4);
+
+            inventoryComponent.PreviousItem();
+            inventoryComponent.CurrentItemIndex.Should().Be(2);
+            inventoryComponent.CurrentItem.ItemInfo.Should().Be(itemType3.ItemType);
+            inventoryComponent.CurrentItem.NumberOfItems.Should().Be(2);
+
+            inventoryComponent.PreviousItem();
+            inventoryComponent.CurrentItemIndex.Should().Be(1);
+            inventoryComponent.CurrentItem.ItemInfo.Should().Be(itemType2.ItemType);
+            inventoryComponent.CurrentItem.NumberOfItems.Should().Be(3);
+
+            inventoryComponent.PreviousItem();
+            inventoryComponent.CurrentItemIndex.Should().Be(0);
+            inventoryComponent.CurrentItem.ItemInfo.Should().Be(itemType1.ItemType);
+            inventoryComponent.CurrentItem.NumberOfItems.Should().Be(4);
+            yield return null;
+
+        }
+
+        [UnityTest]
+        public IEnumerator ChangeItem_Should_Change_Index() {
+            var itemType1 = ScriptableObject.CreateInstance<ItemTypeSO>();
+            var itemType2 = ScriptableObject.CreateInstance<ItemTypeSO>();
+            var itemType3 = ScriptableObject.CreateInstance<ItemTypeSO>();
+
+            var baseItems = new List<InspectorItem>() {
+                new InspectorItem(itemType1, 4),
+                new InspectorItem(itemType2, 3),
+                new InspectorItem(itemType3, 2)
+
+            };
+            var itemDataBaseSO = ScriptableObject.CreateInstance<ItemDataBaseSO>();
+
+            var inventoryDataSO = ScriptableObject.CreateInstance<TestInventoryDataSO>();
+            inventoryDataSO.SetValues(10, baseItems);
+            var inventorySO = ScriptableObject.CreateInstance<TestInventorySO>();
+            inventorySO.SetValues(inventoryDataSO);
+            var inventoryComponent = CreateTestInventoryComponent(inventorySO, itemDataBaseSO, inventoryDataSO, null);
+
+            inventoryComponent.CurrentItemIndex.Should().Be(0);
+            inventoryComponent.CurrentItem.ItemInfo.Should().Be(itemType1.ItemType);
+            inventoryComponent.CurrentItem.NumberOfItems.Should().Be(4);
+
+            inventoryComponent.ChangeItem(2);
+
+            inventoryComponent.CurrentItemIndex.Should().Be(2);
+            inventoryComponent.CurrentItem.ItemInfo.Should().Be(itemType3.ItemType);
+            inventoryComponent.CurrentItem.NumberOfItems.Should().Be(2);
+
+            inventoryComponent.ChangeItem(8);
+
+            inventoryComponent.CurrentItemIndex.Should().Be(8);
+            inventoryComponent.CurrentItem.Should().BeNull();
+            yield return null;
+        }
+
     }
 }

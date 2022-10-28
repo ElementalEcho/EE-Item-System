@@ -42,8 +42,8 @@ namespace EE.ItemSystem.Actions {
             //        return false;
             //    }
             //}
-            Debug.LogError("Not implemented");
-            return true;
+            //Debug.LogError("Not implemented");
+            return !inventory.IsFull;
         }
     }
 }

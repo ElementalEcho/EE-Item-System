@@ -26,7 +26,7 @@ namespace EE.ItemSystem.Impl {
 
         [ReadOnly]
         private IInventoryUser inventoryUser = null;
-        private IInventoryUser Inventory {
+        private IInventoryUser InventoryUser {
             get {
                 if (inventoryUser == null) {
                     if (inventorySO != null) {
@@ -48,10 +48,10 @@ namespace EE.ItemSystem.Impl {
         protected IFacingDirection itemDropOffPoint = null;
 
 
-        public Item CurrentItem => Inventory.CurrentItem;
-        public int CurrentItemIndex => inventoryUser.CurrentItemIndex;
-        public bool IsFull => Inventory.IsFull;
-        public int NumberOfFilledSlots => Inventory.NumberOfFilledSlots;
+        public Item CurrentItem => InventoryUser.CurrentItem;
+        public int CurrentItemIndex => InventoryUser.CurrentItemIndex;
+        public bool IsFull => InventoryUser.IsFull;
+        public int NumberOfFilledSlots => InventoryUser.NumberOfFilledSlots;
 
 
 
@@ -60,93 +60,82 @@ namespace EE.ItemSystem.Impl {
             var genericActions = itemAddedActions.GetActions(this);
             foreach (var genericAction in genericActions) {
 
-                void action() { genericAction.Enter(); }
+                void action(IItemInfo itemInfo, int numberOfItems) { genericAction.Enter(); }
                 AddItemAddedEvent(action);
             }
         }
 
-        public void AddInventoryAlteredEvent(ItemDelegate.EEDelegate func) {
-            Inventory.AddInventoryAlteredEvent(func);
-        }
-        public void AddItemAddedEvent(ItemDelegate.EEDelegate func) {
-            Inventory.AddItemAddedEvent(func);
-
-        }
-        public void AddRemovedAddedEvent(ItemDelegate.EEDelegate func) {
-            Inventory.AddRemovedAddedEvent(func);
-        }
-        public bool AddItem(Item item) {
-            //If inventory is full replace current item
-            if (!Inventory.AddItem(item)) {
-                RemoveItem();               
-            }
-            return Inventory.AddItem(item);
-
-        }
-        public void RemoveItem(bool destroyItems = false, IItemInfo item = null, int NumberOfItems = 1) {
-            Inventory.RemoveItem(destroyItems, item, NumberOfItems);
-        }
-
-        public void RemoveAllItems(bool destroyItems = false) {
-            Inventory.RemoveAllItems();
-        }
-
-        private void DropItem() {
-            //if (destroyItems) {
-            //    return;
-            //}
-            //ItemDropInfo itemDropInfo = itemDropInfoContainer.GetDropPosition(itemDropOffPoint);
-            //var dropPosition = (Vector2)transform.position + itemDropInfo.dropPosition;
-            //var itemType = itemDataBaseSO.GetItemType(item.PrefabGuid);
-            //for (int i = 0; i < numberOfItems; i++) {
-            //    IPoolable droppedItem = PoolManager.SpawnObject(itemType.ItemToDrop, transform.position, dropPosition, itemDropInfo.arcHight, itemDropInfo.dropDuration, itemDropInfo.dropRotationSpeed, itemDropInfo.rotationAngle);
-            //}
-        }
-
-        public bool ContainsItem(Item inventoryItem = null) {
-            return inventoryItem == null ? 
-                Inventory.ContainsItem() :
-                Inventory.ContainsItem(inventoryItem.ItemInfo, inventoryItem.NumberOfItems);
-        }
-
         public void NextItem() {
-            Inventory.NextItem();
+            InventoryUser.NextItem();
         }
         public void PreviousItem() {
-            Inventory.PreviousItem();
+            InventoryUser.PreviousItem();
         }
 
         public void ChangeItem(int index) {
-            Inventory.ChangeItem(index);
-        }
-        public void InventoryOpened() {
-            Inventory.InventoryOpened();
+            InventoryUser.ChangeItem(index);
         }
 
+        public bool AddItem(Item item) {
+            //If inventory is full replace current item
+            if (!InventoryUser.AddItem(item)) {
+                RemoveItem();               
+            }
+            return InventoryUser.AddItem(item);
 
-        public bool ContainsItem(IItemInfo item = null, int NumberOfItems = 1) {
-            return Inventory.ContainsItem(item, NumberOfItems);
+        }
+        public void RemoveItem(bool destroyItems = false, IItemInfo item = null, int NumberOfItems = 1) {
+            InventoryUser.RemoveItem(destroyItems, item, NumberOfItems);
         }
 
         public void RemoveAllItems() {
-            Inventory.RemoveAllItems();
+            InventoryUser.RemoveAllItems();
         }
 
+        public bool ContainsItem(IItemInfo item = null, int NumberOfItems = 1) {
+            return InventoryUser.ContainsItem(item, NumberOfItems);
+        }
 
+        private void DropItem(IItemInfo itemInfo, int numberOfItems, bool destroye) {
+            List<IPoolable> droppedItems = new List<IPoolable>();
+            if (destroye) {
+                return;
+            }
+            ItemDropInfo itemDropInfo = itemDropInfoContainer.GetDropPosition(itemDropOffPoint);
+            var dropPosition = (Vector2)transform.position + itemDropInfo.dropPosition;
+            var itemType = itemDataBaseSO.GetItemType(itemInfo.PrefabGuid);
+            for (int i = 0; i < numberOfItems; i++) {
+                IPoolable droppedItem = PoolManager.SpawnObject(itemType.ItemToDrop, transform.position, dropPosition, itemDropInfo.arcHight, itemDropInfo.dropDuration, itemDropInfo.dropRotationSpeed, itemDropInfo.rotationAngle);
+            }
+        }
 
         public void LoadData(InventorySaveData inventorySaveData, List<Item> items) {
-            Inventory.LoadData(inventorySaveData, items);
+            InventoryUser.LoadData(inventorySaveData, items);
+        }
+
+        public void AddInventoryAlteredEvent(ItemDelegate.EEDelegate func) {
+            InventoryUser.AddInventoryAlteredEvent(func);
+        }
+        public void AddItemAddedEvent(AddItemDelegate.EEDelegate func) {
+            InventoryUser.AddItemAddedEvent(func);
+        }
+        public void AddRemovedAddedEvent(RemoveItemDelegate.EEDelegate func) {
+            InventoryUser.AddRemovedAddedEvent(func);
+        }
+
+        public void InventoryOpened() {
+            InventoryUser.InventoryOpened();
         }
 
         [Button]
         public void PrintNumberOfItems() {
-            //System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
-            //foreach (var item in Inventory.Content) {
-            //    if (!Item.IsNull(item)) {
-            //        stringBuilder.AppendLine($"Item: { item.ItemInfo.ItemToDrop.name}. Amount: {item.NumberOfItems}.");
-            //    }
-            //}          
-            //print(stringBuilder.ToString());
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            foreach (var item in InventoryUser.GetItems()) {
+                if (!Item.IsNull(item)) {
+                    stringBuilder.AppendLine($"Item: {item.ItemInfo}. Amount: {item.NumberOfItems}.");
+                }
+            }
+            print(stringBuilder.ToString());
         }
 
         private class DefaultFacingDirectionProvider : IFacingDirection {
@@ -157,13 +146,13 @@ namespace EE.ItemSystem.Impl {
             }
         }
         public List<Item> GetItems() {
-            return Inventory.GetItems();
+            return InventoryUser.GetItems();
         }
         public SaveComponentData GetSaveData() {
             var saveComponentData = new SaveComponentData();
 
             var itemSaveDatas = new List<ItemSaveData>();
-            foreach (var item in Inventory.GetItems()) {
+            foreach (var item in InventoryUser.GetItems()) {
                 if (item == null ||item.ItemInfo == null) {
                     continue;
                 }
@@ -175,7 +164,7 @@ namespace EE.ItemSystem.Impl {
             
 
             var intentorySaveData = new InventorySaveData {
-                ItemIndex = Inventory.CurrentItemIndex,
+                ItemIndex = InventoryUser.CurrentItemIndex,
                 Items = itemSaveDatas
             };
             saveComponentData.componentName = typeof(InventoryComponent).FullName;
@@ -197,7 +186,7 @@ namespace EE.ItemSystem.Impl {
                         }
                     }
 
-                    Inventory.LoadData(intentorySaveData, itemList);
+                    InventoryUser.LoadData(intentorySaveData, itemList);
                 }
             }
         }
