@@ -31,24 +31,19 @@ namespace EE.ItemSystem {
         public GenericActionSO[] ThrownItemEffects => thrownItemEffects;
 
 
-
+        [ShowInInspector, ReadOnly]
+        public string PrefabGuid => itemToDrop.ID;
+        [ShowInInspector, ReadOnly]
+        public string Name => itemToDrop.Name;
 #if UNITY_EDITOR
-        [Button]
-        private void SetValues() {
-            //thrownItemEffects = itemToDrop.ThrownItemEffects;
-            //attackItemUseEffects = itemToDrop.AttackItemUseEffects;
-            //startItemUseEffects = itemToDrop.StartItemUseEffects;
-            //manaToGive = itemToDrop.ManaToGive;
-            //itemPrefab = itemToDrop.ItemToDrop.PrefabReference;
 
+        [Button]
+        private void CreateItemInfo(string name, int maxItemSize) {
+            itemToDrop = new ItemInfo(maxItemSize, name);
         }
         private void OnValidate() {
             if (itemToDrop == null) {
                 itemToDrop = new ItemInfo();
-            }
-            if (string.IsNullOrEmpty(itemToDrop.prefabGuid)) {
-                itemToDrop.prefabGuid = Guid.NewGuid().ToString();
-                UnityEditor.EditorUtility.SetDirty(this);
             }
 
         }

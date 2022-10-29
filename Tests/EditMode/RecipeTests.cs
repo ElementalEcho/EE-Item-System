@@ -22,6 +22,10 @@ namespace Tests {
             public GenericActionSO[] AttackItemUseEffects => throw new NotImplementedException();
 
             public GenericActionSO[] ThrownItemEffects => throw new NotImplementedException();
+
+            public string ID => throw new NotImplementedException();
+
+            public string Name => throw new NotImplementedException();
         }
         private class TestHasRecipe : IHasRecipe {
             public TestHasRecipe(Recipe recipe) {

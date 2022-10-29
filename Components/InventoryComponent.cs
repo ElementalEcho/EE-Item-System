@@ -97,13 +97,12 @@ namespace EE.ItemSystem.Impl {
         }
 
         private void DropItem(IItemInfo itemInfo, int numberOfItems, bool destroye) {
-            List<IPoolable> droppedItems = new List<IPoolable>();
-            if (destroye) {
+            if (destroye || itemInfo == null) {
                 return;
             }
             ItemDropInfo itemDropInfo = itemDropInfoContainer.GetDropPosition(itemDropOffPoint);
             var dropPosition = (Vector2)transform.position + itemDropInfo.dropPosition;
-            var itemType = itemDataBaseSO.GetItemType(itemInfo.PrefabGuid);
+            var itemType = itemDataBaseSO.GetItemType(itemInfo.ID);
             for (int i = 0; i < numberOfItems; i++) {
                 IPoolable droppedItem = PoolManager.SpawnObject(itemType.ItemToDrop, transform.position, dropPosition, itemDropInfo.arcHight, itemDropInfo.dropDuration, itemDropInfo.dropRotationSpeed, itemDropInfo.rotationAngle);
             }
@@ -157,9 +156,10 @@ namespace EE.ItemSystem.Impl {
                     continue;
                 }
                 var itemSave = new ItemSaveData();
-                itemSave.itemGuid = item.ItemInfo.PrefabGuid;
-                itemSave.numberOfItems = item.NumberOfItems;
-                itemSaveDatas.Add(itemSave);
+                //Commented since itemdatabase currently doesnt support guid, only the Iitemtype
+                //itemSave.itemGuid = item.ItemInfo;
+                //itemSave.numberOfItems = item.NumberOfItems;
+                //itemSaveDatas.Add(itemSave);
             }
             
 
@@ -180,9 +180,10 @@ namespace EE.ItemSystem.Impl {
                     var itemList = new List<Item>();
                     if (intentorySaveData.Items != null) {
                         foreach (var inventoryItem in intentorySaveData.Items) {
-                            var itemtype = itemDataBaseSO.GetItemType(inventoryItem.itemGuid);
-                            var item = new Item(itemtype.ItemType, inventoryItem.numberOfItems);
-                            itemList.Add(item);
+                            //Commented since itemdatabase currently doesnt support guid, only the Iitemtype
+                            //var itemtype = itemDataBaseSO.GetItemType(inventoryItem.itemGuid);
+                            //var item = new Item(itemtype.ItemType, inventoryItem.numberOfItems);
+                            //itemList.Add(item);
                         }
                     }
 

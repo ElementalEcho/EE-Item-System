@@ -55,7 +55,7 @@ namespace EE.UI {
 
                 HasItemComponent hasItemComponent = PoolManager.SpawnObjectAsChild(itemContentPrefab.PoolableComponent, flexibleGridLayuout.transform).GetComponent<HasItemComponent>();
                 hasItemComponent.ChangeItem(inventoryItem);
-                var itemtype = itemDataBaseSO.GetItemType(inventoryItem.ItemInfo.PrefabGuid);
+                var itemtype = itemDataBaseSO.GetItemType(inventoryItem.ItemInfo.ID);
                 hasItemComponent.SetIcon(itemtype.ItemToDrop.GetComponent<SpriteRenderer>().sprite);
                 hasItemComponent.SetText(inventoryItem.NumberOfItems.ToString());
                 gridElement.ReplaceOrAddContent(itemContentType, hasItemComponent.gameObject);

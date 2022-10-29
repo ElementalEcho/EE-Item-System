@@ -285,6 +285,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabReference: {fileID: 0}
   colliderExtends: {x: 0, y: 0}
+  poolableReferenceGroup: {fileID: 0}
 --- !u!1 &5514267881434795694
 GameObject:
   m_ObjectHideFlags: 0
@@ -858,6 +859,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabReference: {fileID: 0}
   colliderExtends: {x: 0, y: 0}
+  poolableReferenceGroup: {fileID: 0}
 --- !u!1 &5514267881772626197
 GameObject:
   m_ObjectHideFlags: 0
@@ -1531,6 +1533,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabReference: {fileID: 0}
   colliderExtends: {x: 0, y: 0}
+  poolableReferenceGroup: {fileID: 0}
 --- !u!1 &5514267882700770377
 GameObject:
   m_ObjectHideFlags: 0
@@ -1662,6 +1665,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabReference: {fileID: 0}
   colliderExtends: {x: 0, y: 0}
+  poolableReferenceGroup: {fileID: 0}
 --- !u!1 &5514267882723513988
 GameObject:
   m_ObjectHideFlags: 0
@@ -2065,6 +2069,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabReference: {fileID: 0}
   colliderExtends: {x: 0, y: 0}
+  poolableReferenceGroup: {fileID: 0}
 --- !u!1 &5514267882779147338
 GameObject:
   m_ObjectHideFlags: 0
@@ -2273,6 +2278,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabReference: {fileID: 0}
   colliderExtends: {x: 0, y: 0}
+  poolableReferenceGroup: {fileID: 0}
 --- !u!114 &5514267882798964198
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2285,15 +2291,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f66451008f21a145bb65295e6e31871, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Item:
-    itemTypeSO: {fileID: 0}
-    numberOfItems: 0
-    itemName: 
   Icon: {fileID: 5514267882848493141}
   numberOfItemsText: {fileID: 5514267882723513986}
   poolableComponent: {fileID: 0}
   inventoryItemContainment: {fileID: 0}
   dragableUIElement: {fileID: 0}
+  itemDataBaseSO: {fileID: 11400000, guid: 89215abe9da978d4eb1684217b2366d8, type: 2}
 --- !u!1 &5514267882837805955
 GameObject:
   m_ObjectHideFlags: 0

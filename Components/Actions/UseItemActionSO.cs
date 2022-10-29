@@ -51,7 +51,7 @@ namespace EE.ItemSystem.Actions {
             }
         }
         public override void Enter() {
-            var itemUseEffects = inventory.ContainsItem() && actionsDictonary.TryGetValue(inventory.CurrentItem.ItemInfo, out var genericActions) ? genericActions : defaultActions;
+            var itemUseEffects = inventory.CurrentItem != null && actionsDictonary.TryGetValue(inventory.CurrentItem.ItemInfo, out var genericActions) ? genericActions : defaultActions;
 
             foreach (var useEffect in itemUseEffects) {
                 useEffect.Enter();
@@ -59,21 +59,21 @@ namespace EE.ItemSystem.Actions {
         }
 
         public override void Act(float tickSpeed) {
-            var itemUseEffects = inventory.ContainsItem() && actionsDictonary.TryGetValue(inventory.CurrentItem.ItemInfo, out var genericActions) ? genericActions : defaultActions;
+            var itemUseEffects = inventory.CurrentItem != null && actionsDictonary.TryGetValue(inventory.CurrentItem.ItemInfo, out var genericActions) ? genericActions : defaultActions;
 
             foreach (var useEffect in itemUseEffects) {
                 useEffect.Act(tickSpeed);
             }
         }
         public override void Exit() {
-            var itemUseEffects = inventory.ContainsItem() && actionsDictonary.TryGetValue(inventory.CurrentItem.ItemInfo, out var genericActions) ? genericActions : defaultActions;
+            var itemUseEffects = inventory.CurrentItem != null && actionsDictonary.TryGetValue(inventory.CurrentItem.ItemInfo, out var genericActions) ? genericActions : defaultActions;
 
             foreach (var useEffect in itemUseEffects) {
                 useEffect.Exit();
             }
         }
         public override bool ExitCondition() {
-            var itemUseEffects = inventory.ContainsItem() && actionsDictonary.TryGetValue(inventory.CurrentItem.ItemInfo, out var genericActions) ? genericActions : defaultActions;
+            var itemUseEffects = inventory.CurrentItem != null && actionsDictonary.TryGetValue(inventory.CurrentItem.ItemInfo, out var genericActions) ? genericActions : defaultActions;
             int numberOfActions = itemUseEffects.Length;
 
             foreach (var useEffect in itemUseEffects) {

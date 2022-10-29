@@ -23,7 +23,6 @@ namespace EE.ItemSystem.PlayMode {
         public IEnumerator ItemTypeSO_Should_Init_Correctly() {
             var itemTypeSO = ScriptableObject.CreateInstance<ItemTypeSO>();
             Assert.AreEqual(5, itemTypeSO.ItemType.MaxItemStack);
-            Assert.IsNotEmpty(itemTypeSO.ItemType.PrefabGuid);
             Assert.IsNull(itemTypeSO.ItemToDrop);
             Assert.AreEqual(10, itemTypeSO.ManaToGive);
             Assert.AreEqual(0, itemTypeSO.StartItemUseEffects.Length);

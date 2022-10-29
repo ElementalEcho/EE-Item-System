@@ -37,7 +37,7 @@ namespace EE.ItemSystem.Impl {
         }
         public void ChangeItem(Item Item) {
             this.Item = Item;
-            var itemType = itemDataBaseSO.GetItemType(Item.ItemInfo.PrefabGuid);
+            var itemType = itemDataBaseSO.GetItemType(Item.ItemInfo.ID);
             if (Item != null && Item.NumberOfItems > 0 && Item.ItemInfo != null && itemType.ItemToDrop != null) {
                 SetIcon(itemType.ItemToDrop.GetComponent<SpriteRenderer>().sprite);
                 SetText(Item.NumberOfItems.ToString());

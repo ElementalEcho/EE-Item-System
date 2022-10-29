@@ -22,6 +22,10 @@ namespace Tests {
             public GenericActionSO[] AttackItemUseEffects => throw new System.NotImplementedException();
 
             public GenericActionSO[] ThrownItemEffects => throw new System.NotImplementedException();
+
+            public string ID => throw new System.NotImplementedException();
+
+            public string Name => throw new System.NotImplementedException();
         }
         private class TestCraftingData : ICraftingData {
             public TestCraftingData(List<IRecipe> recipes) {
