@@ -34,7 +34,7 @@ namespace EE.ItemSystem.Decisions {
             }
             else {
                 foreach (var inventoryItem in OriginSO.RequiredItems) {
-                    if (!inventory.ContainsItem(inventoryItem.ItemInfo,inventoryItem.NumberOfItems)) {
+                    if (!inventory.Contains(inventoryItem.ItemInfo,inventoryItem.NumberOfItems)) {
                         return false;
                     }
                 }

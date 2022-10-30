@@ -8,12 +8,14 @@ namespace EE.ItemSystem.Impl {
     [InlineEditor]
     [Serializable]
     [HideLabel]
-    public class InventoryDataSO : ScriptableObject, IHasInventoryData {
+    public class InventoryDataSO : ScriptableObject, IInventoryData {
         [SerializeField]
         protected int maxInventorySize = 5;
+        public int MaxInventorySize => maxInventorySize;
+
         [SerializeField]
         protected List<InspectorItem> baseItems = new List<InspectorItem>();
-        public IInventoryData InventoryData => new InventoryData(maxInventorySize, baseItems.GetItems());
+        public List<Item> BaseItems => baseItems.GetItems();
     }
 
 
@@ -22,12 +24,4 @@ namespace EE.ItemSystem.Impl {
         public int MaxInventorySize => 1;
         public List<Item> BaseItems => new List<Item>();
     }
-}
-
-namespace EE.ItemSystem {
-    public interface IHasInventoryData {
-        IInventoryData InventoryData { get; }
-    }
-
-
 }

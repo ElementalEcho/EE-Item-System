@@ -43,7 +43,7 @@ namespace EE.ItemSystem.Actions {
                 return;
             }
             if (OriginSO.DropAllItems) {
-                inventory.RemoveAllItems();
+                inventory.RemoveAll();
             }
             else {
                 var numbeOfItemsToDrop = GetRandomNumberToDropItems;
@@ -52,7 +52,7 @@ namespace EE.ItemSystem.Actions {
                         continue;
                     }
                     if (OriginSO.ReduceNumberOfItems) {
-                        inventory.RemoveItem(OriginSO.DestroyItems, inventory.CurrentItem.ItemInfo, inventory.CurrentItem.NumberOfItems);
+                        inventory.Remove(inventory.CurrentItem.ItemInfo, inventory.CurrentItem.NumberOfItems);
                     }
                 }
             }
@@ -66,18 +66,18 @@ namespace EE.ItemSystem.Actions {
                 return;
             }
             if (OriginSO.DropAllItems) {
-                inventory.RemoveAllItems();
+                inventory.RemoveAll();
             }
             else {
                 var numbeOfItemsToDrop = GetRandomNumberToDropItems;
                 for (int i = 0; i < numbeOfItemsToDrop; i++) {
                     if (OriginSO.ReduceNumberOfItems) {
                         if (inventory.CurrentItem != null) {
-                            inventory.RemoveItem(OriginSO.DestroyItems, inventory.CurrentItem.ItemInfo, inventory.CurrentItem.NumberOfItems);
+                            inventory.Remove(inventory.CurrentItem.ItemInfo, inventory.CurrentItem.NumberOfItems);
                         }
                     }
                     else {
-                        inventory.RemoveItem(OriginSO.DestroyItems, inventory.CurrentItem.ItemInfo, inventory.CurrentItem.NumberOfItems);
+                        inventory.Remove(inventory.CurrentItem.ItemInfo, inventory.CurrentItem.NumberOfItems);
                     }
                 }
             }

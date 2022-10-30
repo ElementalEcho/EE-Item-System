@@ -17,9 +17,8 @@ namespace EE.ItemSystem.PlayMode {
         [UnityTest]
         public IEnumerator InventoryDataSO_Should_Have_DefaultValues() {
             var inventoryDataSO = ScriptableObject.CreateInstance<InventoryDataSO>();
-            var inventoryData = inventoryDataSO.InventoryData;
-            Assert.AreEqual(5, inventoryData.MaxInventorySize);
-            Assert.AreEqual(0, inventoryData.BaseItems.Count);
+            Assert.AreEqual(5, inventoryDataSO.MaxInventorySize);
+            Assert.AreEqual(0, inventoryDataSO.BaseItems.Count);
             yield return null;
         }
         [UnityTest]
@@ -33,11 +32,9 @@ namespace EE.ItemSystem.PlayMode {
 
             inventoryDataSO.SetValues(15, baseItems);
 
-
-            var inventoryData = inventoryDataSO.InventoryData;
-            Assert.AreEqual(15, inventoryData.MaxInventorySize);
-            Assert.AreEqual(1, inventoryData.BaseItems.Count);
-            var baseItem = inventoryData.BaseItems[0];
+            Assert.AreEqual(15, inventoryDataSO.MaxInventorySize);
+            Assert.AreEqual(1, inventoryDataSO.BaseItems.Count);
+            var baseItem = inventoryDataSO.BaseItems[0];
             Assert.AreEqual(3, baseItem.NumberOfItems);
             Assert.AreEqual(itemType.ItemType, baseItem.ItemInfo);
             yield return null;

@@ -9,7 +9,8 @@
         "EE.PoolingSystem",
         "EE.Actions",
         "EE.Actions.Components",
-        "EE.ItemSystem.Components"
+        "EE.ItemSystem.Components",
+        "EE.ItemSystem.Crafting"
     ],
     "includePlatforms": [
         "Editor"

@@ -30,7 +30,7 @@ namespace EE.ItemSystem.Crafting.Impl {
         [Button]
         public void Craft() {
             if (crafter.Craft(inventory.GetItems(), index, out Item item)) {
-                inventory.AddItem(new Item(item.ItemInfo, item.NumberOfItems));
+                inventory.Add(new Item(item.ItemInfo, item.NumberOfItems));
                 Debug.Log("Item crafted");
             }
             else {

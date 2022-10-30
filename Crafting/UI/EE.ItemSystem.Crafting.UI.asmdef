@@ -1,0 +1,24 @@
+{
+    "name": "EE.ItemSystem.Crafting.UI",
+    "rootNamespace": "",
+    "references": [
+        "GUID:e90719bd7908bb9428104df0f0f7361d",
+        "GUID:c0d507e6bad4711449960fa179be3141",
+        "GUID:aad74b0923c387e4aaa384f99c72f2eb",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:e7a09062a8269e046bdc0565a721baf4",
+        "GUID:b352106f17b95434abb776c9abaa348d",
+        "GUID:34c41e7f85c5ccb40bf6f2d5c830f445",
+        "GUID:cbed199e8d751d84c919872cbeeaebd2",
+        "GUID:1a26a448d49e27b4686084b55107907f"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

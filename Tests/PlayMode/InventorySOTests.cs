@@ -155,7 +155,7 @@ namespace EE.ItemSystem.PlayMode {
 
             inventory.NumberOfFilledSlots.Should().Be(2);
 
-            inventory.Remove(false, itemType.ItemType, 5);
+            inventory.Remove(itemType.ItemType, 5);
 
             inventory.NumberOfFilledSlots.Should().Be(1);
 
@@ -175,7 +175,7 @@ namespace EE.ItemSystem.PlayMode {
 
             inventory.NumberOfFilledSlots.Should().Be(2);
 
-            inventory.Remove(false, itemType.ItemType, 3);
+            inventory.Remove(itemType.ItemType, 3);
 
             inventory.NumberOfFilledSlots.Should().Be(2);
 
@@ -199,7 +199,7 @@ namespace EE.ItemSystem.PlayMode {
 
             inventory.NumberOfFilledSlots.Should().Be(2);
 
-            inventory.Remove(false, itemType.ItemType, 7);
+            inventory.Remove(itemType.ItemType, 7);
 
             inventory.NumberOfFilledSlots.Should().Be(1);
 

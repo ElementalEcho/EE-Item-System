@@ -26,12 +26,12 @@ namespace EE.ItemSystem.Actions {
         public override void Enter() {
             if (OriginSO.Reverse) {
                 foreach (var item in OriginSO.ItemsToAdd) {
-                    inventory.RemoveItem(OriginSO.DestroyItems, item.ItemInfo, item.NumberOfItems);
+                    inventory.Remove(item.ItemInfo, item.NumberOfItems);
                 }
             }
             else {
                 foreach (var item in OriginSO.ItemsToAdd) {
-                    inventory.AddItem(item);
+                    inventory.Add(item);
                 }
             }
 

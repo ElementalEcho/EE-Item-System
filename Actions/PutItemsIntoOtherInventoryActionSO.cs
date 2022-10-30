@@ -23,13 +23,13 @@ namespace EE.ItemSystem.Actions {
                 if (hasComponents.TryGetComponent(out IInventoryUser inventoryComponent) && inventoryComponent.CurrentItem != null) {
                     if (OriginSO.AllÍtems) {
                         foreach (var item in inventoryComponent.GetItems()) {
-                            inventory.AddItem(item);
+                            inventory.Add(item);
                         }
-                        inventoryComponent.RemoveAllItems();
+                        inventoryComponent.RemoveAll();
                     }
                     else {
-                        inventory.AddItem(inventoryComponent.CurrentItem);
-                        inventoryComponent.RemoveItem(false, inventory.CurrentItem.ItemInfo, inventory.CurrentItem.NumberOfItems);
+                        inventory.Add(inventoryComponent.CurrentItem);
+                        inventoryComponent.Remove(inventory.CurrentItem.ItemInfo, inventory.CurrentItem.NumberOfItems);
                     }
 
                 }
@@ -38,13 +38,13 @@ namespace EE.ItemSystem.Actions {
                 if (hasComponents.TryGetComponent(out IInventoryUser inventoryComponent) && inventory.CurrentItem != null) {
                     if (OriginSO.AllÍtems) {
                         foreach (var item in inventory.GetItems()) {
-                            inventoryComponent.AddItem(item);
+                            inventoryComponent.Add(item);
                         }
-                        inventory.RemoveAllItems();
+                        inventory.RemoveAll();
                     }
                     else {
-                        inventoryComponent.AddItem(inventory.CurrentItem);
-                        inventory.RemoveItem(false, inventory.CurrentItem.ItemInfo, inventory.CurrentItem.NumberOfItems);
+                        inventoryComponent.Add(inventory.CurrentItem);
+                        inventory.Remove(inventory.CurrentItem.ItemInfo, inventory.CurrentItem.NumberOfItems);
                     }
                 }
             }

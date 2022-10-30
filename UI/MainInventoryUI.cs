@@ -1,12 +1,7 @@
 using UnityEngine;
-using EE.Core;
-using EE.ItemSystem;
 using System.Collections.Generic;
 using EE.ItemSystem.Impl;
 using Sirenix.OdinInspector;
-using System;
-using EE.UI.Extensions;
-using EE.ItemSystem.Crafting.Impl;
 using EE.Core.ScriptableObjects;
 using EE.Core.PoolingSystem;
 

@@ -33,7 +33,13 @@ namespace EE.ItemSystem.Impl {
                         inventoryUser = new InventoryUser(inventorySO);
                     }
                     else {
-                        var inventoryData = inventoryDataSO != null ? inventoryDataSO.InventoryData : new DefaultInventoryData();
+                        IInventoryData inventoryData;
+                        if (inventoryDataSO != null) {
+                            inventoryData = inventoryDataSO;
+                        }
+                        else {
+                            inventoryData = new DefaultInventoryData();
+                        }
                         var inventory = new Inventory(inventoryData); 
                         inventoryUser = new InventoryUser(inventory);
                     }
@@ -49,7 +55,7 @@ namespace EE.ItemSystem.Impl {
 
 
         public Item CurrentItem => InventoryUser.CurrentItem;
-        public int CurrentItemIndex => InventoryUser.CurrentItemIndex;
+        public int CurrentIndex => InventoryUser.CurrentIndex;
         public bool IsFull => InventoryUser.IsFull;
         public int NumberOfFilledSlots => InventoryUser.NumberOfFilledSlots;
 
@@ -65,41 +71,35 @@ namespace EE.ItemSystem.Impl {
             }
         }
 
-        public void NextItem() {
-            InventoryUser.NextItem();
+        public void IncreaseIndex() {
+            InventoryUser.IncreaseIndex();
         }
-        public void PreviousItem() {
-            InventoryUser.PreviousItem();
-        }
-
-        public void ChangeItem(int index) {
-            InventoryUser.ChangeItem(index);
+        public void DecreaseIndex() {
+            InventoryUser.DecreaseIndex();
         }
 
-        public bool AddItem(Item item) {
-            //If inventory is full replace current item
-            if (!InventoryUser.AddItem(item)) {
-                RemoveItem();               
-            }
-            return InventoryUser.AddItem(item);
-
-        }
-        public void RemoveItem(bool destroyItems = false, IItemInfo item = null, int NumberOfItems = 1) {
-            InventoryUser.RemoveItem(destroyItems, item, NumberOfItems);
+        public void ChangeIndex(int index) {
+            InventoryUser.ChangeIndex(index);
         }
 
-        public void RemoveAllItems() {
-            InventoryUser.RemoveAllItems();
+        public bool Add(Item item) {
+            return InventoryUser.Add(item);
+
+        }
+        public void Remove(IItemInfo item, int numberOfItems) {
+            InventoryUser.Remove(item, numberOfItems);
         }
 
-        public bool ContainsItem(IItemInfo item = null, int NumberOfItems = 1) {
-            return InventoryUser.ContainsItem(item, NumberOfItems);
+        public void RemoveAll() {
+            InventoryUser.RemoveAll();
         }
 
-        private void DropItem(IItemInfo itemInfo, int numberOfItems, bool destroye) {
-            if (destroye || itemInfo == null) {
-                return;
-            }
+        public bool Contains(IItemInfo item = null, int NumberOfItems = 1) {
+            return InventoryUser.Contains(item, NumberOfItems);
+        }
+
+        private void DropItem(IItemInfo itemInfo, int numberOfItems) {
+
             ItemDropInfo itemDropInfo = itemDropInfoContainer.GetDropPosition(itemDropOffPoint);
             var dropPosition = (Vector2)transform.position + itemDropInfo.dropPosition;
             var itemType = itemDataBaseSO.GetItemType(itemInfo.ID);
@@ -164,7 +164,7 @@ namespace EE.ItemSystem.Impl {
             
 
             var intentorySaveData = new InventorySaveData {
-                ItemIndex = InventoryUser.CurrentItemIndex,
+                ItemIndex = InventoryUser.CurrentIndex,
                 Items = itemSaveDatas
             };
             saveComponentData.componentName = typeof(InventoryComponent).FullName;

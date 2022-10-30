@@ -10,7 +10,7 @@ namespace EE.ItemSystem.Impl {
         private IInventory inventory;
         private IInventory Inventory { get {
                 if (inventory == null) {
-                    inventory = new Inventory(inventoryDataSO.InventoryData);
+                    inventory = new Inventory(inventoryDataSO);
                 }
                 return inventory;
             } 
@@ -32,7 +32,7 @@ namespace EE.ItemSystem.Impl {
 
         [ShowInInspector]
         public int Size => Inventory.Size;
-        public bool IsFull => NumberOfFilledSlots >= Mathf.Max(inventoryDataSO.InventoryData.MaxInventorySize, 1); //Max inventory Size should be atleast one to prevent infinite loops.
+        public bool IsFull => NumberOfFilledSlots >= Mathf.Max(inventoryDataSO.MaxInventorySize, 1); //Max inventory Size should be atleast one to prevent infinite loops.
 
         public int NumberOfFilledSlots => Inventory.NumberOfFilledSlots;
 
@@ -47,8 +47,8 @@ namespace EE.ItemSystem.Impl {
             //}
             return Inventory.Add(item);
         }
-        public void Remove(bool destroyItems = false, IItemInfo item = null, int numberOfItems = 1) {
-            Inventory.Remove(destroyItems, item, numberOfItems);
+        public void Remove(IItemInfo item = null, int numberOfItems = 1) {
+            Inventory.Remove(item, numberOfItems);
         }
 
         public void RemoveAll() {

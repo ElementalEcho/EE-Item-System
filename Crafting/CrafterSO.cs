@@ -56,7 +56,7 @@ namespace EE.ItemSystem.Crafting.Impl {
             foreach (var recipe in craftingDataSO.CraftingData.Recipes) {
                 if (recipe.Craft(items, out Item craftedItem)) {                    
                     foreach (var item in recipe.Requirements) {
-                        inventoryDataSO.Remove(true, item.ItemInfo,item.NumberOfItems);
+                        inventoryDataSO.Remove(item.ItemInfo,item.NumberOfItems);
                     }
                     inventoryDataSO.Add(craftedItem);
                     return craftedItem;
