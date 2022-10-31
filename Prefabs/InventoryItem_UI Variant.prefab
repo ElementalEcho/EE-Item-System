@@ -141,7 +141,7 @@ PrefabInstance:
     - target: {fileID: 7399396472629521166, guid: 70cf99f827e29db48aaaf917dac62175,
         type: 3}
       propertyPath: onButtonLeftClickEvents.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7399396472629521166, guid: 70cf99f827e29db48aaaf917dac62175,
         type: 3}

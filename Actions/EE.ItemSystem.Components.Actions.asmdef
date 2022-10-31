@@ -1,5 +1,5 @@
 {
-    "name": "EE.ItemSystem.Actions",
+    "name": "EE.ItemSystem.Components.Actions",
     "rootNamespace": "",
     "references": [
         "GUID:aad74b0923c387e4aaa384f99c72f2eb",
@@ -11,8 +11,12 @@
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
-    "overrideReferences": false,
-    "precompiledReferences": [],
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "EE.ItemSystem.dll",
+        "EE.ItemSystem.Actions.dll",
+        "Sirenix.OdinInspector.Attributes.dll"
+    ],
     "autoReferenced": true,
     "defineConstraints": [],
     "versionDefines": [],
