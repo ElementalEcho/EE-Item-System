@@ -14,13 +14,10 @@ namespace EE.ItemSystem.UI {
         private InventorySO inventorySO;
         [SerializeField]
         private ItemDataBaseSO itemDataBaseSO;
-        [SerializeField]
-        private EventActivatorSO eventActivatorSO;
+
         [SerializeField]
         private ContentTypeSO contentTypeSO;
-        public void Start() {
-            inventorySO.InventoryAlteredEvent.Add(eventActivatorSO.Invoke);            
-        }
+
         public List<DisplayData> GetObjects() {
             var displayDatas = new List<DisplayData>();
 

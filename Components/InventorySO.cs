@@ -24,12 +24,6 @@ namespace EE.ItemSystem.Impl {
             InventoryOpenedEvent?.Invoke();
         }
 
-        public void LoadData(InventorySaveData inventorySaveData, List<Item> items) {
-            if (Inventory != null) {
-                Inventory.LoadData(inventorySaveData, items);
-            }
-        }
-
         [ShowInInspector]
         public int Size => Inventory.Size;
         public bool IsFull => NumberOfFilledSlots >= Mathf.Max(inventoryDataSO.MaxInventorySize, 1); //Max inventory Size should be atleast one to prevent infinite loops.
@@ -41,10 +35,6 @@ namespace EE.ItemSystem.Impl {
         public void Replace(int index, Item item) => Inventory.Replace(index, item);
 
         public bool Add(Item item) {
-            //If inventory is full replace current item
-            //if (!ItemHasFreeSlot(item)) {
-            //    RemoveItem();
-            //}
             return Inventory.Add(item);
         }
         public void Remove(IItemInfo item = null, int numberOfItems = 1) {

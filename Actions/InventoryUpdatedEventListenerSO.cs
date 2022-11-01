@@ -1,4 +1,5 @@
 ﻿using EE.Core;
+using UnityEngine;
 
 namespace EE.ItemSystem.EventListeners {
     public class InventoryUpdatedEventListenerSO : EventListenerSO<InventoryUpdatedEventListener> {
@@ -21,7 +22,8 @@ namespace EE.ItemSystem.EventListeners {
         public override void Init(IHasComponents controller) {
             inventory = controller.GetComponent<IInventoryUser>();
             GetActions(controller);
-            inventory.AddInventoryAlteredEvent(DoActions);
+            Debug.LogError("No longer supported");
+            //inventory.AddInventoryAlteredEvent(DoActions);
         }
 
         private void DoActions() {

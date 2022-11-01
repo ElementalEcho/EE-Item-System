@@ -15,7 +15,7 @@ namespace EE.UI.Actions {
 
         }
         public override void Enter() {
-            inventoryComponent.InventoryOpened();
+            //inventoryComponent.InventoryOpened();
             //OriginSO.CraftingController.CraftingMenuOpened();
         }
     }

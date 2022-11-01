@@ -1,5 +1,6 @@
 ﻿using EE.Core;
 using EE.Core.PoolingSystem;
+using EE.Core.ScriptableObjects;
 using EE.SaveSystem;
 using Sirenix.OdinInspector;
 using System;
@@ -43,7 +44,6 @@ namespace EE.ItemSystem.Impl {
                         var inventory = new Inventory(inventoryData); 
                         inventoryUser = new InventoryUser(inventory);
                     }
-                    inventoryUser.AddRemovedAddedEvent(DropItem);
                 }
                 return inventoryUser;
             }
@@ -60,15 +60,20 @@ namespace EE.ItemSystem.Impl {
         public int NumberOfFilledSlots => InventoryUser.NumberOfFilledSlots;
 
 
+        [SerializeField]
+        private EventActivatorSO eventActivatorSO;
 
         public void Awake() {
             itemDropOffPoint = GetComponent<IFacingDirection>() ?? new DefaultFacingDirectionProvider();
             var genericActions = itemAddedActions.GetActions(this);
-            foreach (var genericAction in genericActions) {
 
-                void action(IItemInfo itemInfo, int numberOfItems) { genericAction.Enter(); }
-                AddItemAddedEvent(action);
+            if (genericActions.Length > 0) {
+                Debug.LogError("events no longer supported.", this);
             }
+            if (inventorySO != null) {
+                inventorySO.InventoryAlteredEvent.Add(eventActivatorSO.Invoke);
+            }
+
         }
 
         public void IncreaseIndex() {
@@ -108,23 +113,6 @@ namespace EE.ItemSystem.Impl {
             }
         }
 
-        public void LoadData(InventorySaveData inventorySaveData, List<Item> items) {
-            InventoryUser.LoadData(inventorySaveData, items);
-        }
-
-        public void AddInventoryAlteredEvent(ItemDelegate.EEDelegate func) {
-            InventoryUser.AddInventoryAlteredEvent(func);
-        }
-        public void AddItemAddedEvent(AddItemDelegate.EEDelegate func) {
-            InventoryUser.AddItemAddedEvent(func);
-        }
-        public void AddRemovedAddedEvent(RemoveItemDelegate.EEDelegate func) {
-            InventoryUser.AddRemovedAddedEvent(func);
-        }
-
-        public void InventoryOpened() {
-            InventoryUser.InventoryOpened();
-        }
 
         [Button]
         public void PrintNumberOfItems() {
@@ -157,9 +145,9 @@ namespace EE.ItemSystem.Impl {
                 }
                 var itemSave = new ItemSaveData();
                 //Commented since itemdatabase currently doesnt support guid, only the Iitemtype
-                //itemSave.itemGuid = item.ItemInfo;
-                //itemSave.numberOfItems = item.NumberOfItems;
-                //itemSaveDatas.Add(itemSave);
+                itemSave.itemGuid = item.ItemInfo.ID;
+                itemSave.numberOfItems = item.NumberOfItems;
+                itemSaveDatas.Add(itemSave);
             }
             
 
@@ -177,17 +165,15 @@ namespace EE.ItemSystem.Impl {
                 if (saveComponentData.componentName == typeof(InventoryComponent).FullName) {
                     var intentorySaveData = JsonUtility.FromJson<InventorySaveData>(saveComponentData.jsonData);
 
-                    var itemList = new List<Item>();
                     if (intentorySaveData.Items != null) {
                         foreach (var inventoryItem in intentorySaveData.Items) {
                             //Commented since itemdatabase currently doesnt support guid, only the Iitemtype
-                            //var itemtype = itemDataBaseSO.GetItemType(inventoryItem.itemGuid);
-                            //var item = new Item(itemtype.ItemType, inventoryItem.numberOfItems);
-                            //itemList.Add(item);
+                            var itemtype = itemDataBaseSO.GetItemType(inventoryItem.itemGuid);
+                            var item = new Item(itemtype.ItemType, inventoryItem.numberOfItems);
+                            InventoryUser.Add(item);
                         }
                     }
-
-                    InventoryUser.LoadData(intentorySaveData, itemList);
+                    inventoryUser.ChangeIndex(intentorySaveData.ItemIndex);
                 }
             }
         }
