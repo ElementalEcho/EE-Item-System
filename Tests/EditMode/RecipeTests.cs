@@ -26,6 +26,8 @@ namespace Tests {
             public string ID => throw new NotImplementedException();
 
             public string Name => throw new NotImplementedException();
+
+            public int MaxStack => throw new NotImplementedException();
         }
         private class TestHasRecipe : IHasRecipe {
             public TestHasRecipe(Recipe recipe) {

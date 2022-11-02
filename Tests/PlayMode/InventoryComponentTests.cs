@@ -1,4 +1,5 @@
 using EE.Core;
+using EE.Core.ScriptableObjects;
 using EE.ItemSystem.Impl;
 using EE.Test.Util;
 using System.Collections;
@@ -15,11 +16,11 @@ namespace EE.ItemSystem.PlayMode {
             public void ExposeAwake() {
                 Awake();
             }
-            public void SetValues(InventorySO inventorySO = null, ItemDataBaseSO itemDataBaseSO = null, InventoryDataSO inventoryDataSO = null,  GenericActionSO[] itemAddedActions = null) {
+            public void SetValues(InventorySO inventorySO = null, ItemDataBaseSO itemDataBaseSO = null, InventoryDataSO inventoryDataSO = null, EventActivatorSO eventActivatorSO = null) {
                 this.inventoryDataSO = inventoryDataSO;
                 this.inventorySO = inventorySO;
                 this.itemDataBaseSO = itemDataBaseSO;
-                this.itemAddedActions = itemAddedActions != null ? itemAddedActions : new GenericActionSO[0];
+                this.eventActivatorSO = eventActivatorSO;
             }
             public InventoryDataSO ExposeInventoryDataSO => inventoryDataSO;
 
@@ -27,27 +28,24 @@ namespace EE.ItemSystem.PlayMode {
 
             public ItemDataBaseSO ExposeItemDataBaseSO => itemDataBaseSO;
 
-            public ItemDropInfoContainer ExposeItemDropInfoContainer => itemDropInfoContainer;
-            public GenericActionSO[] ExposeItemAddedActions => itemAddedActions;
-
-            public IFacingDirection ExposeItemDropOffPoint => itemDropOffPoint;
+            public EventActivatorSO ExposeEventActivatorSO => eventActivatorSO;
 
         }
 
-        private TestInventoryComponent CreateTestInventoryComponent(InventorySO inventorySO = null, ItemDataBaseSO itemDataBaseSO = null, InventoryDataSO inventoryDataSO = null, GenericActionSO[] itemAddedActions = null) {
+        private TestInventoryComponent CreateTestInventoryComponent(InventorySO inventorySO = null, ItemDataBaseSO itemDataBaseSO = null, InventoryDataSO inventoryDataSO = null, EventActivatorSO eventActivatorSO = null) {
             GameObject gameObject = new GameObject();
             var physicsComponent = gameObject.AddComponent<TestInventoryComponent>();
-            physicsComponent.SetValues(inventorySO, itemDataBaseSO, inventoryDataSO, itemAddedActions);
+            physicsComponent.SetValues(inventorySO, itemDataBaseSO, inventoryDataSO, eventActivatorSO);
             physicsComponent.ExposeAwake();
             return physicsComponent;
         }
 
-        private TestInventoryComponent CreateTestInventoryComponentWithData(int maxInventorySize, List<InspectorItem> baseItems, ItemDataBaseSO itemDataBaseSO = null, GenericActionSO[] itemAddedActions = null) {
+        private TestInventoryComponent CreateTestInventoryComponentWithData(int maxInventorySize, List<InspectorItem> baseItems, ItemDataBaseSO itemDataBaseSO = null, EventActivatorSO eventActivatorSO = null) {
             var inventoryDataSO = ScriptableObject.CreateInstance<TestInventoryDataSO>();
             inventoryDataSO.SetValues(maxInventorySize, baseItems);
             var inventorySO = ScriptableObject.CreateInstance<TestInventorySO>();
             inventorySO.SetValues(inventoryDataSO);
-            return CreateTestInventoryComponent(inventorySO, itemDataBaseSO, inventoryDataSO, itemAddedActions);
+            return CreateTestInventoryComponent(inventorySO, itemDataBaseSO, inventoryDataSO, eventActivatorSO);
 
         }
 
@@ -57,23 +55,12 @@ namespace EE.ItemSystem.PlayMode {
             inventoryComponent.ExposeInventoryDataSO.Should().BeNull();
             inventoryComponent.ExposeInventorySO.Should().BeNull();
             inventoryComponent.ExposeItemDataBaseSO.Should().BeNull();
-            inventoryComponent.ExposeItemAddedActions.Length.Should().Be(0);
+            inventoryComponent.ExposeEventActivatorSO.Should().BeNull();
 
             inventoryComponent.CurrentItem.Should().BeNull();
             inventoryComponent.CurrentIndex.Should().Be(0);
             inventoryComponent.IsFull.Should().BeFalse();
             inventoryComponent.NumberOfFilledSlots.Should().Be(0);
-
-            inventoryComponent.ExposeItemDropOffPoint.Should().BeNotNull();
-
-
-            var itemDropOffData = inventoryComponent.ExposeItemDropInfoContainer;
-
-            itemDropOffData.dropForce.Should().Be(10);
-            itemDropOffData.dropRange.Should().Be(3);
-            itemDropOffData.dropRotationSpeed.Should().Be(3);
-            itemDropOffData.dropRotationAngle.Should().Be(90);
-            itemDropOffData.arcHight.Should().Be(90);
             yield return null;
         }
 
@@ -95,31 +82,21 @@ namespace EE.ItemSystem.PlayMode {
 
             var inventoryComponent = CreateTestInventoryComponent(inventorySO, itemDataBaseSO, inventoryDataSO, null);
             inventoryComponent.ExposeInventoryDataSO.Should().Be(inventoryDataSO);
-            inventoryComponent.ExposeInventoryDataSO.MaxInventorySize.Should().Be(5);
+            inventoryComponent.ExposeInventoryDataSO.MaxSize.Should().Be(5);
             inventoryComponent.ExposeInventoryDataSO.BaseItems.Count.Should().Be(2);
 
             inventoryComponent.ExposeInventorySO.Should().Be(inventorySO);
             inventoryComponent.ExposeItemDataBaseSO.Should().Be(itemDataBaseSO);
-            inventoryComponent.ExposeItemAddedActions.Length.Should().Be(0);
+            inventoryComponent.ExposeEventActivatorSO.Should().BeNull();
 
             inventoryComponent.CurrentItem.Should().BeNotNull();
-            inventoryComponent.CurrentItem.ItemInfo.Should().Be(itemType1.ItemType);
+            inventoryComponent.CurrentItem.ItemInfo.Should().Be(itemType1);
             inventoryComponent.CurrentItem.NumberOfItems.Should().Be(3);
 
 
             inventoryComponent.CurrentIndex.Should().Be(0);
             inventoryComponent.IsFull.Should().BeFalse();
             inventoryComponent.NumberOfFilledSlots.Should().Be(2);
-
-            inventoryComponent.ExposeItemDropOffPoint.Should().BeNotNull();
-
-            var itemDropOffData = inventoryComponent.ExposeItemDropInfoContainer;
-
-            itemDropOffData.dropForce.Should().Be(10);
-            itemDropOffData.dropRange.Should().Be(3);
-            itemDropOffData.dropRotationSpeed.Should().Be(3);
-            itemDropOffData.dropRotationAngle.Should().Be(90);
-            itemDropOffData.arcHight.Should().Be(90);
             yield return null;
         }
 
@@ -144,22 +121,22 @@ namespace EE.ItemSystem.PlayMode {
             var inventoryComponent = CreateTestInventoryComponent(inventorySO, itemDataBaseSO, inventoryDataSO, null);
 
             inventoryComponent.CurrentIndex.Should().Be(0);
-            inventoryComponent.CurrentItem.ItemInfo.Should().Be(itemType1.ItemType);
+            inventoryComponent.CurrentItem.ItemInfo.Should().Be(itemType1);
             inventoryComponent.CurrentItem.NumberOfItems.Should().Be(4);
 
             inventoryComponent.IncreaseIndex();
             inventoryComponent.CurrentIndex.Should().Be(1);
-            inventoryComponent.CurrentItem.ItemInfo.Should().Be(itemType2.ItemType);
+            inventoryComponent.CurrentItem.ItemInfo.Should().Be(itemType2);
             inventoryComponent.CurrentItem.NumberOfItems.Should().Be(3);
 
             inventoryComponent.IncreaseIndex();
             inventoryComponent.CurrentIndex.Should().Be(2);
-            inventoryComponent.CurrentItem.ItemInfo.Should().Be(itemType3.ItemType);
+            inventoryComponent.CurrentItem.ItemInfo.Should().Be(itemType3);
             inventoryComponent.CurrentItem.NumberOfItems.Should().Be(2);
 
             inventoryComponent.IncreaseIndex();
             inventoryComponent.CurrentIndex.Should().Be(0);
-            inventoryComponent.CurrentItem.ItemInfo.Should().Be(itemType1.ItemType);
+            inventoryComponent.CurrentItem.ItemInfo.Should().Be(itemType1);
             inventoryComponent.CurrentItem.NumberOfItems.Should().Be(4);
             yield return null;
 
@@ -186,22 +163,22 @@ namespace EE.ItemSystem.PlayMode {
             var inventoryComponent = CreateTestInventoryComponent(inventorySO, itemDataBaseSO, inventoryDataSO, null);
 
             inventoryComponent.CurrentIndex.Should().Be(0);
-            inventoryComponent.CurrentItem.ItemInfo.Should().Be(itemType1.ItemType);
+            inventoryComponent.CurrentItem.ItemInfo.Should().Be(itemType1);
             inventoryComponent.CurrentItem.NumberOfItems.Should().Be(4);
 
             inventoryComponent.DecreaseIndex();
             inventoryComponent.CurrentIndex.Should().Be(2);
-            inventoryComponent.CurrentItem.ItemInfo.Should().Be(itemType3.ItemType);
+            inventoryComponent.CurrentItem.ItemInfo.Should().Be(itemType3);
             inventoryComponent.CurrentItem.NumberOfItems.Should().Be(2);
 
             inventoryComponent.DecreaseIndex();
             inventoryComponent.CurrentIndex.Should().Be(1);
-            inventoryComponent.CurrentItem.ItemInfo.Should().Be(itemType2.ItemType);
+            inventoryComponent.CurrentItem.ItemInfo.Should().Be(itemType2);
             inventoryComponent.CurrentItem.NumberOfItems.Should().Be(3);
 
             inventoryComponent.DecreaseIndex();
             inventoryComponent.CurrentIndex.Should().Be(0);
-            inventoryComponent.CurrentItem.ItemInfo.Should().Be(itemType1.ItemType);
+            inventoryComponent.CurrentItem.ItemInfo.Should().Be(itemType1);
             inventoryComponent.CurrentItem.NumberOfItems.Should().Be(4);
             yield return null;
 
@@ -228,13 +205,13 @@ namespace EE.ItemSystem.PlayMode {
             var inventoryComponent = CreateTestInventoryComponent(inventorySO, itemDataBaseSO, inventoryDataSO, null);
 
             inventoryComponent.CurrentIndex.Should().Be(0);
-            inventoryComponent.CurrentItem.ItemInfo.Should().Be(itemType1.ItemType);
+            inventoryComponent.CurrentItem.ItemInfo.Should().Be(itemType1);
             inventoryComponent.CurrentItem.NumberOfItems.Should().Be(4);
 
             inventoryComponent.ChangeIndex(2);
 
             inventoryComponent.CurrentIndex.Should().Be(2);
-            inventoryComponent.CurrentItem.ItemInfo.Should().Be(itemType3.ItemType);
+            inventoryComponent.CurrentItem.ItemInfo.Should().Be(itemType3);
             inventoryComponent.CurrentItem.NumberOfItems.Should().Be(2);
 
             inventoryComponent.ChangeIndex(8);
@@ -243,6 +220,13 @@ namespace EE.ItemSystem.PlayMode {
             inventoryComponent.CurrentItem.Should().BeNull();
             yield return null;
         }
+        [UnityTest]
+        public IEnumerator TODO_EventActivatorTEsts() {
+            var inventoryComponent = CreateTestInventoryComponent();
 
+            inventoryComponent.ExposeEventActivatorSO.Should().BeNotNull();
+
+            yield return null;
+        }
     }
 }

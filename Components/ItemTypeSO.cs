@@ -6,10 +6,15 @@ using EE.Core.PoolingSystem;
 using Sirenix.OdinInspector;
 
 namespace EE.ItemSystem {
-    public class ItemTypeSO : ScriptableObject, IItemType {
+    public class ItemTypeSO : ScriptableObject, IItemInfo {
         [SerializeField]
         protected ItemInfo itemToDrop = new ItemInfo();
-        public IItemInfo ItemType => itemToDrop;
+        [ShowInInspector, ReadOnly]
+        public string ID => itemToDrop.ID;
+        [ShowInInspector, ReadOnly]
+        public string Name => itemToDrop.Name;
+        [ShowInInspector, ReadOnly]
+        public int MaxStack => itemToDrop.MaxStack;
 
         [SerializeField, Tooltip("Item created when this item is dropped.")]
         protected PoolableReference itemPrefab = null;
@@ -31,25 +36,17 @@ namespace EE.ItemSystem {
         public GenericActionSO[] ThrownItemEffects => thrownItemEffects;
 
 
-        [ShowInInspector, ReadOnly]
-        public string PrefabGuid => itemToDrop.ID;
-        [ShowInInspector, ReadOnly]
-        public string Name => itemToDrop.Name;
+
 #if UNITY_EDITOR
 
         [Button]
         private void CreateItemInfo(string name, int maxItemSize) {
             itemToDrop = new ItemInfo(maxItemSize, name);
         }
-        private void OnValidate() {
-            if (itemToDrop == null) {
-                itemToDrop = new ItemInfo();
-            }
-
-        }
 #endif
     }
     [Serializable]
+    //TODO Change this to implement IItem interface and then use this directly instead of "GetItem".
     public class InspectorItem {
         [SerializeField]
         private ItemTypeSO itemType = null;
@@ -62,7 +59,7 @@ namespace EE.ItemSystem {
             this.numberOfItems = numberOfItems;
         }
 
-        public Item GetItem() => new(itemType.ItemType, numberOfItems);
+        public Item GetItem() => new(itemType, numberOfItems);
     }
 
     public static class InspectorItemExtensions {

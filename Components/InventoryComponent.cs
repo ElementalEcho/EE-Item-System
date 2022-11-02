@@ -9,21 +9,18 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace EE.ItemSystem.Impl {
-    public class InventoryComponent : EEMonobehavior, ISaveble, IHasComponents, IInventoryUser {
+    public class InventoryComponent : EEMonobehavior, ISaveble, IInventoryUser {
         [Header("Inventory Component")]
         [SerializeField]
         protected InventoryDataSO inventoryDataSO = null;
 
         [SerializeField]
         protected InventorySO inventorySO = null;
+        [SerializeField]
+        protected EventActivatorSO eventActivatorSO;
 
         [SerializeField]
         protected ItemDataBaseSO itemDataBaseSO = null;
-
-        [SerializeField]
-        protected ItemDropInfoContainer itemDropInfoContainer = new ItemDropInfoContainer();
-        [SerializeField]
-        protected GenericActionSO[] itemAddedActions = new GenericActionSO[0];
 
         [ReadOnly]
         private IInventoryUser inventoryUser = null;
@@ -49,31 +46,17 @@ namespace EE.ItemSystem.Impl {
             }
         }
 
-
-
-        protected IFacingDirection itemDropOffPoint = null;
-
-
         public Item CurrentItem => InventoryUser.CurrentItem;
         public int CurrentIndex => InventoryUser.CurrentIndex;
         public bool IsFull => InventoryUser.IsFull;
         public int NumberOfFilledSlots => InventoryUser.NumberOfFilledSlots;
 
 
-        [SerializeField]
-        private EventActivatorSO eventActivatorSO;
-
         public void Awake() {
-            itemDropOffPoint = GetComponent<IFacingDirection>() ?? new DefaultFacingDirectionProvider();
-            var genericActions = itemAddedActions.GetActions(this);
 
-            if (genericActions.Length > 0) {
-                Debug.LogError("events no longer supported.", this);
-            }
-            if (inventorySO != null) {
+            if (inventorySO != null && eventActivatorSO != null) {
                 inventorySO.InventoryAlteredEvent.Add(eventActivatorSO.Invoke);
             }
-
         }
 
         public void IncreaseIndex() {
@@ -103,35 +86,17 @@ namespace EE.ItemSystem.Impl {
             return InventoryUser.Contains(item, NumberOfItems);
         }
 
-        private void DropItem(IItemInfo itemInfo, int numberOfItems) {
-
-            ItemDropInfo itemDropInfo = itemDropInfoContainer.GetDropPosition(itemDropOffPoint);
-            var dropPosition = (Vector2)transform.position + itemDropInfo.dropPosition;
-            var itemType = itemDataBaseSO.GetItemType(itemInfo.ID);
-            for (int i = 0; i < numberOfItems; i++) {
-                IPoolable droppedItem = PoolManager.SpawnObject(itemType.ItemToDrop, transform.position, dropPosition, itemDropInfo.arcHight, itemDropInfo.dropDuration, itemDropInfo.dropRotationSpeed, itemDropInfo.rotationAngle);
-            }
-        }
-
-
         [Button]
         public void PrintNumberOfItems() {
             System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
             foreach (var item in InventoryUser.GetItems()) {
-                if (!Item.IsNull(item)) {
+                if (item != null) {
                     stringBuilder.AppendLine($"Item: {item.ItemInfo}. Amount: {item.NumberOfItems}.");
                 }
             }
             print(stringBuilder.ToString());
         }
 
-        private class DefaultFacingDirectionProvider : IFacingDirection {
-            public Vector2 FacingDirection => UnityEngine.Random.insideUnitCircle;
-
-            public void SetFacingDirection(Vector2 vector2) {
-                throw new NotImplementedException();
-            }
-        }
         public List<Item> GetItems() {
             return InventoryUser.GetItems();
         }
@@ -169,7 +134,7 @@ namespace EE.ItemSystem.Impl {
                         foreach (var inventoryItem in intentorySaveData.Items) {
                             //Commented since itemdatabase currently doesnt support guid, only the Iitemtype
                             var itemtype = itemDataBaseSO.GetItemType(inventoryItem.itemGuid);
-                            var item = new Item(itemtype.ItemType, inventoryItem.numberOfItems);
+                            var item = new Item(itemtype, inventoryItem.numberOfItems);
                             InventoryUser.Add(item);
                         }
                     }
@@ -208,36 +173,5 @@ namespace EE.ItemSystem.Impl {
         }
 #endif
 
-    }
-    public class ItemDropInfoContainer {
-        public float dropForce = 10;
-        public float dropRange = 3;
-        public float dropRotationSpeed = 3;
-        public float dropRotationAngle = 90;
-        public float arcHight = 90;
-
-        public ItemDropInfo GetDropPosition(EE.Core.IFacingDirection facingDirection) {
-            ItemDropInfo itemDropInfo = new ItemDropInfo();
-            var direction = Mathf.Sign(facingDirection.FacingDirection.x);
-
-            float pointX = Random.Range(dropRange / 2, dropRange);
-            float pointY = Random.Range(0, dropRange / 2);
-            itemDropInfo.dropPosition = new Vector2(pointX * direction, pointY / 2);
-
-            itemDropInfo.rotationAngle = Random.Range(0, dropRotationAngle);
-
-            itemDropInfo.dropDuration = dropRange / dropForce;
-            itemDropInfo.arcHight = arcHight;
-            itemDropInfo.dropRotationSpeed = dropRotationSpeed * direction;
-
-            return itemDropInfo;
-        }
-    }
-    public struct ItemDropInfo {
-        public Vector2 dropPosition;
-        public float arcHight;
-        public float dropDuration;
-        public float dropRotationSpeed;
-        public float rotationAngle;
     }
 }

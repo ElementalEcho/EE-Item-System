@@ -22,7 +22,7 @@ namespace EE.ItemSystem.PlayMode {
         [UnityTest]
         public IEnumerator ItemTypeSO_Should_Init_Correctly() {
             var itemTypeSO = ScriptableObject.CreateInstance<ItemTypeSO>();
-            Assert.AreEqual(5, itemTypeSO.ItemType.MaxItemStack);
+            Assert.AreEqual(5, itemTypeSO.MaxStack);
             Assert.IsNull(itemTypeSO.ItemToDrop);
             Assert.AreEqual(10, itemTypeSO.ManaToGive);
             Assert.AreEqual(0, itemTypeSO.StartItemUseEffects.Length);

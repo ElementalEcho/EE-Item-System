@@ -26,7 +26,7 @@ namespace EE.ItemSystem.Impl {
 
         [ShowInInspector]
         public int Size => Inventory.Size;
-        public bool IsFull => NumberOfFilledSlots >= Mathf.Max(inventoryDataSO.MaxInventorySize, 1); //Max inventory Size should be atleast one to prevent infinite loops.
+        public bool IsFull => NumberOfFilledSlots >= Mathf.Max(inventoryDataSO.MaxSize, 1); //Max inventory Size should be atleast one to prevent infinite loops.
 
         public int NumberOfFilledSlots => Inventory.NumberOfFilledSlots;
 
@@ -52,7 +52,7 @@ namespace EE.ItemSystem.Impl {
 
             for (int i = 0; i < Inventory.Size; i++) {
                 var item = Inventory.Get(i);
-                if (!Item.IsNull(item)) {
+                if (item != null) {
                     items.Add(item);
                 }
             }
@@ -65,7 +65,7 @@ namespace EE.ItemSystem.Impl {
             }
             Item oldItem = null;
             Item currentItem = newInventory.Get(newPosition);
-            if (!Item.IsNull(currentItem)) {
+            if (currentItem != null) {
                 oldItem = new Item(currentItem.ItemInfo, currentItem.NumberOfItems);
             }
             Item oldInventoryItem = oldInventory.Get(position);

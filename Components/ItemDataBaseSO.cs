@@ -23,7 +23,7 @@ namespace EE.ItemSystem {
 
         public void InitDictonary() {
             foreach (var prefabGuid in prefabGuidList) {
-                prefabDictonary.Add(prefabGuid.PrefabGuid, prefabGuid);
+                prefabDictonary.Add(prefabGuid.ID, prefabGuid);
             }
         }
     }

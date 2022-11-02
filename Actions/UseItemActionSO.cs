@@ -46,7 +46,7 @@ namespace EE.ItemSystem.Actions {
                 }
                 //If item doesn't have actions no need to add it to dictonary and just use default actions.
                 if (actions.Length > 0) {
-                    actionsDictonary.Add(item.ItemType, actions);
+                    actionsDictonary.Add(item, actions);
                 }
             }
         }

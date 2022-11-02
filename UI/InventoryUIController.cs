@@ -47,7 +47,7 @@ namespace EE.UI {
             flexibleGridLayuout.gameObject.SetActive(true);
 
             foreach (Item inventoryItem in inventoryItemContainment.GetItems()) {
-                if (Item.IsNull(inventoryItem)) {
+                if (inventoryItem != null ) {
                     continue;
                 }
                 GridElement gridElement = PoolManager.SpawnObjectAsChild(buttonPrefab.PoolableComponent, flexibleGridLayuout.transform).GetComponent<GridElement>();

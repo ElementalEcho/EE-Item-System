@@ -6,21 +6,21 @@ namespace Tests {
     public class InventoryTests {
         internal class TestInventoryData : IInventoryData {
             public TestInventoryData(int maxInventorySize, List<Item> baseItems) {
-                MaxInventorySize = maxInventorySize;
+                MaxSize = maxInventorySize;
                 BaseItems = baseItems;
             }
-            public int MaxInventorySize { get; set; }
+            public int MaxSize { get; set; }
             public List<Item> BaseItems { get; set; }
         }
         internal class TestInventoryDataWithMaxItems : IInventoryData {
             public TestInventoryDataWithMaxItems(int maxInventorySize) {
-                MaxInventorySize = maxInventorySize;
+                MaxSize = maxInventorySize;
                 BaseItems = new List<Item>();
                 for (int i = 0; i < maxInventorySize; i++) {
                     BaseItems.Add(new Item(new ItemInfo(), maxInventorySize));
                 }
             }                       
-            public int MaxInventorySize { get; set; }
+            public int MaxSize { get; set; }
             public List<Item> BaseItems { get; set; }
         }
         #region Init

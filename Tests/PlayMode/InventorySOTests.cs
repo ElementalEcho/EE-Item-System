@@ -116,8 +116,8 @@ namespace EE.ItemSystem.PlayMode {
             var items = inventory.GetItems();
 
             items.Count.Should().Be(2);
-            items[0].ItemInfo.Should().Be(itemType1.ItemType);
-            items[1].ItemInfo.Should().Be(itemType2.ItemType);
+            items[0].ItemInfo.Should().Be(itemType1);
+            items[1].ItemInfo.Should().Be(itemType2);
 
             yield return null;
         }
@@ -155,7 +155,7 @@ namespace EE.ItemSystem.PlayMode {
 
             inventory.NumberOfFilledSlots.Should().Be(2);
 
-            inventory.Remove(itemType.ItemType, 5);
+            inventory.Remove(itemType, 5);
 
             inventory.NumberOfFilledSlots.Should().Be(1);
 
@@ -175,13 +175,13 @@ namespace EE.ItemSystem.PlayMode {
 
             inventory.NumberOfFilledSlots.Should().Be(2);
 
-            inventory.Remove(itemType.ItemType, 3);
+            inventory.Remove(itemType, 3);
 
             inventory.NumberOfFilledSlots.Should().Be(2);
 
             var itemFromInventory = inventory.Get(0);
             itemFromInventory.Should().BeNotNull();
-            itemFromInventory.ItemInfo.Should().Be(itemType.ItemType);
+            itemFromInventory.ItemInfo.Should().Be(itemType);
             itemFromInventory.NumberOfItems.Should().Be(2);
 
             inventory.Get(1).Should().BeNotNull();
@@ -199,7 +199,7 @@ namespace EE.ItemSystem.PlayMode {
 
             inventory.NumberOfFilledSlots.Should().Be(2);
 
-            inventory.Remove(itemType.ItemType, 7);
+            inventory.Remove(itemType, 7);
 
             inventory.NumberOfFilledSlots.Should().Be(1);
 
@@ -207,7 +207,7 @@ namespace EE.ItemSystem.PlayMode {
 
             var itemFromInventory = inventory.Get(1);
             itemFromInventory.Should().BeNotNull();
-            itemFromInventory.ItemInfo.Should().Be(itemType.ItemType);
+            itemFromInventory.ItemInfo.Should().Be(itemType);
             itemFromInventory.NumberOfItems.Should().Be(3);
 
             yield return null;
@@ -225,7 +225,7 @@ namespace EE.ItemSystem.PlayMode {
             };
             var inventory = TestInventorySO.CreateInventoryWithData(5, baseItems);
 
-            var retval = inventory.Contains(itemType.ItemType, 5);
+            var retval = inventory.Contains(itemType, 5);
 
             retval.Should().BeTrue();
             yield return null;
@@ -240,7 +240,7 @@ namespace EE.ItemSystem.PlayMode {
             var inventory = TestInventorySO.CreateInventoryWithData(5, baseItems);
 
 
-            var retval = inventory.Contains(itemType.ItemType, 10);
+            var retval = inventory.Contains(itemType, 10);
 
             retval.Should().BeTrue();
             yield return null;
@@ -271,7 +271,7 @@ namespace EE.ItemSystem.PlayMode {
 
             var inventory = TestInventorySO.CreateInventoryWithData(5, baseItems);
 
-            var retval = inventory.Contains(itemType.ItemType, 11);
+            var retval = inventory.Contains(itemType, 11);
 
             retval.Should().BeFalse();
             yield return null;
@@ -311,18 +311,18 @@ namespace EE.ItemSystem.PlayMode {
 
             inventory.NumberOfFilledSlots.Should().Be(2);
 
-            var retval = inventory.Add(new Item(itemType1.ItemType, 5));
+            var retval = inventory.Add(new Item(itemType1, 5));
 
             retval.Should().BeTrue();
             inventory.NumberOfFilledSlots.Should().Be(2);
             var itemFromInventory = inventory.Get(0);
             itemFromInventory.Should().BeNotNull();
-            itemFromInventory.ItemInfo.Should().Be(itemType1.ItemType);
+            itemFromInventory.ItemInfo.Should().Be(itemType1);
             itemFromInventory.NumberOfItems.Should().Be(8);
 
             itemFromInventory = inventory.Get(1);
             itemFromInventory.Should().BeNotNull();
-            itemFromInventory.ItemInfo.Should().Be(itemType2.ItemType);
+            itemFromInventory.ItemInfo.Should().Be(itemType2);
             itemFromInventory.NumberOfItems.Should().Be(9);
             yield return null;
         }
@@ -340,23 +340,23 @@ namespace EE.ItemSystem.PlayMode {
 
             inventory.NumberOfFilledSlots.Should().Be(2);
 
-            var retval = inventory.Add(new Item(itemType1.ItemType, 10));
+            var retval = inventory.Add(new Item(itemType1, 10));
 
             retval.Should().BeTrue();
             inventory.NumberOfFilledSlots.Should().Be(3);
             var itemFromInventory = inventory.Get(0);
             itemFromInventory.Should().BeNotNull();
-            itemFromInventory.ItemInfo.Should().Be(itemType1.ItemType);
+            itemFromInventory.ItemInfo.Should().Be(itemType1);
             itemFromInventory.NumberOfItems.Should().Be(10);
 
             itemFromInventory = inventory.Get(1);
             itemFromInventory.Should().BeNotNull();
-            itemFromInventory.ItemInfo.Should().Be(itemType2.ItemType);
+            itemFromInventory.ItemInfo.Should().Be(itemType2);
             itemFromInventory.NumberOfItems.Should().Be(9);
 
             itemFromInventory = inventory.Get(2);
             itemFromInventory.Should().BeNotNull();
-            itemFromInventory.ItemInfo.Should().Be(itemType1.ItemType);
+            itemFromInventory.ItemInfo.Should().Be(itemType1);
             itemFromInventory.NumberOfItems.Should().Be(3);
             yield return null;
         }
@@ -398,7 +398,7 @@ namespace EE.ItemSystem.PlayMode {
             var inventory = TestInventorySO.CreateInventoryWithData(5, baseItems);
 
 
-            var retval = inventory.Add(new Item(itemType.ItemType, 15));
+            var retval = inventory.Add(new Item(itemType, 15));
 
             retval.Should().BeFalse();
             yield return null;
@@ -418,7 +418,7 @@ namespace EE.ItemSystem.PlayMode {
 
             inventory.Get(4).NumberOfItems.Should().Be(3);
 
-            var retval = inventory.Add(new Item(itemType.ItemType, 15));
+            var retval = inventory.Add(new Item(itemType, 15));
 
             retval.Should().BeFalse();
 
@@ -440,7 +440,7 @@ namespace EE.ItemSystem.PlayMode {
             var inventory = TestInventorySO.CreateInventoryWithData(5, baseItems);
 
             var item = inventory.Get(0);
-            item.ItemInfo.Should().Be(itemInfo1.ItemType);
+            item.ItemInfo.Should().Be(itemInfo1);
             item.NumberOfItems.Should().Be(5);
 
             var itemInfo2 = new ItemInfo();
@@ -466,15 +466,15 @@ namespace EE.ItemSystem.PlayMode {
 
             var inventory = TestInventorySO.CreateInventoryWithData(5, baseItems);
 
-            inventory.Get(0).ItemInfo.Should().Be(itemType1.ItemType);
-            inventory.Get(1).ItemInfo.Should().Be(itemType2.ItemType);
-            inventory.Get(2).ItemInfo.Should().Be(itemType3.ItemType);
+            inventory.Get(0).ItemInfo.Should().Be(itemType1);
+            inventory.Get(1).ItemInfo.Should().Be(itemType2);
+            inventory.Get(2).ItemInfo.Should().Be(itemType3);
 
             TestInventorySO.SwitchItemPosition(0,2, inventory);
 
-            inventory.Get(0).ItemInfo.Should().Be(itemType3.ItemType);
-            inventory.Get(1).ItemInfo.Should().Be(itemType2.ItemType);
-            inventory.Get(2).ItemInfo.Should().Be(itemType1.ItemType);
+            inventory.Get(0).ItemInfo.Should().Be(itemType3);
+            inventory.Get(1).ItemInfo.Should().Be(itemType2);
+            inventory.Get(2).ItemInfo.Should().Be(itemType1);
 
             yield return null;
         }
@@ -492,19 +492,19 @@ namespace EE.ItemSystem.PlayMode {
 
             var inventory = TestInventorySO.CreateInventoryWithData(5, baseItems);
 
-            inventory.Get(0).ItemInfo.Should().Be(itemType1.ItemType);
-            inventory.Get(1).ItemInfo.Should().Be(itemType2.ItemType);
-            inventory.Get(2).ItemInfo.Should().Be(itemType3.ItemType);
+            inventory.Get(0).ItemInfo.Should().Be(itemType1);
+            inventory.Get(1).ItemInfo.Should().Be(itemType2);
+            inventory.Get(2).ItemInfo.Should().Be(itemType3);
             inventory.Get(3).Should().BeNull();
             inventory.Get(4).Should().BeNull();
 
             TestInventorySO.SwitchItemPosition(1, 4, inventory);
 
-            inventory.Get(0).ItemInfo.Should().Be(itemType1.ItemType);
+            inventory.Get(0).ItemInfo.Should().Be(itemType1);
             inventory.Get(1).Should().BeNull();
-            inventory.Get(2).ItemInfo.Should().Be(itemType3.ItemType);
+            inventory.Get(2).ItemInfo.Should().Be(itemType3);
             inventory.Get(3).Should().BeNull();
-            inventory.Get(4).ItemInfo.Should().Be(itemType2.ItemType);
+            inventory.Get(4).ItemInfo.Should().Be(itemType2);
             yield return null;
         }
         [UnityTest]
@@ -521,19 +521,19 @@ namespace EE.ItemSystem.PlayMode {
 
             var inventory = TestInventorySO.CreateInventoryWithData(5, baseItems);
 
-            inventory.Get(0).ItemInfo.Should().Be(itemType1.ItemType);
-            inventory.Get(1).ItemInfo.Should().Be(itemType2.ItemType);
-            inventory.Get(2).ItemInfo.Should().Be(itemType3.ItemType);
+            inventory.Get(0).ItemInfo.Should().Be(itemType1);
+            inventory.Get(1).ItemInfo.Should().Be(itemType2);
+            inventory.Get(2).ItemInfo.Should().Be(itemType3);
             inventory.Get(3).Should().BeNull();
             inventory.Get(4).Should().BeNull();
 
             TestInventorySO.SwitchItemPosition(4, 2, inventory);
 
-            inventory.Get(0).ItemInfo.Should().Be(itemType1.ItemType);
-            inventory.Get(1).ItemInfo.Should().Be(itemType2.ItemType);
+            inventory.Get(0).ItemInfo.Should().Be(itemType1);
+            inventory.Get(1).ItemInfo.Should().Be(itemType2);
             inventory.Get(2).Should().BeNull();
             inventory.Get(3).Should().BeNull();
-            inventory.Get(4).ItemInfo.Should().Be(itemType3.ItemType);
+            inventory.Get(4).ItemInfo.Should().Be(itemType3);
             yield return null;
         }
 

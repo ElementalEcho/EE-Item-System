@@ -26,6 +26,8 @@ namespace Tests {
             public string ID => throw new System.NotImplementedException();
 
             public string Name => throw new System.NotImplementedException();
+
+            public int MaxStack => throw new System.NotImplementedException();
         }
         private class TestCraftingData : ICraftingData {
             public TestCraftingData(List<IRecipe> recipes) {

@@ -11,7 +11,7 @@ namespace EE.ItemSystem.Impl {
     public class InventoryDataSO : ScriptableObject, IInventoryData {
         [SerializeField]
         protected int maxInventorySize = 5;
-        public int MaxInventorySize => maxInventorySize;
+        public int MaxSize => maxInventorySize;
 
         [SerializeField]
         protected List<InspectorItem> baseItems = new List<InspectorItem>();
@@ -21,7 +21,7 @@ namespace EE.ItemSystem.Impl {
 
     [Serializable]
     public class DefaultInventoryData : IInventoryData {
-        public int MaxInventorySize => 1;
+        public int MaxSize => 1;
         public List<Item> BaseItems => new List<Item>();
     }
 }
