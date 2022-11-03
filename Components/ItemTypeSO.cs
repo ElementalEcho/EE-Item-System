@@ -15,6 +15,9 @@ namespace EE.ItemSystem {
         public string Name => itemToDrop.Name;
         [ShowInInspector, ReadOnly]
         public int MaxStack => itemToDrop.MaxStack;
+        [SerializeField]
+        protected Sprite icon = null;
+        public Sprite Icon => icon;
 
         [SerializeField, Tooltip("Item created when this item is dropped.")]
         protected PoolableReference itemPrefab = null;
@@ -39,6 +42,11 @@ namespace EE.ItemSystem {
 
 #if UNITY_EDITOR
 
+        private void OnValidate() {
+            if (icon == null && ItemToDrop != null) {
+                icon = ItemToDrop.GetComponent<SpriteRenderer>().sprite;
+            }
+        }
         [Button]
         private void CreateItemInfo(string name, int maxItemSize) {
             itemToDrop = new ItemInfo(maxItemSize, name);

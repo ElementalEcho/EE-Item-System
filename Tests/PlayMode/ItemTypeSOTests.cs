@@ -8,8 +8,9 @@ using UnityEngine.TestTools;
 namespace EE.ItemSystem.PlayMode {
     public class ItemTypeSOTests {
         internal class TestItemTypeSO : ItemTypeSO {
-            public void SetValues(int maxInventorySize) {
+            public void SetValues(int maxInventorySize, Sprite icon = null) {
                 itemToDrop = new ItemInfo(maxInventorySize);
+                this.icon = icon;
             }
 
             public static ItemTypeSO CreateItemTypeSO(int maxInventorySize) {

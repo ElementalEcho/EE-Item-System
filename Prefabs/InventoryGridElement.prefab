@@ -233,7 +233,7 @@ MonoBehaviour:
   onButtonLeftClickEvents: []
   onButtonRightClickEvents: []
   baseContents:
-  - contentTypeSO: {fileID: 11400000, guid: 9a2b13e3d9a8718449d3eac52362cc6a, type: 2}
+  - contentTypeSO: {fileID: 11400000, guid: aaa24f2e7d9dd0942bdf48abe30174f8, type: 2}
     gameObject: {fileID: 8161226675177510195}
   - contentTypeSO: {fileID: 11400000, guid: 6705853f4a26d6548b342edfe85c7462, type: 2}
     gameObject: {fileID: 1050688351027631375}

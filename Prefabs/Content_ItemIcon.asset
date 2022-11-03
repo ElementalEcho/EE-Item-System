@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2200314fdeea3f5479a31b17405ffa96, type: 3}
-  m_Name: A_CraftItemActionSO
+  m_Script: {fileID: 11500000, guid: 03ad88eb5f58acc4680ba284d98de75c, type: 3}
+  m_Name: Content_ItemIcon
   m_EditorClassIdentifier: 
-  craftingController: {fileID: 11400000, guid: edaf6f666230ec54aa1d735d5cc043b4, type: 2}
-  ItemContentType: {fileID: 11400000, guid: 66eb1cd78055b474f9dd4e560de9d2da, type: 2}
+  ContentType: 

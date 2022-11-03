@@ -9,7 +9,9 @@
         "Test.Utils",
         "EE.Actions",
         "EE.PoolingSystem",
-        "EE.Actions.Components"
+        "EE.Actions.Components",
+        "EE.ItemSystem.UI",
+        "EE.UI"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

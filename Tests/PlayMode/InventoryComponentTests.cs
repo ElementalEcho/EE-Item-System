@@ -40,15 +40,6 @@ namespace EE.ItemSystem.PlayMode {
             return physicsComponent;
         }
 
-        private TestInventoryComponent CreateTestInventoryComponentWithData(int maxInventorySize, List<InspectorItem> baseItems, ItemDataBaseSO itemDataBaseSO = null, EventActivatorSO eventActivatorSO = null) {
-            var inventoryDataSO = ScriptableObject.CreateInstance<TestInventoryDataSO>();
-            inventoryDataSO.SetValues(maxInventorySize, baseItems);
-            var inventorySO = ScriptableObject.CreateInstance<TestInventorySO>();
-            inventorySO.SetValues(inventoryDataSO);
-            return CreateTestInventoryComponent(inventorySO, itemDataBaseSO, inventoryDataSO, eventActivatorSO);
-
-        }
-
         [UnityTest]
         public IEnumerator InventoryComponent_Should_Init_Correctly() {
             var inventoryComponent = CreateTestInventoryComponent();

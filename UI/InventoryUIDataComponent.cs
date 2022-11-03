@@ -11,19 +11,24 @@ namespace EE.ItemSystem.UI {
 
     public class InventoryUIDataComponent : MonoBehaviour, IUIContent {
         [SerializeField]
-        private InventorySO inventorySO;
+        protected InventorySO inventorySO;
         [SerializeField]
-        private ItemDataBaseSO itemDataBaseSO;
-
+        protected ItemDataBaseSO itemDataBaseSO;
         [SerializeField]
-        private ContentTypeSO contentTypeSO;
+        protected ContentTypeSO contentTypeSO;
 
         public List<DisplayData> GetObjects() {
             var displayDatas = new List<DisplayData>();
 
             for (int i = 0; i < inventorySO.Size; i++) {
                 var itemSlot = inventorySO.Get(i);
-                var abilityDisplayData = new ItemDisplayData(itemSlot, itemDataBaseSO, contentTypeSO);
+
+                Sprite icon = null;
+                if (itemSlot != null) {
+                    var itemTypeSO = itemDataBaseSO.GetItemType(itemSlot.ItemInfo.ID);
+                    icon = itemTypeSO.Icon;
+                }
+                var abilityDisplayData = new ItemDisplayData(itemSlot, icon, contentTypeSO);
 
                 displayDatas.Add(abilityDisplayData);
             }
@@ -34,24 +39,20 @@ namespace EE.ItemSystem.UI {
 
     public class ItemDisplayData : DisplayData {
 
-        private ItemTypeSO itemTypeSO;
-        private Item item;
+        private readonly Item item;
+        private readonly Sprite icon;
+        private readonly ContentTypeSO contentTypeSO;
 
-        private Sprite icon;
         public Sprite Icon => icon;
 
         public Color Color => Color.white;
 
-        private ContentTypeSO contentTypeSO;
 
-        public ItemDisplayData(Item item, ItemDataBaseSO itemDataBaseSO, ContentTypeSO contentTypeSO) {
+        public ItemDisplayData(Item item, Sprite icon, ContentTypeSO contentTypeSO) {
             this.item = item;
             this.contentTypeSO = contentTypeSO;
-            if (item != null) {
-                itemTypeSO = itemDataBaseSO.GetItemType(item.ItemInfo.ID);
+            this.icon = icon;
 
-                icon = itemTypeSO.ItemToDrop.GetComponent<SpriteRenderer>().sprite;
-            }
         }
 
         public void AddElements(GridElement gridElement) {
