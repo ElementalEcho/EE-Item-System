@@ -1,47 +1,37 @@
 ﻿using EE.Core;
-using EE.InventorySystem.Core;
-using EE.InventorySystem.Impl;
 using UnityEngine;
 
 
-namespace EE.InventorySystem.Actions {
+namespace EE.ItemSystem.Actions {
     public class AddItemToInventoryActionSO : GenericActionSO<AddItemToInventoryAction> {
 
         [SerializeField]
-        private Item[] itemToAdd = new Item[0];
-        public Item[] ItemToAdd => itemToAdd;
-
-        [SerializeField]
-        private bool destroyItems = false;
-        public bool DestroyItems => destroyItems;
+        protected InspectorItem[] itemsToAdd = new InspectorItem[0];
+        public Item[] ItemsToAdd => itemsToAdd.GetItems();
     }
+
     public class AddItemToInventoryAction : GenericAction {
-        IInventoryComponent inventory;
+        IInventoryUser inventory;
         private AddItemToInventoryActionSO OriginSO => (AddItemToInventoryActionSO)_originSO;
 
         public override void Init(IHasComponents controller) {
-            inventory = controller.GetComponent<IInventoryComponent>();
+            inventory = controller.GetComponent<IInventoryUser>();
         }
         public override void Enter() {
             if (OriginSO.Reverse) {
-                foreach (var item in OriginSO.ItemToAdd) {
-                    inventory.RemoveItem(item, OriginSO.DestroyItems);
+                foreach (var item in OriginSO.ItemsToAdd) {
+                    inventory.Remove(item.ItemInfo, item.NumberOfItems);
                 }
             }
             else {
-                foreach (var item in OriginSO.ItemToAdd) {
-                    inventory.AddItem(item);
+                foreach (var item in OriginSO.ItemsToAdd) {
+                    inventory.Add(item);
                 }
             }
 
         }
         protected override bool Decide() {
-            foreach (var item in OriginSO.ItemToAdd) {
-                if (!inventory.CanAddItem(item)) {
-                    return false;
-                }
-            }
-            return true;
+            return !inventory.IsFull;
         }
     }
 }

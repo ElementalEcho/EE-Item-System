@@ -1,8 +1,7 @@
 ﻿using EE.Core;
-using EE.InventorySystem.Core;
 using UnityEngine;
 
-namespace EE.InventorySystem.Decisions {
+namespace EE.ItemSystem.Decisions {
     public class NumberOfItemsInInventoryDecisionSO : GenericActionSO<NumberOfItemsInInventoryDecision> {
         [SerializeField]
         private bool isFullAndStacksAreFull = false;
@@ -20,20 +19,23 @@ namespace EE.InventorySystem.Decisions {
     public class NumberOfItemsInInventoryDecision : GenericAction {
         private NumberOfItemsInInventoryDecisionSO OriginSO => (NumberOfItemsInInventoryDecisionSO)_originSO;
 
-        IInventoryComponent inventory;
+        IInventoryUser inventory;
         public override void Init(IHasComponents controller) {
-            inventory = controller.GetComponent<IInventoryComponent>();
+            inventory = controller.GetComponent<IInventoryUser>();
         }
 
         protected override bool Decide() {           
             if (OriginSO.IsFullAndStacksAreFull) {
-                return inventory.IsFullAndStacksAreFull;
+                //Debug.LogError("Not Implemented");
+                //return inventory.IsFullAndStacksAreFull;
+                return inventory.IsFull;
+
             }
             if (OriginSO.InventoryFull) {
-                return inventory.InventoryFull;
+                return inventory.IsFull;
             }
             if (OriginSO.InventoryEmpty) {
-                return inventory.ItemCount <= 0;
+                return inventory.NumberOfFilledSlots <= 0;
             }
             return false;
         }

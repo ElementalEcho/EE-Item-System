@@ -1,0 +1,24 @@
+{
+    "name": "EE.ItemSystem.Components.Actions",
+    "rootNamespace": "",
+    "references": [
+        "GUID:aad74b0923c387e4aaa384f99c72f2eb",
+        "GUID:ef6001d2f902a6345812ece252ea60ed",
+        "GUID:c0d507e6bad4711449960fa179be3141",
+        "GUID:b352106f17b95434abb776c9abaa348d",
+        "GUID:34c41e7f85c5ccb40bf6f2d5c830f445"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "EE.ItemSystem.dll",
+        "EE.ItemSystem.Actions.dll",
+        "Sirenix.OdinInspector.Attributes.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

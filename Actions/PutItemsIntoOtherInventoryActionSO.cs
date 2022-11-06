@@ -1,9 +1,7 @@
 ﻿using EE.Core;
-using EE.Core.Targeting;
-using EE.InventorySystem.Core;
 using UnityEngine;
 
-namespace EE.InventorySystem.Actions {
+namespace EE.ItemSystem.Actions {
     public class PutItemsIntoOtherInventoryActionSO : GenericActionSO<PutItemsIntoOtherInventoryAction> {
         [SerializeField]
         private bool allItems = false;
@@ -14,39 +12,39 @@ namespace EE.InventorySystem.Actions {
     public class PutItemsIntoOtherInventoryAction : GenericAction {
         private PutItemsIntoOtherInventoryActionSO OriginSO => (PutItemsIntoOtherInventoryActionSO)_originSO;
 
-        IInventoryComponent inventory;
+        IInventoryUser inventory;
         public override void Init(IHasComponents controller) {
-            inventory = controller.GetComponent<IInventoryComponent>();
+            inventory = controller.GetComponent<IInventoryUser>();
 
         }
 
         public override void Enter(IHasComponents hasComponents) {
             if (_originSO.Reverse) {
-                if (hasComponents.TryGetComponent(out IInventoryComponent inventoryComponent) && inventoryComponent.CurrentItem != null) {
+                if (hasComponents.TryGetComponent(out IInventoryUser inventoryComponent) && inventoryComponent.CurrentItem != null) {
                     if (OriginSO.AllÍtems) {
-                        foreach (var item in inventoryComponent.Items) {
-                            inventory.AddItem(item);
+                        foreach (var item in inventoryComponent.GetItems()) {
+                            inventory.Add(item);
                         }
-                        inventoryComponent.RemoveAllItems(true);
+                        inventoryComponent.RemoveAll();
                     }
                     else {
-                        inventory.AddItem(inventoryComponent.CurrentItem);
-                        inventoryComponent.RemoveItem(inventory.CurrentItem, true);
+                        inventory.Add(inventoryComponent.CurrentItem);
+                        inventoryComponent.Remove(inventory.CurrentItem.ItemInfo, inventory.CurrentItem.NumberOfItems);
                     }
 
                 }
             }
             else {
-                if (hasComponents.TryGetComponent(out IInventoryComponent inventoryComponent) && inventory.CurrentItem != null) {
+                if (hasComponents.TryGetComponent(out IInventoryUser inventoryComponent) && inventory.CurrentItem != null) {
                     if (OriginSO.AllÍtems) {
-                        foreach (var item in inventory.Items) {
-                            inventoryComponent.AddItem(item);
+                        foreach (var item in inventory.GetItems()) {
+                            inventoryComponent.Add(item);
                         }
-                        inventory.RemoveAllItems(true);
+                        inventory.RemoveAll();
                     }
                     else {
-                        inventoryComponent.AddItem(inventory.CurrentItem);
-                        inventory.RemoveItem(inventory.CurrentItem, true);
+                        inventoryComponent.Add(inventory.CurrentItem);
+                        inventory.Remove(inventory.CurrentItem.ItemInfo, inventory.CurrentItem.NumberOfItems);
                     }
                 }
             }

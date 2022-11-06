@@ -3,7 +3,7 @@ using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace EE.InventorySystem.Actions {
+namespace EE.ItemSystem.Actions {
     internal enum ItemActionTypeSet {
         Start,
         Attack,
@@ -18,27 +18,27 @@ namespace EE.InventorySystem.Actions {
         internal ItemActionTypeSet itemActionType = ItemActionTypeSet.Start;
     }
     public class UseItemAction : GenericAction {
-        IInventoryComponent inventory;
+        IInventoryUser inventory;
         private UseItemActionSO OriginSO => (UseItemActionSO)base._originSO;
 
         GenericAction[] defaultActions = new GenericAction[0];
         public Dictionary<IItemInfo, GenericAction[]> actionsDictonary = new Dictionary<IItemInfo, GenericAction[]>();
 
         public override void Init(IHasComponents controller) {
-            inventory = controller.GetComponent<IInventoryComponent>();
+            inventory = controller.GetComponent<IInventoryUser>();
             defaultActions = OriginSO.defaultActions.GetActions(controller);
 
             foreach (var item in OriginSO.itemDataBaseSO.ItemList) {
                 GenericAction[] actions;
                 switch (OriginSO.itemActionType) {
                     case ItemActionTypeSet.Start:
-                        actions = item.ItemType.StartItemUseEffects.GetActions(controller);
+                        actions = item.StartItemUseEffects.GetActions(controller);
                         break;
                     case ItemActionTypeSet.Attack:
-                        actions = item.ItemType.AttackItemUseEffects.GetActions(controller);
+                        actions = item.AttackItemUseEffects.GetActions(controller);
                         break;
                     case ItemActionTypeSet.Throw:
-                        actions = item.ItemType.ThrownItemEffects.GetActions(controller);
+                        actions = item.ThrownItemEffects.GetActions(controller);
                         break;
                     default:
                         actions = new GenericAction[0];
@@ -46,12 +46,12 @@ namespace EE.InventorySystem.Actions {
                 }
                 //If item doesn't have actions no need to add it to dictonary and just use default actions.
                 if (actions.Length > 0) {
-                    actionsDictonary.Add(item.ItemType, actions);
+                    actionsDictonary.Add(item, actions);
                 }
             }
         }
         public override void Enter() {
-            var itemUseEffects = inventory.ContainsItem() && actionsDictonary.TryGetValue(inventory.CurrentItem.ItemInfo, out var genericActions) ? genericActions : defaultActions;
+            var itemUseEffects = inventory.CurrentItem != null && actionsDictonary.TryGetValue(inventory.CurrentItem.ItemInfo, out var genericActions) ? genericActions : defaultActions;
 
             foreach (var useEffect in itemUseEffects) {
                 useEffect.Enter();
@@ -59,21 +59,21 @@ namespace EE.InventorySystem.Actions {
         }
 
         public override void Act(float tickSpeed) {
-            var itemUseEffects = inventory.ContainsItem() && actionsDictonary.TryGetValue(inventory.CurrentItem.ItemInfo, out var genericActions) ? genericActions : defaultActions;
+            var itemUseEffects = inventory.CurrentItem != null && actionsDictonary.TryGetValue(inventory.CurrentItem.ItemInfo, out var genericActions) ? genericActions : defaultActions;
 
             foreach (var useEffect in itemUseEffects) {
                 useEffect.Act(tickSpeed);
             }
         }
         public override void Exit() {
-            var itemUseEffects = inventory.ContainsItem() && actionsDictonary.TryGetValue(inventory.CurrentItem.ItemInfo, out var genericActions) ? genericActions : defaultActions;
+            var itemUseEffects = inventory.CurrentItem != null && actionsDictonary.TryGetValue(inventory.CurrentItem.ItemInfo, out var genericActions) ? genericActions : defaultActions;
 
             foreach (var useEffect in itemUseEffects) {
                 useEffect.Exit();
             }
         }
         public override bool ExitCondition() {
-            var itemUseEffects = inventory.ContainsItem() && actionsDictonary.TryGetValue(inventory.CurrentItem.ItemInfo, out var genericActions) ? genericActions : defaultActions;
+            var itemUseEffects = inventory.CurrentItem != null && actionsDictonary.TryGetValue(inventory.CurrentItem.ItemInfo, out var genericActions) ? genericActions : defaultActions;
             int numberOfActions = itemUseEffects.Length;
 
             foreach (var useEffect in itemUseEffects) {

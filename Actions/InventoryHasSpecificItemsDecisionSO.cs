@@ -1,15 +1,17 @@
 ﻿using EE.Core;
-using EE.InventorySystem.Impl;
+using EE.ItemSystem.Impl;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace EE.InventorySystem.Decisions {
+namespace EE.ItemSystem.Decisions {
     public class InventoryHasSpecificItemsDecisionSO : GenericActionSO<InventoryHasSpecificItemsDecision> {
 
         [SerializeField]
         private Item[] requiredItems = new Item[0];
-        public List<Item> RequiredItems => requiredItems.Select(item => new Item(item.ItemInfo, item.NumberOfItems)).ToList();
+        [SerializeField]
+        private InspectorItem[] requirements = new InspectorItem[0];
+        public List<Item> RequiredItems => requirements.Select(item => item.GetItem()).ToList();
 
         [SerializeField]
         private bool checkCurrentItem = false;
@@ -20,9 +22,9 @@ namespace EE.InventorySystem.Decisions {
     public class InventoryHasSpecificItemsDecision : GenericAction {
         private InventoryHasSpecificItemsDecisionSO OriginSO => (InventoryHasSpecificItemsDecisionSO)_originSO;
 
-        IInventoryComponent inventory;
+        IInventoryUser inventory;
         public override void Init(IHasComponents controller) {
-            inventory = controller.GetComponent<IInventoryComponent>();
+            inventory = controller.GetComponent<IInventoryUser>();
         }
 
         protected override bool Decide() {
@@ -32,7 +34,7 @@ namespace EE.InventorySystem.Decisions {
             }
             else {
                 foreach (var inventoryItem in OriginSO.RequiredItems) {
-                    if (!inventory.ContainsItem(inventoryItem)) {
+                    if (!inventory.Contains(inventoryItem.ItemInfo,inventoryItem.NumberOfItems)) {
                         return false;
                     }
                 }

@@ -1,20 +1,19 @@
 {
-    "name": "EE.ItemSystem.EditMode",
+    "name": "EE.ItemSystem.PlayMode",
     "rootNamespace": "",
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
+        "EE.ItemSystem.Components",
         "EE.Core",
         "Test.Utils",
-        "EE.PoolingSystem",
         "EE.Actions",
+        "EE.PoolingSystem",
         "EE.Actions.Components",
-        "EE.ItemSystem.Components",
-        "EE.ItemSystem.Crafting"
+        "EE.ItemSystem.UI",
+        "EE.UI"
     ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,
