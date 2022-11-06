@@ -6,7 +6,7 @@ namespace EE.ItemSystem.Actions {
     public class AddItemToInventoryActionSO : GenericActionSO<AddItemToInventoryAction> {
 
         [SerializeField]
-        private InspectorItem[] itemsToAdd = new InspectorItem[0];
+        protected InspectorItem[] itemsToAdd = new InspectorItem[0];
         public Item[] ItemsToAdd => itemsToAdd.GetItems();
     }
 
