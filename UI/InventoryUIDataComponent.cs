@@ -15,7 +15,7 @@ namespace EE.ItemSystem.UI {
         [SerializeField]
         protected ItemDataBaseSO itemDataBaseSO;
         [SerializeField]
-        protected ContentTypeSO contentTypeSO;
+        protected ContentTypeSO numberOfItemsContentType;
 
         public List<DisplayData> GetObjects() {
             var displayDatas = new List<DisplayData>();
@@ -28,7 +28,7 @@ namespace EE.ItemSystem.UI {
                     var itemTypeSO = itemDataBaseSO.GetItemType(itemSlot.ItemInfo.ID);
                     icon = itemTypeSO.Icon;
                 }
-                var abilityDisplayData = new ItemDisplayData(itemSlot, icon, contentTypeSO);
+                var abilityDisplayData = new ItemDisplayData(itemSlot, icon, numberOfItemsContentType);
 
                 displayDatas.Add(abilityDisplayData);
             }

@@ -20,14 +20,14 @@ namespace EE.ItemSystem.PlayMode {
             public void SetValues(InventorySO inventorySO = null, ItemDataBaseSO itemDataBaseSO = null, ContentTypeSO contentTypeSO = null) {
                 this.inventorySO = inventorySO;
                 this.itemDataBaseSO = itemDataBaseSO;
-                this.contentTypeSO = contentTypeSO;
+                this.numberOfItemsContentType = contentTypeSO;
             }
 
             public InventorySO ExposeInventorySO => inventorySO;
 
             public ItemDataBaseSO ExposeItemDataBaseSO => itemDataBaseSO;
 
-            public ContentTypeSO ExposeContentTypeSO => contentTypeSO;
+            public ContentTypeSO ExposeContentTypeSO => numberOfItemsContentType;
 
         }
         private TestInventoryUIDataComponent CreateTestInventoryUIDataComponent(InventorySO inventorySO = null, ItemDataBaseSO itemDataBaseSO = null, ContentTypeSO contentTypeSO = null) {

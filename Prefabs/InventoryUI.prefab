@@ -233,7 +233,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventorySO: {fileID: 11400000, guid: fbda7a4a8c6debd4ab326903d9eef67a, type: 2}
   itemDataBaseSO: {fileID: 11400000, guid: 89215abe9da978d4eb1684217b2366d8, type: 2}
-  contentTypeSO: {fileID: 11400000, guid: 6705853f4a26d6548b342edfe85c7462, type: 2}
+  numberOfItemsContentType: {fileID: 11400000, guid: 6705853f4a26d6548b342edfe85c7462,
+    type: 2}
 --- !u!114 &2507622508623534710
 MonoBehaviour:
   m_ObjectHideFlags: 0
